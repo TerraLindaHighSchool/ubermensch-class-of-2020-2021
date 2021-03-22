@@ -5,10 +5,12 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
-    public bool CanMove;     
-    public int speed = 1;
     public GameObject AnimController;
-    public void move()
+    public int speed = 1;
+
+    private bool CanMove = true;
+    
+    private void move()
     {
         //Gets inputs from the players wasd or arrow keys
         float horizontal = Input.GetAxisRaw("Horizontal");
