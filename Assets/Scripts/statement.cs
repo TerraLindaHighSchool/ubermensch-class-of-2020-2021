@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Statement : MonoBehaviour
 {
     public string opener;
     public string OptionOne;
     public float OptionOneModifier;
     public Statement OptionOneOutcome;
+
+    public void Set(float item, string StringSet, Statement StatementSet)
+    {
+
+
+    }
 
     // Start is called before the first frame update
     void Start()
