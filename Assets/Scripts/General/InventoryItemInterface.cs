@@ -2,24 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItemInterface : MonoBehaviour
+
+public interface IInventoryItem
 {
-    interface IInventoryItem
+    string Name { get; set; }
+    int Value { get; set; }
+    //GameObject Icon { get; set; }
+    string ToolTip { get; set; }
+}
+
+
+public class FakeInventoryItem : IInventoryItem
+{
+    public string Name { get; set; } 
+    public int Value { get; set; }
+    // public GameObject icon;
+    public string ToolTip { get; set; }
+
+    public FakeInventoryItem(string itemName, int itemValue, string itemToolTip)
     {
-        string name { get; set; }
-        int value { get; set; }
-        GameObject icon {get; set;}
-        string toolTip { get; set; }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        Name = itemName;
+        Value = itemValue;
+        ToolTip = itemToolTip;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    FakeInventoryItem GasMask = new FakeInventoryItem("Gas Mask", 20, "Can be equiped to ward off fumes");
+
 }
