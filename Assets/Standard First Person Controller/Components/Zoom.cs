@@ -3,7 +3,7 @@
 public class Zoom : MonoBehaviour
 {
     public float sensitivity = 1;
-    Camera camera;
+    Camera zoom_camera;
     [HideInInspector]
     public float defaultFOV;
     [Tooltip("Effectively the min FOV that we can reach while zooming with this camera.")]
@@ -14,18 +14,18 @@ public class Zoom : MonoBehaviour
 
     void Awake()
     {
-        camera = GetComponent<Camera>();
+        zoom_camera = GetComponent<Camera>();
     }
 
     void Start()
     {
-        defaultFOV = camera.fieldOfView;
+        defaultFOV = zoom_camera.fieldOfView;
     }
 
     void Update()
     {
         zoomAmount += Input.mouseScrollDelta.y * sensitivity * .05f;
         zoomAmount = Mathf.Clamp01(zoomAmount);
-        camera.fieldOfView = Mathf.Lerp(defaultFOV, maxZoom, zoomAmount);
+        zoom_camera.fieldOfView = Mathf.Lerp(defaultFOV, maxZoom, zoomAmount);
     }
 }
