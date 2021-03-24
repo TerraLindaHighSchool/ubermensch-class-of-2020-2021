@@ -8,6 +8,7 @@ public class Statement : MonoBehaviour
     public string OptionOne;
     public float OptionOneModifier;
     public Statement OptionOneOutcome;
+    //public (+etc) OptionTwo;
 
     public void Set(float item, string StringSet, Statement StatementSet)
     {
@@ -25,8 +26,9 @@ public class Statement : MonoBehaviour
             case 1.6:
 
                 break;
-    
+            /*case etc
 
+            break;*/
         }
 
     }
