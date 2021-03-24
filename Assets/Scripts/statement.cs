@@ -11,7 +11,23 @@ public class Statement : MonoBehaviour
 
     public void Set(float item, string StringSet, Statement StatementSet)
     {
+        switch (item)
+        {
+            case 0:
 
+             break;
+            case 1:
+
+                break;
+            case 1.3:
+
+                break;
+            case 1.6:
+
+                break;
+    
+
+        }
 
     }
 
