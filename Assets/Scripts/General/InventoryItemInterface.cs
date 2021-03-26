@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InventoryItem
+namespace InventoryItems
 { 
-    interface IInventoryItem
+    interface InventoryItem
     {
-         string Name { get; set; }
-         int Value { get; set; }
-         GameObject Icon { get; set; }
-         string ToolTip { get; set; }
-        
-    }   
 
+        string Name { get; }
+        int Value { get; }
+        GameObject Icon { get; }
+        string ToolTip { get; }
+        
+    }  
 }
