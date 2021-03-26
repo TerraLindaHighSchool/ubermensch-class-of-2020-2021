@@ -8,7 +8,12 @@ public class TestStick : InventoryItem
     private string _name = "Stick";
     private string _toolTip = "This is a stick, this is a test.";
     private int _value = 3;
-    public GameObject _icon;
+    private GameObject _icon = Resources.Load<GameObject>("Assets/Resources/Testing/stick_noun_002_35886.jpg");
+
+    void Start()
+    {
+        Debug.Log(_icon);
+    }
 
     public string Name
     {
