@@ -9,8 +9,23 @@ namespace InventoryItems
 
         string Name { get; }
         int Value { get; }
-        GameObject Icon { get; }
+       // GameObject Icon { get; }
         string ToolTip { get; }
+        
+    }
+    class FakeInventoryItem : InventoryItem
+    {
+        public string Name { get; }
+        public int Value { get; }
+        public string ToolTip { get; }
+
+        public FakeInventoryItem(string itemName, int itemValue, string itemTip)
+        {
+            Name = itemName;
+            Value = itemValue;
+            ToolTip = itemTip;
+        }
+
         
     }
 
@@ -81,5 +96,12 @@ namespace InventoryItems
             return inventorySummary; 
         }
 
+        public void Start()
+        {
+            FakeInventoryItem Soap = new FakeInventoryItem("Soap", 20, "Spend Money");
+            inventoryItem.AddItem(Soap);
+        }
+
     }
+       
 }
