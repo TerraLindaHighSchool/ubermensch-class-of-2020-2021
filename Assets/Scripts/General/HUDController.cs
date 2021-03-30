@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class HUDController : MonoBehaviour
 {
-    private GameObject activeHUD;
+    private int activeHUD;
     public GameObject[] HUDs;
+    //Disables the previously actived hud, activates the new hud, 
+    //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
     {
-        HUDs[hud].SetActive(true);
+        if(hud<= HUDs.Length)
+        {
+            HUDs[activeHUD].SetActive(false);
+            activeHUD = hud;
+            HUDs[activeHUD].SetActive(true);
+        }
     }
+    //Disables the active hud
     public void HUDDeLoader(int hud)
     {
         HUDs[hud].SetActive(false);
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
