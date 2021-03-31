@@ -2,27 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Statement
+public class Statement
 {
-    interface Statement
+
+    public string NpcLine;
+    public string[] Response;
+    public float[] ResponseModifier;
+    public int[] ResponseOutcome;
+    
+    //I think these were supposed to be different but they look wrong(too small)
+    public Statement(string NpcL, string[] R, float[] RM, int[] RO)
     {
-        string opener { get; }
-
-        string OptionOne { get; }
-        float OptionOneModifier { get; }
-        Statement OptionOneOutcome { get; }
-
-        string OptionTwo { get; }
-        float OptionTwoModifier { get; }
-        Statement OptionTwoOutcome { get; }
-
-        string OptionThree { get; }
-        float OptionThreeModifier { get; }
-        Statement OptionThreeOutcome { get; }
-
-        string OptionFour { get; }
-        float OptionFourModifier { get; }
-        Statement OptionFourOutcome { get; }
+        NpcLine = NpcL;
+        Response = R;
+        ResponseModifier = RM;
+        ResponseOutcome = RO;
     }
+    
 }
 
