@@ -4,24 +4,19 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    public AudioClip[] tracks;
-   /* 
-    public AudioClip Switch(int trackIndex)
+    public AudioClip[] tracks;//makes track array
+
+    public AudioClip TrackSwitch(int trackIndex)
     {
-        AudioSource currentSong = GetComponent<AudioSource>();
-        currentSong.clip = tracks[trackIndex];
-        currentSong.Play();
-    }
-    */
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        if(trackIndex <= tracks.Length)
+        {
+            return tracks[trackIndex];//returns the requested track
+        }
+        else
+        {
+            Debug.Log("oh no no musico");//returns error if the track does not exist
+            return null;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
