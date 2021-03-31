@@ -15,34 +15,3 @@ public class InventoryItemInterface
     }
 
 }
-
-public class InventoryManager : InventoryItemInterface
-{
-    public string inventoryNames; 
-    ArrayList inventoryItem = new ArrayList();
-
-    public void AddItem(InventoryItem item, ArrayList inventoryItem)
-    {
-        inventoryItem.Add(item);
-    }
-
-    public void RemoveItem(InventoryItem item, ArrayList inventoryItem)
-    {
-        inventoryItem.Remove(item);
-    }
-
-     // if what is printed should to be the number of items in the inventory:
-     // need to add it to the HUD  
-     public string PrintInventory(ArrayList inventoryItem)
-     {
-        foreach (InventoryItem itm in inventoryItem)
-        {
-            inventoryNames += itm.Name + ", ";
-        }
-        if(inventoryItem.Capacity == 0)
-        {
-            inventoryNames = "Inventory is empty"; 
-        }
-        return inventoryNames;  
-     }     
-}
