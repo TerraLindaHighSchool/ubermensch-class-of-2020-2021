@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,9 @@ public class MovementController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         //calculates direction to move based on inputs
-        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
+         Vector3 moveDirection = new Vector3(horizontal, 0f, 
+            vertical).normalized;
+    transform.Rotate(Vector3.up, horizontal);
 
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
