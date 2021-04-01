@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-namespace DialogueTree
+public class DialogueTree
 {
-    interface DialogueTree
+    void Start()
     {
-        float relationshipType { get; set; }
-
-        Statement[] conversationPoints { get; } 
+        //hopefully this is right
+        TextAsset csvInformation = Resources.Load<TextAsset>("Dilogue_GruceBustin");
     }
+
+    void Update()
+    {
+
+    }
+
 }
