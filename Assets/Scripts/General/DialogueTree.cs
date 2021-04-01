@@ -8,6 +8,11 @@ public class DialogueTree
     {
         //hopefully this is right
         TextAsset csvInformation = Resources.Load<TextAsset>("Dilogue_GruceBustin");
+
+        string[] data = csvInformation.text.Split(new char[] { "\n" });
+
+        Debug.Log(data.Length);
+        
     }
 
     void Update()
