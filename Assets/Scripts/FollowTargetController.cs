@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class FollowTargetController : MonoBehaviour
 {
-	public Transform player;
+	public GameObject player;
+	public GameObject followTarget;
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.position;
+        followTarget.transform.position = player.transform.position + new Vector3(0,0.5f,0);
+	
+	//if(walking)
+	//{
+		//followTarget.rotate =
     }
 }
