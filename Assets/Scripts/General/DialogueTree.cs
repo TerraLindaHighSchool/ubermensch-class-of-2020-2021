@@ -31,6 +31,7 @@ abstract class DialogueTree : MonoBehaviour
         for (int i = 0; i < data.Length - 1; i++)
         {
             string[] row = data[i].Split(new char[] { ',' });
+
         }
         
     }
