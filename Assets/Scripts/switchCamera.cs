@@ -6,7 +6,7 @@ public class switchCamera : MonoBehaviour
 {
     public GameObject isoCamera;
     public GameObject dialogueCamera;
-    public GameObject npc;
+    public bool npc;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +22,11 @@ public class switchCamera : MonoBehaviour
 		dialogueCamera.SetActive(true);
 
     	}
-	else if(npc && !isoCamera.activeInHierarchy)
+	else if(!npc && !isoCamera.activeInHierarchy)
 	{
 		isoCamera.SetActive(true);
 		dialogueCamera.SetActive(false);
-		npc.SetActive(false);
+		npc = false;
 	}
     }
 }
