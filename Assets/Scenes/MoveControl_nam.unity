@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 2058922183}
   - component: {fileID: 2058922181}
   - component: {fileID: 2058922182}
+  - component: {fileID: 2058922186}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -347,9 +348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 2058922181}
-  CanMove: 1
-  speed: 1
   AnimController: {fileID: 0}
+  speed: 1
 --- !u!23 &2058922183
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -411,6 +411,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2058922186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058922180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec40fbd673dc2344b9eaa0b498bdf84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CSVFileName: '"Dilogue_GruceBustin"'
 --- !u!1 &2122746892
 GameObject:
   m_ObjectHideFlags: 0

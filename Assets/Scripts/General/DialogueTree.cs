@@ -3,17 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //not sure what monobehaviour is for but it got mad at me when it wasn't there
-public class DialogueTree : MonoBehaviour
+//also it said it should be an abstract classn in the web?
+abstract class DialogueTree : MonoBehaviour
 {
     //make a string instead of the thingy 
     //so you can use the code on all npcs 
     //cause it's public its availbe in inspector
     public string CSVFileName;
-  
+
+    //I think this is supposed to be built off the csv
+    public Statement[] conversationPoints;
+
+    //not sure but 
+    public string GoAway;
+
+    //
+
     void Start()
     {
         //hopefully this is right
-        TextAsset csvInformation = Resources.Load<TextAsset>("Dilogue_GruceBustin");
+        TextAsset csvInformation = Resources.Load<TextAsset>(CSVFileName);
         
         // \n is the thingy for new line
         string[] data = csvInformation.text.Split(new char[] { '\n' });
