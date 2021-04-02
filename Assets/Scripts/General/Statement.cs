@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Statement
+public class Statement : MonoBehaviour
 {
     //what the npc says
     public string NpcLine;
