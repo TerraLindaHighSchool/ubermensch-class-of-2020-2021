@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueHandler : MonoBehaviour
+public class DialogueHandler2 : MonoBehaviour
 {
     //Niko Chow-Stuart
 
