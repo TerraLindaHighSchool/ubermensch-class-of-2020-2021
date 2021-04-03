@@ -6,7 +6,8 @@ public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
     public GameObject AnimController;
-    public int speed = 1;
+    private float speed = 2.5f;
+    private float turnSpeed = 3.5f;
 
     private bool CanMove = true;
     
@@ -24,6 +25,8 @@ public class MovementController : MonoBehaviour
             if (CanMove)
             {
                 controller.Move(moveDirection * speed * Time.deltaTime);
+                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(vertical, -horizontal), 0);
+                transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
             }
         }
     }
