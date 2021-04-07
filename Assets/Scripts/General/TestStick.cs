@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using InventoryItems;
 
-public class TestStick : InventoryItem
+public class TestStick : InventoryItemInterface
 {
     private string _name = "Stick";
     private string _toolTip = "This is a stick, this is a test.";
