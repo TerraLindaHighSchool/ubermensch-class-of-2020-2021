@@ -6,8 +6,11 @@ public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
     public GameObject AnimController;
+    public GameObject gravityRay;
     private float speed = 2.5f;
     private float turnSpeed = 3.5f;
+    private float yVelocity;
+    private const float GRAVITY = 0.4f;
 
     private bool CanMove = true;
     
@@ -29,10 +32,29 @@ public class MovementController : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
             }
         }
+
+        //creates a Vector that keeps the player on the ground
+        Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
+        controller.Move(moveGravity);
+    }
+
+    //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
+    private void setGravity()
+    {
+        Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
+        if(ground.distance > .5 || ground.collider == null)
+        {
+            yVelocity += GRAVITY;
+        }
+        else
+        {
+            yVelocity = 0;
+        }
     }
     // Update is called once per frame
     void Update()
     {
         move();
+        setGravity();
     }
 }
