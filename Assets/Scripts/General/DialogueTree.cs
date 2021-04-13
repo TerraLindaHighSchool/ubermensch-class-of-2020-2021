@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//I thought this was supposed to do way more stuff but actually it's all in the dialogue controller
 
 //not sure what monobehaviour is for but it got mad at me when it wasn't there
 //also it said it should be an abstract classn in the web?
@@ -17,11 +18,13 @@ abstract class DialogueTree : MonoBehaviour
     //not sure but 
     public string GoAway;
 
-    //
+    //maybe this is how to puit in csvInformation but seems complicated
+    public TextAsset csvInformation;
 
     void Start()
     {
-        //hopefully this is right
+        /*
+        //hopefully this is right //its not
         TextAsset csvInformation = Resources.Load<TextAsset>(CSVFileName);
         
         // \n is the thingy for new line
@@ -33,7 +36,7 @@ abstract class DialogueTree : MonoBehaviour
             string[] row = data[i].Split(new char[] { ',' });
 
         }
-        
+        */
     }
 
     void Update()
