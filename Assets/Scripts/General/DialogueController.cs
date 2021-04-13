@@ -5,13 +5,13 @@ using UnityEngine;
 public class DialogueController : MonoBehaviour
 {
 
-    public DialogueTree conversation;
-    public DialogueTree combat;
+    private DialogueTree conversation;
+    private DialogueTree combat;
+    //not sure what this does
     private int currentposition;
 
-    public void LoadNext(int Option)
+    public void OnEnable()
     {
-        //I think it's supposed to keep trak of the options?
 
     }
 
@@ -23,6 +23,25 @@ public class DialogueController : MonoBehaviour
     public void StartCombat()
     {
         //plays the other opener?
+    }
+
+    public void LoadNext(int Option)
+    {
+        //I think it's supposed to keep track of the options?
+
+    }
+
+    //modifies relationship type
+    private void setRelationshipType(float change)
+    {
+
+    }
+
+    //csvinformation? statement is return type
+    //I think this is where the magic happens
+    private Statement[] csvReader(TextAsset csvInfo)
+    {
+
     }
 
     // Start is called before the first frame update
