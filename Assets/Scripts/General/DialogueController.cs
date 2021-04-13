@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class DialogueController : MonoBehaviour
 {
+    //I think Dialogue_GruceBustin row 6 should probably not link to 6 or you get stuck in a loop lol
+    //why did it move downa  row?
+    //where does relationship start at
+    //the statement only has one option but how many options are there supposed to be
+
+    //dialogue tree would set how many options? as many as possible
+    //
 
     private DialogueTree conversation;
     private DialogueTree combat;
     //not sure what this does
     private int currentposition;
 
+    //find dialoguetree and combat tree and assign them to conversation and combat respectiveley respectively
     public void OnEnable()
     {
 
     }
 
+    //for start conversation tree? (load the first item in the start conversation tree)
     public void StartConversation()
     {
-        //plays the opener?
+        
     }
 
     public void StartCombat()
