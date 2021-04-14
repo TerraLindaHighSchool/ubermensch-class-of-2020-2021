@@ -17,7 +17,12 @@ public class DialogueController : MonoBehaviour
     //not sure what this does
     private int currentposition;
 
+    //test
+
+    public TextAsset testAsset;
+
     //find dialoguetree and combat tree and assign them to conversation and combat respectiveley respectively
+    //isn't there supposed to be like a public string thingy?
     public void OnEnable()
     {
 
@@ -48,10 +53,13 @@ public class DialogueController : MonoBehaviour
 
     //csvinformation? statement is return type
     //I think this is where the magic happens
+
+    /*
     private Statement[] csvReader(TextAsset csvInfo)
     {
-
+        
     }
+    */
 
     // Start is called before the first frame update
     void Start()

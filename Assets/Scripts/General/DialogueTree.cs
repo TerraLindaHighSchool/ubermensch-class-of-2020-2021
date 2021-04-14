@@ -10,7 +10,8 @@ abstract class DialogueTree : MonoBehaviour
     //make a string instead of the thingy 
     //so you can use the code on all npcs 
     //cause it's public its availbe in inspector
-    public string CSVFileName;
+    //public string CSVFileName;
+    //nvm pretty sure we don't need this
 
     //I think this is supposed to be built off the csv
     public Statement[] conversationPoints;
