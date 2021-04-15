@@ -89,13 +89,42 @@ public class DialogueController : MonoBehaviour
         //no minus 1 because my csv didn't have a line on the last
         for (int i = 2; i < data.Length; i++)
         {
+            //idk about calling it row or not
+            //get a split thing that does commas and stuff?
+            string[] row = data[i].Split(new char[] { ',' });
 
+            //how many rows of "data" there are?
+            //this creates the statement array in the dialogue tree thing for how long it should be
+            csvInfo.conversationPoints = new Statement[data.Length - 2];
+
+            //something like "for row.length"
+
+            //this is i-2 would be 0 since arrays start at zero
+            //we need to find out howmany is the opions
+           
+            //Statement[i-2] = new Statement();
+
+            
+
+            //assuming the rows follow the format from the csv this was written for
+            //(row.Length-2?)/3
+            //this would be the number/size for the arrays for the options
+
+            //statement construcotr
+            /*public Statement(string NpcL, string[] R, float[] RM, int[] RO)
+            {
+                NpcLine = NpcL;
+                Response = R;
+                ResponseModifier = RM;
+                ResponseOutcome = RO;
+            }
+            */
 
 
             //this is a statement array in the dialogue tree
             //csvInfo.conversationPoints
         }
-        
+
 
     }
     
