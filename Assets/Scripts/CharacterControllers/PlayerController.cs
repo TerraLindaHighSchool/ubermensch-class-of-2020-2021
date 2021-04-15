@@ -6,19 +6,20 @@ public class PlayerController : MonoBehaviour
 {
     public int health { get; set; }
     // What is the data type for food and oxygen? 
-    public bool food { get; set; }
-    public bool oxygen { get; set; }
-    public bool isInDialogue { get; private set; }
-    public bool isInCombat { get; private set; }
+    public float food { get; set; }
+    public float oxygen { get; set; }
+    public bool isInDialogue { get; set; }
+    public bool isInCombat { get; set; }
+    public string nameOfNPC { get; private set; }
+    InventoryManager playerInventory; 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        // what should the initail values be? 
-        health = 10;
-        food = true;
-        oxygen = true; 
+        playerInventory = new InventoryManager(); 
+        isInCombat = false;
+        isInDialogue = false; 
     }
 
     // Update is called once per frame
@@ -31,8 +32,12 @@ public class PlayerController : MonoBehaviour
     {
         if(other.CompareTag("Friendly NPC"))
         {
-            isInDialogue = true; 
-           // Debug.Log("in conversation with friendly NPC"); 
+            // set name of the npc 
+            if(Input.GetKey(KeyCode.E))
+            {
+                isInDialogue = true; 
+            }
+           // Debug.Log("in conversation with friendly NPC");
         }
         if(other.CompareTag("Non-Friendly NPC"))
         {
@@ -43,8 +48,10 @@ public class PlayerController : MonoBehaviour
         {
             if(Input.GetKey(KeyCode.E))
             {
-                // pick up and put in inventory
-                // how to call the add to inventory method in this class 
+                // make inventory item object constructs it
+                InventoryItem currentItem = new InventoryItem();  
+                //playerInventory.AddItem(currentItem);
+              
             }
         }
     }
