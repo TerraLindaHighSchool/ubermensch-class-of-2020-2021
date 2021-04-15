@@ -16,11 +16,13 @@ abstract class DialogueTree : MonoBehaviour
     //I think this is supposed to be built off the csv
     public Statement[] conversationPoints;
 
-    //not sure but 
+    //not sure where this would be in the csv or what it's like supposed to do
+    //is it if your reputation hits zero? 
     public string GoAway;
 
     //maybe this is how to puit in csvInformation but seems complicated
-    public TextAsset csvInformation;
+    //I think that was unnecessary
+        //public TextAsset csvInformation;
 
     void Start()
     {
