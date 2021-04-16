@@ -27,7 +27,7 @@ namespace CsvDemo
         public void Parse()
         {
             // CSVs deliminate rows using newlines, so we will first split along newlines to get the rows.
-            string[] rows = Data.Split('\n', StringSplitOptions.None);
+            string[] rows = Data.Split('\n');
             
             // For each row, process each entry
             for(int rowIndex = 0; rowIndex < rows.Length; rowIndex++)

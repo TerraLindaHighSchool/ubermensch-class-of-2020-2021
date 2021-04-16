@@ -92,8 +92,11 @@ public class DialogueController : MonoBehaviour
         //4. it needs to do that for all the "rows/options" in the csv
 
         //seems right
-        string[] data = csvInfo.text.Split(new char[] { '\n' });
 
+        string[] data = csvInfo.text.Split(new char[] { '\n' });
+        string[] row = data[0].Split(new char[] { '\t' });
+
+        Statement[] ParsedCsv = new Statement[(data.Length - 2)];
         //for my csv file it should start on 2? (the row with what we want was on 3 but since it's an array it would be one less)
         //data maybe should be something else,
         //no minus 1 because my csv didn't have a line on the last
@@ -101,11 +104,10 @@ public class DialogueController : MonoBehaviour
         {
             //idk about calling it row or not
             //get a split thing that does tabbs now and stuff?
-            string[] row = data[i].Split(new char[] { '\t' });
 
+            row = data[i].Split(new char[] { '\t' });
             //how many rows of "data" there are?
             //this creates the statement array in the dialogue tree thing for how long it should be
-            csvInfo.conversationPoints = new Statement[data.Length - 2];
 
             //something like "for row.length"
 
@@ -119,51 +121,45 @@ public class DialogueController : MonoBehaviour
             string npcLine = row[2];
 
             //we need to find out howmany is the opions hence -2 (row numer and npc line) div three for how many
-            string[] response = new string[(row.Length - 2) / 3];
-            float[] responseModifier = new float[(row.Length - 2) / 3];
-            int[] responseOutcome = new int[(row.Length - 2) / 3];
+            string[] response = new string[(row.Length - 1) / 3];
+            float[] responseModifier = new float[(row.Length - 1) / 3];
+            int[] responseOutcome = new int[(row.Length - 1) / 3];
 
-            for (int j = 0; j< row.Length - 2; j+3)
+            for (int j = 1; j < row.Length - 1; j += 3)
             {
                 //the third in row array because thats how arrays work
                 response[j] = row[j + 2];
-                responseModifier[j] = row[j + 3];
-                responseOutcome[j] = row[j + 4];
+                float Fstore = 0;
+                if (float.TryParse(row[j + 3], out Fstore))
+                {
+                    responseModifier[j] = Fstore;
+                }
+                int Istore = 0;
+                if (int.TryParse(row[j + 4], out Istore))
+                {
+                    responseOutcome[j] = Istore;
+                }
             }
 
             //this is i-2 would be 0 since arrays start at zero
-            conversationPoints[i-2] = new Statement(npcLine, response, responseModifier, responseOutcome);
+            ParsedCsv[i - 2] = new Statement(npcLine, response, responseModifier, responseOutcome);
 
             //there needs to be prebuilt the variables/arrays since they have to go in the constructor
 
             //statement construcotr
-            /*public Statement(string NpcL, string[] R, float[] RM, int[] RO)
-            {
-                NpcLine = NpcL;
-                Response = R;
-                ResponseModifier = RM;
-                ResponseOutcome = RO;
-            }
-            */
+            //public Statement(string NpcL, string[] R, float[] RM, int[] RO)
+            //{
+            //    NpcLine = NpcL;
+            //    Response = R;
+            //    ResponseModifier = RM;
+            //    ResponseOutcome = RO;
+            //}
 
 
             //this is a statement array in the dialogue tree
             //csvInfo.conversationPoints
         }
 
-
-    }
-    
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        return ParsedCsv;
     }
 }
