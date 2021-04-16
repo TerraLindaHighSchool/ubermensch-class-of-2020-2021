@@ -100,8 +100,8 @@ public class DialogueController : MonoBehaviour
         for (int i = 2; i < data.Length; i++)
         {
             //idk about calling it row or not
-            //get a split thing that does commas and stuff?
-            string[] row = data[i].Split(new char[] { ',' });
+            //get a split thing that does tabbs now and stuff?
+            string[] row = data[i].Split(new char[] { '\t' });
 
             //how many rows of "data" there are?
             //this creates the statement array in the dialogue tree thing for how long it should be
@@ -109,16 +109,32 @@ public class DialogueController : MonoBehaviour
 
             //something like "for row.length"
 
-            //this is i-2 would be 0 since arrays start at zero
-            //we need to find out howmany is the opions
-           
-            //Statement[i-2] = new Statement();
-
-            
-
             //assuming the rows follow the format from the csv this was written for
             //(row.Length-2?)/3
             //this would be the number/size for the arrays for the options
+
+
+
+            //npc line 
+            string npcLine = row[2];
+
+            //we need to find out howmany is the opions hence -2 (row numer and npc line) div three for how many
+            string[] response = new string[(row.Length - 2) / 3];
+            float[] responseModifier = new float[(row.Length - 2) / 3];
+            int[] responseOutcome = new int[(row.Length - 2) / 3];
+
+            for (int j = 0; j< row.Length - 2; j+3)
+            {
+                //the third in row array because thats how arrays work
+                response[j] = row[j + 2];
+                responseModifier[j] = row[j + 3];
+                responseOutcome[j] = row[j + 4];
+            }
+
+            //this is i-2 would be 0 since arrays start at zero
+            conversationPoints[i-2] = new Statement(npcLine, response, responseModifier, responseOutcome);
+
+            //there needs to be prebuilt the variables/arrays since they have to go in the constructor
 
             //statement construcotr
             /*public Statement(string NpcL, string[] R, float[] RM, int[] RO)
