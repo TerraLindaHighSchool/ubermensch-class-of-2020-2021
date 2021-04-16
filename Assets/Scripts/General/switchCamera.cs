@@ -6,27 +6,27 @@ public class switchCamera : MonoBehaviour
 {
     public GameObject isoCamera;
     public GameObject dialogueCamera;
-    public bool npc;
-    // Start is called before the first frame update
+    public GameObject playerModel;
+    private PlayerController playerController;
+
     void Start()
     {
-       
+        playerController = playerModel.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (npc && !dialogueCamera.activeInHierarchy)
-	{
+        if (playerController.isInDialogue && !dialogueCamera.activeInHierarchy)
+	    {
 		isoCamera.SetActive(false);
 		dialogueCamera.SetActive(true);
 
     	}
-	else if(!npc && !isoCamera.activeInHierarchy)
-	{
-		isoCamera.SetActive(true);
-		dialogueCamera.SetActive(false);
-		npc = false;
-	}
+	    else if(!playerController.isInDialogue && !isoCamera.activeInHierarchy)
+	    {
+		    isoCamera.SetActive(true);
+		    dialogueCamera.SetActive(false);
+	    }
     }
 }
