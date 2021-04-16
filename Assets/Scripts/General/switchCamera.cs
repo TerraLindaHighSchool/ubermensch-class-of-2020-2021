@@ -15,18 +15,5 @@ public class switchCamera : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (playerController.isInDialogue && !dialogueCamera.activeInHierarchy)
-	    {
-		isoCamera.SetActive(false);
-		dialogueCamera.SetActive(true);
 
-    	}
-	    else if(!playerController.isInDialogue && !isoCamera.activeInHierarchy)
-	    {
-		    isoCamera.SetActive(true);
-		    dialogueCamera.SetActive(false);
-	    }
-    }
 }

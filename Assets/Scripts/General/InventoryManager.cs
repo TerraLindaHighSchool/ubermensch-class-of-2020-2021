@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager 
+public class InventoryManager : MonoBehaviour
 { 
     ArrayList inventoryItem = new ArrayList(); 
 
