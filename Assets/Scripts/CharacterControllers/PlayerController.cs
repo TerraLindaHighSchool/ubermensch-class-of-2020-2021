@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public int health { get; set; }
-    // What is the data type for food and oxygen? 
     public float food { get; set; }
     public float oxygen { get; set; }
     public bool isInDialogue { get; set; }
@@ -49,7 +48,7 @@ public class PlayerController : MonoBehaviour
             if(Input.GetKey(KeyCode.E))
             {
                 // make inventory item object constructs it
-                InventoryItem currentItem = new InventoryItem();  
+                InventoryItem currentItem = new InventoryItem(other.gameObject.name, other.gameObject.);  
                 //playerInventory.AddItem(currentItem);
               
             }
