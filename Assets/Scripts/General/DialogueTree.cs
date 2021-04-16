@@ -12,9 +12,12 @@ abstract class DialogueTree : MonoBehaviour
     //cause it's public its availbe in inspector
     //public string CSVFileName;
     //nvm pretty sure we don't need this
+    public float RelationshipType;
 
     //I think this is supposed to be built off the csv
     public Statement[] conversationPoints;
+
+    public TextAsset csv;
 
     //not sure where this would be in the csv or what it's like supposed to do
     //is it if your reputation hits zero? 
@@ -41,10 +44,4 @@ abstract class DialogueTree : MonoBehaviour
         }
         */
     }
-
-    void Update()
-    {
-
-    }
-
 }

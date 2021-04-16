@@ -16,12 +16,12 @@ public class DialogueController : MonoBehaviour
     private DialogueTree combat;
     //not sure what this does
     private int currentposition;
+    private bool inCombat; // if not in combat in conversation
 
     //this should probably go here or else it maybe could go into onenable
     //dont know what to name these
     //you just drag the csv file in the inspector as long as like it follows the rules and stuff
-    public TextAsset combatcsv;
-    public TextAsset conversationcsv;
+
 
     //find dialoguetree and combat tree and assign them to conversation and combat respectiveley respectively
     //by find I think it will just get that from the textassets that you put in the inspector
@@ -30,8 +30,8 @@ public class DialogueController : MonoBehaviour
     {
         //uses csvreader for combat and conversation
         //it maybe looks like this
-        conversation.conversationPoints = csvReader(conversationcsv);
-        combat.conversationPoints = csvReader(combatcsv);
+        conversation.conversationPoints = csvReader(conversation.csv);
+        combat.conversationPoints = csvReader(conversation.csv);
     }
 
     //for start conversation tree? (load the first item in the start conversation tree)
@@ -40,36 +40,46 @@ public class DialogueController : MonoBehaviour
         //not sure what it means by "load"
         //I guess it means return but then it should return not load
         //this would use dialogue tree conversation
-        
-        //return
+
+        inCombat = false;
+        return conversation.conversationPoints[0];
     }
 
     public Statement StartCombat()
     {
-        //this would use dialogue tree combat
-       
-        //return
+        inCombat = true;
+        return combat.conversationPoints[0];
     }
 
     public Statement LoadNext(int Option)
     {
-        //I think it's supposed to keep track of the options?
-        //int option would be the line of the csv 
-        //wait how does it like get the option
+        DialogueTree activeDialogueTree;
 
-        //return
+        if (inCombat) { activeDialogueTree = combat; }
+        else { activeDialogueTree = conversation; }
+
+        setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
+
+        currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
+
+        return activeDialogueTree.conversationPoints[currentposition];
+    }
+
+    public string Closer()
+    {
+        return conversation.GoAway;
     }
 
     //modifies relationship type
     private void setRelationshipType(float change)
     {
-
+        conversation.RelationshipType += change; //Relationship Type? 
     }
 
     //csvinformation? statement is return type
     //I think this is where the magic happens
     //arrays start from zero
-    
+
     private Statement[] csvReader(TextAsset csvInfo)
     {
         //bla bla bla parses csv into statement
