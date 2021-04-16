@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : InventoryItemInterface
+public class InventoryManager : MonoBehaviour
 { 
     ArrayList inventoryItem = new ArrayList(); 
 
-    public void AddItem(InventoryItem item, ArrayList inventoryItem)
+    public void AddItem(InventoryItemInterface item)
     {
         inventoryItem.Add(item);
     }
 
-    public void RemoveItem(InventoryItem item, ArrayList inventoryItem)
+    public void RemoveItem(InventoryItemInterface item)
     {
         inventoryItem.Remove(item);
     }
