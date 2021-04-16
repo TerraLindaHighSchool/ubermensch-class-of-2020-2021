@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class HUDController : MonoBehaviour
 {
     private int activeHUD;
-    public GameObject[] HUDs;
+    public GameObject[] Huds;
     public bool inConvo = false;
     public GameObject activeNpc;
 
@@ -24,22 +24,22 @@ public class HUDController : MonoBehaviour
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
     {
-        if(hud< HUDs.Length)
+        if(hud< Huds.Length)
         {
-            HUDs[activeHUD].SetActive(false);
+            Huds[activeHUD].SetActive(false);
             activeHUD = hud;
-            HUDs[activeHUD].SetActive(true);
+            Huds[activeHUD].SetActive(true);
         }
     }
 
     //Same as HUDLoader, but also sets the active Npc and starts a conversation if necessary
     public void HUDLoader(int hud, GameObject caller, GameObject Npc)
     {
-        if (hud < HUDs.Length)
+        if (hud < Huds.Length)
         {
-            HUDs[activeHUD].SetActive(false);
+            Huds[activeHUD].SetActive(false);
             activeHUD = hud;
-            HUDs[activeHUD].SetActive(true);
+            Huds[activeHUD].SetActive(true);
             activeNpc = Npc;
             if (activeHUD == 0)
             {
@@ -66,6 +66,6 @@ public class HUDController : MonoBehaviour
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
-        HUDs[hud].SetActive(false);
+        Huds[hud].SetActive(false);
     }
 }
