@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 /* HUD 0 IS CONVERSATION 
  * HUD 1 IS COMBAT
  * HUD 2 IS INVENTORY
@@ -11,6 +13,13 @@ public class HUDController : MonoBehaviour
     public GameObject[] HUDs;
     public bool inConvo = false;
     public GameObject activeNpc;
+
+    //Dialogue HUD Fields
+
+    public GameObject[] buttons;
+    public GameObject npcName;
+    public GameObject npcSpeak;
+
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
@@ -34,10 +43,8 @@ public class HUDController : MonoBehaviour
             activeNpc = Npc;
             if (activeHUD == 0)
             {
-                /*
                 inConvo = true;
-                activeNpc.GetComponent<DialogueController>().StartConversation();
-                */
+                convoLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
         }
     }
@@ -47,10 +54,13 @@ public class HUDController : MonoBehaviour
     {
         if(inConvo)
         {
-            /*
-             activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber);
-             */
+             convoLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
+    }
+
+    public void convoLoader(Statement info)
+    {
+        npcSpeak.GetComponent<Text>().text = info.NpcLine;
     }
 
     //Disables the active hud
