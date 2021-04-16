@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Statement : MonoBehaviour
+public class Statement
 {
     //what the npc says (in my csv it was "Statement")
     public string NpcLine;
