@@ -12,7 +12,7 @@ public class FollowerInterface : MonoBehaviour
         GameObject avatar { get; set; }
     }
 
-    class Follower : iFollowers
+    public class Follower : iFollowers
     {
         public string name { get; set; }
         public string specialty { get; set; }
