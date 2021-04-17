@@ -89,7 +89,7 @@ public class DialogueController : MonoBehaviour
 
         for (int y = 1; y < Data.Length; y++)
         {
-
+            Debug.Log("Ping");
             string NpcLine = Data[y][1];
             string[] Response = new string[4];
             float[] ResponseModifier = new float[4];
@@ -114,7 +114,7 @@ public class DialogueController : MonoBehaviour
                 }
             }
 
-            ParsedData[y] = new Statement(NpcLine, Response, ResponseModifier, ResponseOutcome);
+            ParsedData[y-1] = new Statement(NpcLine, Response, ResponseModifier, ResponseOutcome);
         }
 
         return ParsedData;

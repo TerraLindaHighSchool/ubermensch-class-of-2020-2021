@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /* HUD 0 IS CONVERSATION 
- * HUD 1 IS COMBAT
- * HUD 2 IS INVENTORY
+ * HUD 1 IS INVENTORY
  */
 public class HUDController : MonoBehaviour
 {
@@ -57,13 +56,14 @@ public class HUDController : MonoBehaviour
     //Called on button press to continue the conversation
     public void continueConvo(int buttonNumber)
     {
+        Debug.Log("Button " + buttonNumber + " was pressed :)");
         if (inConvo)
         {
              convoLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
-        Debug.Log(buttonNumber + " pressed");
     }
 
+    //Loads a response based on which button was pressed
     public void convoLoader(Statement info)
     {
         npcSpeak.GetComponent<Text>().text = info.NpcLine;
