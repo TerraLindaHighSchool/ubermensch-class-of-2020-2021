@@ -76,6 +76,7 @@ public class HUDController : MonoBehaviour
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
+        inConvo = false;
         Huds[hud].SetActive(false);
         Debug.Log("HUD Unloaded");
     }
