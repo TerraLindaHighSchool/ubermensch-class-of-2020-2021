@@ -7,8 +7,8 @@ public class MovementController : MonoBehaviour
     public CharacterController controller;
     public GameObject AnimController;
     public GameObject gravityRay;
-    private float speed = 2.5f;
-    private float turnSpeed = 3.5f;
+    [SerializeField] public float speed = 3.5f;
+    [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
     private const float GRAVITY = 0.4f;
 
