@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         isInTriggerArea = true;
         this.other = other;
-        Debug.Log("entered"); 
+        Debug.Log("Entered"); 
     }
 
     public void OnTriggerExit(Collider other)
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         this.other = null;
         isInDialogue = false;
         isInCombat = false;
-        Debug.Log("Not in dialogue"); 
+        Debug.Log("Exited"); 
     }
 
     void TakingAction()
@@ -62,12 +62,13 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Non-Friendly NPC"))
         {
             isInCombat = true;
-            // Debug.Log("In combat with non-friendly NPC"); 
+            Debug.Log("In combat with non-friendly NPC"); 
         }
         if (other.CompareTag("Inventory Object"))
         {
-                // make inventory item object constructs i
-                // playerInventory.AddItem(other);
+            Debug.Log("Picking up");
+            // make inventory item object constructs i
+            // playerInventory.AddItem(other);
         }
     }
 }
