@@ -12,7 +12,7 @@ public class HUDController : MonoBehaviour
     private int activeHUD;
     public GameObject[] Huds;
     public bool inConvo = false;
-    public GameObject activeNpc;
+    private GameObject activeNpc;
 
     //Dialogue HUD Fields
 
@@ -56,11 +56,18 @@ public class HUDController : MonoBehaviour
         {
              convoLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
+        Debug.Log(buttonNumber + " pressed");
     }
 
     public void convoLoader(Statement info)
     {
         npcSpeak.GetComponent<Text>().text = info.NpcLine;
+        /*
+        buttons[0].GetComponent<Text>().text = info.Response[0];
+        buttons[1].GetComponent<Text>().text = info.Response[1];
+        buttons[2].GetComponent<Text>().text = info.Response[2];
+        buttons[3].GetComponent<Text>().text = info.Response[3];
+        */
     }
 
     //Disables the active hud

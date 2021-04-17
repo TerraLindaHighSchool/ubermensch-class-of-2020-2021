@@ -30,8 +30,9 @@ public class DialogueController : MonoBehaviour
     {
         //uses csvreader for combat and conversation
         //it maybe looks like this
+        conversation = this.gameObject.GetComponent<DialogueTree>();
         conversation.conversationPoints = csvReader(conversation.csv);
-        combat.conversationPoints = csvReader(conversation.csv);
+        //combat.conversationPoints = csvReader(conversation.csv);
     }
 
     //for start conversation tree? (load the first item in the start conversation tree)
@@ -96,11 +97,11 @@ public class DialogueController : MonoBehaviour
         string[] data = csvInfo.text.Split(new char[] { '\n' });
         string[] row = data[0].Split(new char[] { '\t' });
 
-        Statement[] ParsedCsv = new Statement[(data.Length - 2)];
+        Statement[] ParsedCsv = new Statement[(data.Length - 1)];
         //for my csv file it should start on 2? (the row with what we want was on 3 but since it's an array it would be one less)
         //data maybe should be something else,
         //no minus 1 because my csv didn't have a line on the last
-        for (int i = 2; i < data.Length; i++)
+        for (int i = 1; i < data.Length; i++)
         {
             //idk about calling it row or not
             //get a split thing that does tabbs now and stuff?
@@ -128,7 +129,7 @@ public class DialogueController : MonoBehaviour
             for (int j = 1; j < row.Length - 1; j += 3)
             {
                 //the third in row array because thats how arrays work
-                response[j] = row[j + 2];
+                response[j] = row[j - 1];
                 float Fstore = 0;
                 if (float.TryParse(row[j + 3], out Fstore))
                 {
@@ -142,7 +143,7 @@ public class DialogueController : MonoBehaviour
             }
 
             //this is i-2 would be 0 since arrays start at zero
-            ParsedCsv[i - 2] = new Statement(npcLine, response, responseModifier, responseOutcome);
+            ParsedCsv[i - 1] = new Statement(npcLine, response, responseModifier, responseOutcome);
 
             //there needs to be prebuilt the variables/arrays since they have to go in the constructor
 
