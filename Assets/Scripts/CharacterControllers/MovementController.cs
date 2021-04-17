@@ -51,10 +51,27 @@ public class MovementController : MonoBehaviour
             yVelocity = 0;
         }
     }
+
+    //tests code by pressing certain keys
+    private void testKeys()
+    {
+        HUDController TestHUDController;
+        if (Input.GetKeyDown("k"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
+        }
+        if (Input.GetKeyDown("l"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(0);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        move();
+        if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) { move(); }
         setGravity();
+        testKeys();
     }
 }

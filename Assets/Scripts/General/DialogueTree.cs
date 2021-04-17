@@ -5,7 +5,7 @@ using UnityEngine;
 
 //not sure what monobehaviour is for but it got mad at me when it wasn't there
 //also it said it should be an abstract classn in the web?
-abstract class DialogueTree : MonoBehaviour
+public abstract class DialogueTree : MonoBehaviour
 {
     //make a string instead of the thingy 
     //so you can use the code on all npcs 

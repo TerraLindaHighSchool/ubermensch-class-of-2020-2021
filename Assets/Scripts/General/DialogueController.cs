@@ -30,8 +30,9 @@ public class DialogueController : MonoBehaviour
     {
         //uses csvreader for combat and conversation
         //it maybe looks like this
+        conversation = this.gameObject.GetComponent<DialogueTree>();
         conversation.conversationPoints = csvReader(conversation.csv);
-        combat.conversationPoints = csvReader(conversation.csv);
+        //combat.conversationPoints = csvReader(conversation.csv);
     }
 
     //for start conversation tree? (load the first item in the start conversation tree)
@@ -82,84 +83,151 @@ public class DialogueController : MonoBehaviour
 
     private Statement[] csvReader(TextAsset csvInfo)
     {
-        //bla bla bla parses csv into statement
-        //returns statement array
+        string[][] Data = Parse(csvInfo);
 
-        //goals for like getting it to work
-        //1. it needs to like read one line from the csv to put it into a statement object thing
-        //2. it needs to like account for the multiple rows for all the different options
-        //3. it needs to put the options into an array for like the constructor
-        //4. it needs to do that for all the "rows/options" in the csv
+        Statement[] ParsedData = new Statement[Data.Length];
 
-        //seems right
-
-        string[] data = csvInfo.text.Split(new char[] { '\n' });
-        string[] row = data[0].Split(new char[] { '\t' });
-
-        Statement[] ParsedCsv = new Statement[(data.Length - 2)];
-        //for my csv file it should start on 2? (the row with what we want was on 3 but since it's an array it would be one less)
-        //data maybe should be something else,
-        //no minus 1 because my csv didn't have a line on the last
-        for (int i = 2; i < data.Length; i++)
+        for (int y = 1; y < Data.Length; y++)
         {
-            //idk about calling it row or not
-            //get a split thing that does tabbs now and stuff?
+            Debug.Log("Ping");
+            string NpcLine = Data[y][1];
+            string[] Response = new string[4];
+            float[] ResponseModifier = new float[4];
+            int[] ResponseOutcome = new int[4];
 
-            row = data[i].Split(new char[] { '\t' });
-            //how many rows of "data" there are?
-            //this creates the statement array in the dialogue tree thing for how long it should be
-
-            //something like "for row.length"
-
-            //assuming the rows follow the format from the csv this was written for
-            //(row.Length-2?)/3
-            //this would be the number/size for the arrays for the options
-
-
-
-            //npc line 
-            string npcLine = row[2];
-
-            //we need to find out howmany is the opions hence -2 (row numer and npc line) div three for how many
-            string[] response = new string[(row.Length - 1) / 3];
-            float[] responseModifier = new float[(row.Length - 1) / 3];
-            int[] responseOutcome = new int[(row.Length - 1) / 3];
-
-            for (int j = 1; j < row.Length - 1; j += 3)
+            for (int x = 2; x < Data[y].Length; x++)
             {
-                //the third in row array because thats how arrays work
-                response[j] = row[j + 2];
-                float Fstore = 0;
-                if (float.TryParse(row[j + 3], out Fstore))
+                switch((x - 2) % 3)
                 {
-                    responseModifier[j] = Fstore;
-                }
-                int Istore = 0;
-                if (int.TryParse(row[j + 4], out Istore))
-                {
-                    responseOutcome[j] = Istore;
+                    case 0:
+                        Response[(x - 2) / 3] = Data[y][x];
+                        break;
+                    case 1:
+                        ResponseModifier[(x - 2) / 3] = float.Parse(Data[y][x]);
+                        break;
+                    case 2:
+                        ResponseOutcome[(x - 2) / 3] = int.Parse(Data[y][x]);
+                        break;
+                    case 3:
+                        Response[(x - 2) / 3] = Data[y][x];
+                        break;
                 }
             }
 
-            //this is i-2 would be 0 since arrays start at zero
-            ParsedCsv[i - 2] = new Statement(npcLine, response, responseModifier, responseOutcome);
-
-            //there needs to be prebuilt the variables/arrays since they have to go in the constructor
-
-            //statement construcotr
-            //public Statement(string NpcL, string[] R, float[] RM, int[] RO)
-            //{
-            //    NpcLine = NpcL;
-            //    Response = R;
-            //    ResponseModifier = RM;
-            //    ResponseOutcome = RO;
-            //}
-
-
-            //this is a statement array in the dialogue tree
-            //csvInfo.conversationPoints
+            ParsedData[y-1] = new Statement(NpcLine, Response, ResponseModifier, ResponseOutcome);
         }
 
-        return ParsedCsv;
+        return ParsedData;
     }
+
+    public string[][] Parse(TextAsset csvInfo)
+    {
+
+        string Data = csvInfo.text;
+        // CSVs deliminate rows using newlines, so we will first split along newlines to get the rows.
+        string[] rows = Data.Split('\n');
+
+        // Once we have raw rows, initialize the output array.
+        string[][] output = new string[rows.Length][];
+
+        // For each row, process each entry
+        for (int rowIndex = 0; rowIndex < rows.Length; rowIndex++)
+        {
+            // Separate each column from each row.
+            output[rowIndex] = SeparateColumnsOfRow(rows[rowIndex]);
+        }
+
+        return output;
+    }
+
+    public string[] SeparateColumnsOfRow(string row)
+        {
+            // Edge case: row is empty string
+            if (row.Length == 0)
+            {
+                return new string[0];
+            }
+
+            // Create a collection for storing our finished records.
+            List<string> finishedRecords = new List<string>();
+
+            // Get underlying char array representation of string so we can
+            // walk through it character-by-character
+            char[] rowAsCharArray = row.ToCharArray();
+
+            // Create a "holding buffer" to record the current record.
+            // This allows us to build the actual record by ignoring escape characters;
+            // something you couldn't do with a normal split / substring operation.
+            char[] currentRecord = new char[rowAsCharArray.Length];
+            int currentRecordLength = 0;
+
+            // Declare variables to track state
+            int currentIndex = 0;
+            bool shouldIgnoreCommas = false;
+
+            while (currentIndex < rowAsCharArray.Length)
+            {
+                char currentChar = rowAsCharArray[currentIndex];
+
+                // Quote handling
+                if (currentChar == '"')
+                {
+                    // If not escaped, this means we should toggle whether we are ignoring commas or not.
+                    if (!IsDoubleQuoteEscaped(rowAsCharArray, currentIndex))
+                    {
+                        shouldIgnoreCommas = !shouldIgnoreCommas;
+                    }
+                    else
+                    {
+                        // This character is escaped by the next character. Add this character to the
+                        // buffer, but then skip the next quote; the only purpose of the next quote is
+                        // make this quote an actual quote and not an escape.
+                        currentRecord[currentRecordLength++] = currentChar;
+                        ++currentIndex;
+
+                    }
+                }
+                // End of record handling
+                // A record ends if we should not ignore commas and encounter one, we reach the end of the line, or we reach the end of the string.
+                else if ( (!shouldIgnoreCommas && currentChar == ',') || currentChar == '\n')
+                {
+                    // Construct a record from the buffer
+                    finishedRecords.Add(new string(currentRecord, 0, currentRecordLength));
+                    currentRecordLength = 0; // Reset buffer size
+                }
+                else // Otherwise this is suitable to add to the current buffer.
+                {
+                    currentRecord[currentRecordLength++] = currentChar;
+                }
+
+                ++currentIndex;
+            }
+
+            // Finish a record if we left one unfinished
+            if (currentRecordLength > 0)
+            {
+                // Construct a record from the buffer
+                finishedRecords.Add(new string(currentRecord, 0, currentRecordLength));
+                currentRecordLength = 0; // Reset buffer size
+            }
+
+            //Once done, move records from list to array
+            return finishedRecords.ToArray();
+
+        }
+
+        /// <summary>
+        /// Returns true if the double quote at the currentIndex position of the rowAsCharArray
+        /// is escaped.
+        /// </summary>
+        /// <param name="rowAsCharArray"></param>
+        /// <param name="currentIndex"></param>
+        /// <returns></returns>
+        private bool IsDoubleQuoteEscaped(char[] rowAsCharArray, int currentIndex)
+        {
+            // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
+            return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
+        }
+
+
 }
