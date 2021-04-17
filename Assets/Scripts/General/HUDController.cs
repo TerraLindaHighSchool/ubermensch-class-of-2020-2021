@@ -46,13 +46,18 @@ public class HUDController : MonoBehaviour
                 inConvo = true;
                 convoLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
+            Debug.Log("HUD Loaded");
+        }
+        else
+        {
+            Debug.Log("HUD could not load");
         }
     }
 
     //Called on button press to continue the conversation
     public void continueConvo(int buttonNumber)
     {
-        if(inConvo)
+        if (inConvo)
         {
              convoLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
@@ -62,17 +67,16 @@ public class HUDController : MonoBehaviour
     public void convoLoader(Statement info)
     {
         npcSpeak.GetComponent<Text>().text = info.NpcLine;
-        /*
         buttons[0].GetComponent<Text>().text = info.Response[0];
         buttons[1].GetComponent<Text>().text = info.Response[1];
         buttons[2].GetComponent<Text>().text = info.Response[2];
         buttons[3].GetComponent<Text>().text = info.Response[3];
-        */
     }
 
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
         Huds[hud].SetActive(false);
+        Debug.Log("HUD Unloaded");
     }
 }
