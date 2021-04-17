@@ -14,7 +14,7 @@ public class TestStick : MonoBehaviour, InventoryItemInterface
     {
         Name = "Stick";
         ToolTip = "This is a stick, this is a test.";
-        Icon = Resources.Load<GameObject>("Assets/Resources/Testing/stick_noun_002_35886.jpg");
+        Icon = Resources.Load<GameObject>("Assets/Resources/Icons/stick_noun_002_35886.jpg");
         Value = 3;
     }
 }
