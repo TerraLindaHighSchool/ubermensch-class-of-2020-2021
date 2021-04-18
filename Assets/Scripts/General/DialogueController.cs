@@ -26,12 +26,13 @@ public class DialogueController : MonoBehaviour
     //find dialoguetree and combat tree and assign them to conversation and combat respectiveley respectively
     //by find I think it will just get that from the textassets that you put in the inspector
     //isn't there supposed to be like a public string thingy?
-    public void OnEnable()
+    private void OnEnable()
     {
         //uses csvreader for combat and conversation
         //it maybe looks like this
         conversation = this.gameObject.GetComponent<DialogueTree>();
-        conversation.conversationPoints = csvReader(conversation.csv);
+        Debug.Log("DialogueController Reader enabled for " + gameObject.name);
+        //conversation.conversationPoints = csvReader(conversation.csv);
         //combat.conversationPoints = csvReader(conversation.csv);
     }
 
