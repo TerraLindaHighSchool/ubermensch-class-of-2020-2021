@@ -52,8 +52,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    /* tests code by pressing certain keys
-    private void testKeys()
+     private void testKeys()
     {
         HUDController TestHUDController;
         if (Input.GetKeyDown("k"))
@@ -66,15 +65,15 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(0);
         }
-    } */
+    } 
     // Update is called once per frame
     void Update()
     {
-        //if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
-        //{
+        if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
+        {
             move();
-        //}
+        }
         setGravity();
-        //testKeys();
+        testKeys();
     }
 }
