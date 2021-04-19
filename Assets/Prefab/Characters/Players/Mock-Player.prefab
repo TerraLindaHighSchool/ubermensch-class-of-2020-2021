@@ -178,7 +178,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isoCamera: {fileID: 5064398521553025422}
   dialogueCamera: {fileID: 5064398520385897389}
-  playerModel: {fileID: 5064398520442262835}
 --- !u!114 &5064398520152215009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,6 +414,8 @@ MonoBehaviour:
   controller: {fileID: 5064398520442262829}
   AnimController: {fileID: 0}
   gravityRay: {fileID: 5064398521276038418}
+  speed: 3.5
+  turnSpeed: 3.5
 --- !u!114 &5314776919073488691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b82dce40cbfb25f4dada41e41bd8d459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 5064398520152215012}
 --- !u!114 &8673223864171958954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -689,7 +691,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 0
-    m_SensorSize: {x: 3.0217917, y: 1}
+    m_SensorSize: {x: 1.849741, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
