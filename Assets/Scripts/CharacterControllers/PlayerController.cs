@@ -7,68 +7,67 @@ public class PlayerController : MonoBehaviour
     public int health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
-    public bool isInDialogue { get; set; }
-    public bool isInCombat { get; set; }
-    public string nameOfNPC { get; private set; }
-    InventoryManager playerInventory;
+    public bool isInDialogue { get; set; } //only for camera 
     private bool isInTriggerArea;
-    private Collider other; 
+    private Collider other;
+    public GameObject mainCamera; // drag main camera into this
+    private GameObject objectHit; 
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        playerInventory = GetComponent<InventoryManager>(); 
-        isInCombat = false;
-        isInDialogue = false; 
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if(isInTriggerArea && Input.GetKey(KeyCode.E))
+        if(isInTriggerArea && Input.GetKeyDown(KeyCode.E))
         {
-            TakingAction(); 
+            Interact(); 
+        }
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            OpenMenu(); 
         }
     }
 
     public void OnTriggerEnter(Collider other)
     {
         isInTriggerArea = true;
-        this.other = other;
-        Debug.Log("Entered"); 
+        objectHit = other.gameObject;
+        mainCamera.GetComponent<switchCamera>().NPC = objectHit; 
+        Debug.Log("Entered " + objectHit.name);  
     }
 
     public void OnTriggerExit(Collider other)
     {
         isInTriggerArea = false;
-        this.other = null;
-        isInDialogue = false;
-        isInCombat = false;
-        Debug.Log("Exited"); 
+        Debug.Log("Exited");
+        if(isInDialogue)
+        {
+            isInDialogue = false;
+            objectHit.GetComponent<DialogueController>().enabled = false;
+            mainCamera.GetComponent<switchCamera>().isInDialogue = false;
+
+        }
     }
 
-    void TakingAction()
+    void Interact()
     {
         Debug.Log("taking action"); 
-        if (other.CompareTag("Friendly NPC"))
+        if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
-            // set name of the npc
-            nameOfNPC = other.gameObject.name; 
-                isInDialogue = true;
-      
-                Debug.Log("in conversation with " + nameOfNPC);
+            isInDialogue = true;
+            objectHit.GetComponent<DialogueController>().enabled = true;
+            mainCamera.GetComponent<switchCamera>().isInDialogue = true;
+            Debug.Log("is in conversation with " + objectHit.name); 
         }
-        if (other.CompareTag("Non-Friendly NPC"))
-        {
-            isInCombat = true;
-            Debug.Log("In combat with non-friendly NPC"); 
-        }
-        if (other.CompareTag("Inventory Object"))
+        if (objectHit.CompareTag("Inventory Object"))
         {
             Debug.Log("Picking up");
-            // make inventory item object constructs i
-            // playerInventory.AddItem(other);
+            GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
+            objectHit.SetActive(false); 
         }
+    }
+
+    void OpenMenu()
+    {
+        Debug.Log("Menu is opened"); 
     }
 }
