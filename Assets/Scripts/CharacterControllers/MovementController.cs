@@ -7,8 +7,8 @@ public class MovementController : MonoBehaviour
     public CharacterController controller;
     public GameObject AnimController;
     public GameObject gravityRay;
-    private float speed = 2.5f;
-    private float turnSpeed = 3.5f;
+    [SerializeField] public float speed = 3.5f;
+    [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
     private const float GRAVITY = 0.4f;
 
@@ -51,10 +51,29 @@ public class MovementController : MonoBehaviour
             yVelocity = 0;
         }
     }
+
+     private void testKeys()
+    {
+        HUDController TestHUDController;
+        if (Input.GetKeyDown("k"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
+        }
+        if (Input.GetKeyDown("l"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(0);
+        }
+    } 
     // Update is called once per frame
     void Update()
     {
-        move();
+        if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
+        {
+            move();
+        }
         setGravity();
+        testKeys();
     }
 }
