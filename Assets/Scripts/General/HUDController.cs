@@ -19,11 +19,15 @@ public class HUDController : MonoBehaviour
     public GameObject npcName;
     public GameObject npcSpeak;
 
+    //Inventory HUD Fields
+
+    public GameObject[] inventoryButtons;
+
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
     {
-        if(hud< Huds.Length)
+        if (hud< Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
             activeHUD = hud;
@@ -45,6 +49,10 @@ public class HUDController : MonoBehaviour
                 inConvo = true;
                 convoLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
+            if (activeHUD == 1)
+            {
+                
+            }
             Debug.Log("HUD Loaded");
         }
         else
@@ -57,7 +65,7 @@ public class HUDController : MonoBehaviour
     public void continueConvo(int buttonNumber)
     {
         Debug.Log("Button " + buttonNumber + " was pressed :)");
-        if (inConvo)
+        if(inConvo)
         {
              convoLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
@@ -71,6 +79,11 @@ public class HUDController : MonoBehaviour
         buttons[1].GetComponent<Text>().text = info.Response[1];
         buttons[2].GetComponent<Text>().text = info.Response[2];
         buttons[3].GetComponent<Text>().text = info.Response[3];
+    }
+
+    public void inventoryLoader()
+    {
+        
     }
 
     //Disables the active hud
