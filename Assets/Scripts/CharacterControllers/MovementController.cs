@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
-    public GameObject AnimController;
+    public Animator AnimController;
     public GameObject gravityRay;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
