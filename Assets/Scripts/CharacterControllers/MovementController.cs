@@ -7,7 +7,7 @@ public class MovementController : MonoBehaviour
     public CharacterController controller;
     public Animator AnimController;
     public GameObject gravityRay;
-    [SerializeField] public float speed = 3.5f;
+    [SerializeField] public float speed = 4.5f;
     [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
     private const float GRAVITY = 0.4f;
@@ -30,13 +30,13 @@ public class MovementController : MonoBehaviour
                 controller.Move(moveDirection * speed * Time.deltaTime);
                 Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
-                Debug.Log(turnTo);
             }
         }
 
         //creates a Vector that keeps the player on the ground
         Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
         controller.Move(moveGravity);
+        animate(horizontal, vertical);
     }
 
     //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
@@ -76,5 +76,17 @@ public class MovementController : MonoBehaviour
         }
         setGravity();
         testKeys();
+    }
+
+    void animate(float x, float z)
+    {
+        if (x == 0 && z == 0)
+        {
+            GetComponent<Animator>().SetBool("isWalking", false);
+        }
+        else
+        {
+            GetComponent<Animator>().SetBool("isWalking", true);
+        }
     }
 }
