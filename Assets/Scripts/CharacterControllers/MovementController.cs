@@ -22,6 +22,9 @@ public class MovementController : MonoBehaviour
         //calculates direction to move based on inputs
         Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
+        //Will be set to true if player can move otherwise defaults to false
+        bool animate = false;
+
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
@@ -31,8 +34,11 @@ public class MovementController : MonoBehaviour
                 Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
                 Debug.Log(turnTo);
+
+                animate = true;
             }
         }
+        AnimController.SetBool("isWalking", animate);
 
         //creates a Vector that keeps the player on the ground
         Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
@@ -43,7 +49,7 @@ public class MovementController : MonoBehaviour
     private void setGravity()
     {
         Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
-        if(ground.distance > .5 || ground.collider == null)
+        if(ground.distance > .1 || ground.collider == null)
         {
             yVelocity += GRAVITY;
         }
@@ -59,7 +65,7 @@ public class MovementController : MonoBehaviour
         if (Input.GetKeyDown("k"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("GruceBustin"));
         }
         if (Input.GetKeyDown("l"))
         {
@@ -73,8 +79,8 @@ public class MovementController : MonoBehaviour
         if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
         {
             move();
-        }
+        }   
         setGravity();
-        testKeys();
+        //testKeys();
     }
 }

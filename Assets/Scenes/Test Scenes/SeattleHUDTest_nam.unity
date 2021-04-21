@@ -418,6 +418,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1603444243}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &904172770 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 656181733474083102, guid: 6337229250fc7a64ca22124a714120a5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1590404655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &912289755 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4617056021866226023, guid: 3425a8f0801cd8e4c8571cc2f9911759,
@@ -497,6 +503,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5064398520442262828, guid: 9be400060b5c63c49a20369538ea636b,
+        type: 3}
+      propertyPath: AnimController
+      value: 
+      objectReference: {fileID: 904172770}
     - target: {fileID: 5064398521019731744, guid: 9be400060b5c63c49a20369538ea636b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -535,7 +546,7 @@ PrefabInstance:
     - target: {fileID: 5064398521019731744, guid: 9be400060b5c63c49a20369538ea636b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5064398521019731744, guid: 9be400060b5c63c49a20369538ea636b,
         type: 3}
@@ -609,7 +620,7 @@ PrefabInstance:
     - target: {fileID: 4135119793610976072, guid: 6337229250fc7a64ca22124a714120a5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4135119793610976072, guid: 6337229250fc7a64ca22124a714120a5,
         type: 3}
@@ -698,7 +709,7 @@ PrefabInstance:
     - target: {fileID: 4172226620801749065, guid: 3425a8f0801cd8e4c8571cc2f9911759,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4172226620801749065, guid: 3425a8f0801cd8e4c8571cc2f9911759,
         type: 3}

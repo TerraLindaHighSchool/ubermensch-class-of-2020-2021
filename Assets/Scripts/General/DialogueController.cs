@@ -31,6 +31,7 @@ public class DialogueController : MonoBehaviour
         //uses csvreader for combat and conversation
         //it maybe looks like this
         conversation = this.gameObject.GetComponent<DialogueTree>();
+        conversation.conversationPoints = csvReader(conversation.csv);
         Debug.Log("DialogueController Reader enabled for " + gameObject.name);
         //conversation.conversationPoints = csvReader(conversation.csv);
         //combat.conversationPoints = csvReader(conversation.csv);
@@ -117,6 +118,8 @@ public class DialogueController : MonoBehaviour
 
             ParsedData[y-1] = new Statement(NpcLine, Response, ResponseModifier, ResponseOutcome);
         }
+
+        Debug.Log(ParsedData);
 
         return ParsedData;
     }
