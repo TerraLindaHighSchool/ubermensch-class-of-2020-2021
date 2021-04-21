@@ -43,7 +43,7 @@ public class MovementController : MonoBehaviour
     private void setGravity()
     {
         Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
-        if(ground.distance > .5 || ground.collider == null)
+        if(ground.distance > 0 || ground.collider == null)
         {
             yVelocity += GRAVITY;
         }
