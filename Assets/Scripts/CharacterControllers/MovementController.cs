@@ -7,7 +7,7 @@ public class MovementController : MonoBehaviour
     public CharacterController controller;
     public Animator AnimController;
     public GameObject gravityRay;
-    [SerializeField] public float speed = 4.5f;
+    [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
     private const float GRAVITY = 0.4f;
@@ -22,6 +22,9 @@ public class MovementController : MonoBehaviour
         //calculates direction to move based on inputs
         Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
+        //Will be set to true if player can move otherwise defaults to false
+        bool animate = false;
+
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
@@ -30,20 +33,23 @@ public class MovementController : MonoBehaviour
                 controller.Move(moveDirection * speed * Time.deltaTime);
                 Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
+                Debug.Log(turnTo);
+
+                animate = true;
             }
         }
+        AnimController.SetBool("isWalking", animate);
 
         //creates a Vector that keeps the player on the ground
         Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
         controller.Move(moveGravity);
-        animate(horizontal, vertical);
     }
 
     //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
     private void setGravity()
     {
         Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
-        if(ground.distance > 0 || ground.collider == null)
+        if(ground.distance > .1 || ground.collider == null)
         {
             yVelocity += GRAVITY;
         }
@@ -59,7 +65,7 @@ public class MovementController : MonoBehaviour
         if (Input.GetKeyDown("k"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("GruceBustin"));
         }
         if (Input.GetKeyDown("l"))
         {
@@ -73,20 +79,8 @@ public class MovementController : MonoBehaviour
         if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
         {
             move();
-        }
+        }   
         setGravity();
-        testKeys();
-    }
-
-    void animate(float x, float z)
-    {
-        if (x == 0 && z == 0)
-        {
-            GetComponent<Animator>().SetBool("isWalking", false);
-        }
-        else
-        {
-            GetComponent<Animator>().SetBool("isWalking", true);
-        }
+        //testKeys();
     }
 }
