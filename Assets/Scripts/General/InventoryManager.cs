@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 { 
-    ArrayList inventoryItem = new ArrayList(); 
+    List<InventoryItemInterface> inventoryItem = new List<InventoryItemInterface>(); 
 
     public void AddItem(InventoryItemInterface item)
     {
@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
         inventoryItem.Remove(item);
     }
  
-    public ArrayList PrintInventory(ArrayList inventoryItem)
+    public List<InventoryItemInterface> PrintInventory()
     {
         return inventoryItem; 
     }
