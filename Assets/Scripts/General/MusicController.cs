@@ -5,6 +5,16 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     public AudioClip[] tracks;//makes track array
+    AudioSource audioPlayer;
+    private void Start()
+    {
+        audioPlayer = this.GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        ChangeVolume();
+    }
 
     public void TrackSwitch(int trackIndex)
     {
@@ -36,6 +46,18 @@ public class MusicController : MonoBehaviour
         yield return new WaitForSeconds(this.gameObject.GetComponent<AudioSource>().clip.length);
         if (start != this.gameObject.GetComponent<AudioSource>().clip) { yield break; }
         StartCoroutine("Loop");
+    }
+
+    public void ChangeVolume()
+    {
+        if (Input.GetKey(KeyCode.Equals))
+        {
+            audioPlayer.volume += 0.005f;
+        }
+        if (Input.GetKey(KeyCode.Minus))
+        {
+            audioPlayer.volume -= 0.005f;
+        }
     }
 
 }
