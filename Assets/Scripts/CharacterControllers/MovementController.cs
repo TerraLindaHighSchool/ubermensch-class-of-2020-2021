@@ -60,16 +60,26 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
         }
-        if (Input.GetKeyDown("l"))
+        if (Input.GetKeyDown("1"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(0);
+        }
+        if (Input.GetKeyDown("i"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(1, this.gameObject);
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(1);
         }
     } 
     // Update is called once per frame
     void Update()
     {
-        if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
+        if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation) 
         {
             move();
         }

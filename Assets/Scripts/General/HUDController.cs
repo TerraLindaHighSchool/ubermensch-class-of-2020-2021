@@ -32,11 +32,27 @@ public class HUDController : MonoBehaviour
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
     {
-        if (hud< Huds.Length)
+        if (hud < Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
             activeHUD = hud;
             Huds[activeHUD].SetActive(true);
+            if(activeHUD == 0)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
+            }
+            if (activeHUD == 1)
+            {
+                Debug.Log("Inventory");
+                invOpen = true;
+                inventory = player.GetComponent<InventoryManager>().PrintInventory();
+                inventoryLoader(inventory, 1);
+            }
+            Debug.Log("HUD Loaded");
+        }
+        else
+        {
+            Debug.Log("HUD could not load");
         }
     }
 
@@ -55,13 +71,6 @@ public class HUDController : MonoBehaviour
                 inConversation = true;
                 conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
-            if (activeHUD == 1)
-            {
-                Debug.Log("Inventory");
-                invOpen = true;
-                inventory = player.GetComponent<InventoryManager>().PrintInventory();
-                inventoryLoader(inventory, 1);
-            }
             Debug.Log("HUD Loaded");
         }
         else
@@ -78,7 +87,7 @@ public class HUDController : MonoBehaviour
         switch (hud)
         {
             case 1:
-                hudSpace = 27;
+                hudSpace = 24;
                 foreach (GameObject obj in inventoryButtons)
                 {
                     localInv.Add(obj);
@@ -88,6 +97,11 @@ public class HUDController : MonoBehaviour
         for (int i = 0; i < hudSpace; i++)
         {
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
+            if (inventoryButtons[i].GetComponent<Image>().sprite != null)
+            {
+                Destroy(inventoryButtons[i].GetComponent<Image>().sprite);
+            }
+            inventoryButtons[i].GetComponent<Image>().sprite = localInv[i].GetComponent<Image>().sprite;
         }
     }
 
@@ -111,19 +125,14 @@ public class HUDController : MonoBehaviour
         dialogueButtons[3].GetComponent<Text>().text = info.Response[3];
     }
 
-    public void inventoryLoader()
-    {
-        
-    }
-
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
-        if(activeHUD == 0)
+        if(hud == 0)
         {
             inConversation = false;
         }
-        if (activeHUD == 1)
+        if (hud == 1)
         {
             invOpen = false;
         }

@@ -121,12 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &17312899 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7918331093389448960, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 1603444243}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &40561974 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4172226620801749046, guid: 3425a8f0801cd8e4c8571cc2f9911759,
@@ -347,12 +341,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &620481465 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6334807267786980793, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 1603444243}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &632286537
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,14 +372,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Huds:
   - {fileID: 40561974}
-  inConvo: 0
-  buttons:
-  - {fileID: 912289755}
-  - {fileID: 2038166503}
-  - {fileID: 17312899}
-  - {fileID: 620481465}
+  - {fileID: 40561974}
+  player: {fileID: 1934609394}
+  dialogueButtons: []
   npcName: {fileID: 876696159}
   npcSpeak: {fileID: 1925993819}
+  inConversation: 0
+  inventoryButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  invOpen: 0
 --- !u!4 &632286539
 Transform:
   m_ObjectHideFlags: 0
@@ -415,12 +430,6 @@ Transform:
 --- !u!1 &876696159 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6731081814617073894, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 1603444243}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &912289755 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4617056021866226023, guid: 3425a8f0801cd8e4c8571cc2f9911759,
     type: 3}
   m_PrefabInstance: {fileID: 1603444243}
   m_PrefabAsset: {fileID: 0}
@@ -818,9 +827,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1603444243}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2038166503 stripped
+--- !u!1 &1934609394 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3541832482403121071, guid: 3425a8f0801cd8e4c8571cc2f9911759,
+  m_CorrespondingSourceObject: {fileID: 5064398521019731747, guid: 9be400060b5c63c49a20369538ea636b,
     type: 3}
-  m_PrefabInstance: {fileID: 1603444243}
+  m_PrefabInstance: {fileID: 1073586132}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1934609396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934609394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b13eab65a3684e229d4093453184785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
