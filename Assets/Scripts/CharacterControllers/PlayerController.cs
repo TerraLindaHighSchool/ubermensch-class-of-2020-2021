@@ -42,8 +42,8 @@ public class PlayerController : MonoBehaviour
         if(isInDialogue)
         {
             isInDialogue = false;
-            objectHit.GetComponent<DialogueController>().enabled = false;
-            mainCamera.GetComponent<switchCamera>().isInDialogue = false;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
+            mainCamera.GetComponent<switchCamera>().isInDialogue = false;   
 
         }
     }
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
             isInDialogue = true;
-            objectHit.GetComponent<DialogueController>().enabled = true;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
             mainCamera.GetComponent<switchCamera>().isInDialogue = true;
             Debug.Log("is in conversation with " + objectHit.name); 
         }

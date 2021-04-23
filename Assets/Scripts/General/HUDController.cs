@@ -23,7 +23,10 @@ public class HUDController : MonoBehaviour
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
     {
-        if(hud< Huds.Length)
+        //REMOVE THIS TESTING ONLY
+        GameObject.Find("GameManager").GetComponent<MusicController>().TrackSwitch(1);
+
+        if (hud< Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
             activeHUD = hud;
@@ -34,6 +37,9 @@ public class HUDController : MonoBehaviour
     //Same as HUDLoader, but also sets the active Npc and starts a conversation if necessary
     public void HUDLoader(int hud, GameObject caller, GameObject Npc)
     {
+        //REMOVE THIS TESTING ONLY
+        GameObject.Find("GameManager").GetComponent<MusicController>().TrackSwitch(1);
+
         if (hud < Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
@@ -76,6 +82,9 @@ public class HUDController : MonoBehaviour
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
+        //REMOVE THIS TESTING ONLY
+        GameObject.Find("GameManager").GetComponent<MusicController>().TrackSwitch(0);
+
         inConvo = false;
         Huds[hud].SetActive(false);
         Debug.Log("HUD Unloaded");
