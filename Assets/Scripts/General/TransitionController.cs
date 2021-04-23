@@ -7,8 +7,10 @@ using UnityEngine.SceneManagement;
 public class TransitionController : MonoBehaviour
 {
     public Object[] scenes = new Object[10];
+    public GameObject player;
     public void SceneLoader(int SceneNumber)
     {
         SceneManager.LoadScene(SceneNumber);
+        DontDestroyOnLoad(player);
     }
 }
