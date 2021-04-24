@@ -31,7 +31,6 @@ public class MusicController : MonoBehaviour
             //plays the requested track
             this.gameObject.GetComponent<AudioSource>().clip = tracks[trackIndex];
             this.gameObject.GetComponent<AudioSource>().Play();
-            StartCoroutine("Loop");
         }
         else
         {
@@ -39,18 +38,9 @@ public class MusicController : MonoBehaviour
         }
     }
 
-    public IEnumerator Loop()
-    {
-        AudioClip start = this.gameObject.GetComponent<AudioSource>().clip;
-        this.gameObject.GetComponent<AudioSource>().Play();
-        yield return new WaitForSeconds(this.gameObject.GetComponent<AudioSource>().clip.length);
-        if (start != this.gameObject.GetComponent<AudioSource>().clip) { yield break; }
-        StartCoroutine("Loop");
-    }
-
     public void ChangeVolume()
     {
-        if (Input.GetKey(KeyCode.Equals))
+        if (Input.GetKey(KeyCode.Equals) || Input.GetKey(KeyCode.Plus))
         {
             audioPlayer.volume += 0.005f;
         }
