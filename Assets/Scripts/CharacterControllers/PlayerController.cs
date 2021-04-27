@@ -7,11 +7,23 @@ public class PlayerController : MonoBehaviour
     public int health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
-    public bool isInDialogue { get; set; } //only for camera 
+    public bool isInDialogue { get; set; } //only for camera
+    public GameObject mainCamera; // drag main camera into this
     private bool isInTriggerArea;
     private Collider other;
-    public GameObject mainCamera; // drag main camera into this
-    private GameObject objectHit; 
+    private GameObject objectHit;
+
+    // PlayerController Stat Additions
+    // Do player stats need to be set to a default? 
+    public int playerStrength;
+    public int playerCharisma;
+    public int playerConstitution;
+    // There aren't any stats in the FollowerManager?
+    // The NPC stats wouldn't be here where would they go and how to access them? 
+    public int npcStrength;
+    public int npcCharisma;
+    public int npcConstitution;
+    
 
 
     // Update is called once per frame
@@ -69,5 +81,34 @@ public class PlayerController : MonoBehaviour
     void OpenMenu()
     {
         Debug.Log("Menu is opened"); 
+    }
+
+    public void SetStats()
+    {
+        // Brings down player stats
+        // By how much? When does combat start? 
+        if(objectHit.CompareTag("Non-Friendly NPC"))
+        {            
+            playerStrength --;
+            playerCharisma --;
+            playerConstitution --;
+            Debug.Log("Is in combat, strength, charisma, and constitution declined"); 
+        }
+
+        // is the program set up that you can add NPCs yet? or is this ok?
+        // adds the NPC stats to the player stats. but when? 
+        playerStrength += npcStrength;
+        playerCharisma += npcCharisma;
+        playerConstitution += npcConstitution;
+        Debug.Log("Recruited NPC stats have been added to the player's");
+
+        // Takes away the stats if the NPC dies
+        // How do you know when the NPC dies?
+        playerStrength -= npcStrength;
+        playerCharisma -= npcCharisma;
+        playerConstitution -= npcConstitution;
+        Debug.Log("Dead NPC stats have been removed from the player's");
+
+
     }
 }
