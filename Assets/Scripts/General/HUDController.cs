@@ -23,7 +23,7 @@ public class HUDController : MonoBehaviour
 
     //Inventory HUD Fields
 
-    public GameObject[] inventoryButtons;
+    public GameObject[] inventoryButtonsHUD;
     public bool invOpen = false;
     public List<InventoryItemInterface> inventory;
     
@@ -88,20 +88,26 @@ public class HUDController : MonoBehaviour
         {
             case 1:
                 hudSpace = 24;
-                foreach (GameObject obj in inventoryButtons)
+                foreach (GameObject obj in inventoryButtonsHUD)
                 {
                     localInv.Add(obj);
                 }
                 break; 
         }
+        if(inventory.Count > localInv.Count)
+        {
+            return;
+        }
         for (int i = 0; i < hudSpace; i++)
         {
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
-            if (inventoryButtons[i].GetComponent<Image>().sprite != null)
+            if (localInv[i].GetComponent<InventoryContainer>() != null)
             {
-                Destroy(inventoryButtons[i].GetComponent<Image>().sprite);
+                Destroy(localInv[i].GetComponent<InventoryContainer>());
             }
-            inventoryButtons[i].GetComponent<Image>().sprite = localInv[i].GetComponent<Image>().sprite;
+            localInv[i].AddComponent<InventoryContainer>();
+            localInv[i].GetComponent<InventoryContainer>().item = inventory[i];
+            localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
         }
     }
 
@@ -131,10 +137,12 @@ public class HUDController : MonoBehaviour
         if(hud == 0)
         {
             inConversation = false;
+            Debug.Log("Dialogue");
         }
         if (hud == 1)
         {
             invOpen = false;
+            Debug.Log("Inventory");
         }
         Huds[hud].SetActive(false);
         Debug.Log("HUD Unloaded");
