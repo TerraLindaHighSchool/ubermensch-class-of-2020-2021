@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
+
 {
+	public bool gameHasEnded = false;
+    
     public void EndGame()
     {
-	Debug.Log("END GAME");
-    
+	if(gameHasEnded == false)
+	{
+gameHasEnded = true;
+	    Debug.Log("GAME OVER"):
+	    //Show menu
+	}
+	
     }
+
 }
