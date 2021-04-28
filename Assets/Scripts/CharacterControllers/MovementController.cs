@@ -75,6 +75,10 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(1);
         }
+        if (Input.GetKeyDown("y"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(new TestStick);
+        }
     } 
     // Update is called once per frame
     void Update()
@@ -86,6 +90,6 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        //testKeys(); FOR TESTING PURPOSES
+        testKeys(); //FOR TESTING PURPOSES
     }
 }

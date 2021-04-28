@@ -96,10 +96,12 @@ public class HUDController : MonoBehaviour
         }
         if(inventory.Count > localInv.Count)
         {
+            Debug.Log("count too small");
             return;
         }
-        for (int i = 0; i < hudSpace; i++)
+        for (int i = 1; i < hudSpace + 1; i++)
         {
+            Debug.Log("i = " + i);
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
             if (localInv[i].GetComponent<InventoryContainer>() != null)
             {
@@ -125,10 +127,10 @@ public class HUDController : MonoBehaviour
     public void conversationLoader(Statement info)
     {
         npcSpeak.GetComponent<Text>().text = info.NpcLine;
-        dialogueButtons[0].GetComponent<Text>().text = info.Response[0];
-        dialogueButtons[1].GetComponent<Text>().text = info.Response[1];
-        dialogueButtons[2].GetComponent<Text>().text = info.Response[2];
-        dialogueButtons[3].GetComponent<Text>().text = info.Response[3];
+        dialogueButtons[0].GetComponentInChildren<Text>().text = info.Response[0];
+        dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
+        dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
+        dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
     }
 
     //Disables the active hud
