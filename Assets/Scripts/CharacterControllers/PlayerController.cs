@@ -14,16 +14,15 @@ public class PlayerController : MonoBehaviour
     private GameObject objectHit;
 
     // PlayerController Stat Additions
-    // Do player stats need to be set to a default? 
+    // What is the default? 
     public int playerStrength;
     public int playerCharisma;
     public int playerConstitution;
-    // There aren't any stats in the FollowerManager?
-    // The NPC stats wouldn't be here where would they go and how to access them? 
-    public int npcStrength;
-    public int npcCharisma;
-    public int npcConstitution;
-    
+
+    public int StatPoints;
+    public int level; 
+
+    public int npcCurrentStrength; 
 
 
     // Update is called once per frame
@@ -83,7 +82,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Menu is opened"); 
     }
 
-    public void SetStats()
+    public void SetPlayerStats()
     {
         // Brings down player stats
         // By how much? When does combat start? 
@@ -108,7 +107,26 @@ public class PlayerController : MonoBehaviour
         playerCharisma -= npcCharisma;
         playerConstitution -= npcConstitution;
         Debug.Log("Dead NPC stats have been removed from the player's");
+    }
 
+    // Getter methods that return the player stats: 
+    public int GetPlayerStrength()
+    {
+        return playerStrength;
+    }
 
+    public int GetPlayerCharisma()
+    {
+        return playerCharisma; 
+    }
+
+    public int GetPlayerConstitution()
+    {
+        return playerConstitution; 
+    }
+
+    public int GetNpcStat()
+    {
+         
     }
 }
