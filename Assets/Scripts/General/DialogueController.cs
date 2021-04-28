@@ -60,12 +60,30 @@ public class DialogueController : MonoBehaviour
 
         if (inCombat) { activeDialogueTree = combat; }
         else { activeDialogueTree = conversation; }
-
+        //not sure if this would work for option 0?
         setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
 
         currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
 
         return activeDialogueTree.conversationPoints[currentposition];
+     //this should be right
+     if (Option == 0)
+        {
+            //pretty sure relation ship type is supposeed to be 0-2 so I don't think there is a 2.5 but ok
+            if (activeDialogueTree.relationshipType > 2.5)
+            {
+                //not sure how we find which npc we are talking to
+                //or where the follower manager comes from
+                FollowerManager.AddFollower(Npc);
+                
+            }
+            else
+            {
+                //did not know floats need an f
+                setRelationshipType(-0.5f);
+            }
+
+        }
     }
 
     public string Closer()
@@ -76,7 +94,7 @@ public class DialogueController : MonoBehaviour
     //modifies relationship type
     private void setRelationshipType(float change)
     {
-        conversation.RelationshipType += change; //Relationship Type? 
+        conversation.relationshipType += change; //Relationship Type? 
     }
 
     //csvinformation? statement is return type
@@ -233,5 +251,6 @@ public class DialogueController : MonoBehaviour
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
         }
 
+    //public
 
 }
