@@ -19,10 +19,9 @@ public class PlayerController : MonoBehaviour
     public int playerCharisma;
     public int playerConstitution;
 
-    public int StatPoints;
+    public int statPoints; //What is stat points? Is it all of them? 
     public int level; 
-
-    public int npcCurrentStrength; 
+ 
 
 
     // Update is called once per frame
@@ -96,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
         // is the program set up that you can add NPCs yet? or is this ok?
         // adds the NPC stats to the player stats. but when? 
-        playerStrength += npcStrength;
+        playerStrength += ;
         playerCharisma += npcCharisma;
         playerConstitution += npcConstitution;
         Debug.Log("Recruited NPC stats have been added to the player's");
@@ -125,8 +124,22 @@ public class PlayerController : MonoBehaviour
         return playerConstitution; 
     }
 
+    //Sets the level number and increases the stat points
+    // Will be called when player moves up a level
+    public void SetLevelNum()
+    {
+        level++;
+        playerStrength += 2;
+        playerCharisma += 2;
+        playerConstitution += 2;
+    }
+
     public int GetNpcStat()
     {
-         
+        // how do you access the stats from the inventory
+        // need this so that you can +/- from the player stats 
+        //int npcCurrentStrength = FollowerInterface.Follower.npcStrength.get();
+        objectHit.GetComponent<FollowerInterface>().Add     
+
     }
 }
