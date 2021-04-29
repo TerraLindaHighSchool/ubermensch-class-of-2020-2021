@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     {
 	if(gameHasEnded == false)
 	{
-gameHasEnded = true;
-	    Debug.Log("GAME OVER"):
+	    gameHasEnded = true;
+	    Debug.Log("GAME OVER");
 	    //Show menu
 	}
 	
