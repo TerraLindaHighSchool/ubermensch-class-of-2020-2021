@@ -11,6 +11,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
     private const float GRAVITY = 0.4f;
+    int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;
     
@@ -77,7 +78,10 @@ public class MovementController : MonoBehaviour
         }
         if (Input.GetKeyDown("y"))
         {
-            this.GetComponentInParent<InventoryManager>().AddItem(new TestStick);
+            this.GetComponentInParent<InventoryManager>().AddItem(new TestStick());
+            stickCount++;
+            Debug.Log(stickCount);
+            
         }
     } 
     // Update is called once per frame

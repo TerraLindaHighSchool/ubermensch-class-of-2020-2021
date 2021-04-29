@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestStick : MonoBehaviour, InventoryItemInterface
+public class TestStick : InventoryItemInterface
 {
     public string Name { get; private set; }
     public string ToolTip { get; private set; }

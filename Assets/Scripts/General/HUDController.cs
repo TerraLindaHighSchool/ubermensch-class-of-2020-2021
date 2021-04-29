@@ -13,6 +13,7 @@ public class HUDController : MonoBehaviour
     public GameObject[] Huds;
     private GameObject activeNpc;
     public GameObject player;
+    public InventoryManager playerInventory;
 
     //Dialogue HUD Fields
 
@@ -45,7 +46,7 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Inventory");
                 invOpen = true;
-                inventory = player.GetComponent<InventoryManager>().PrintInventory();
+                inventory = playerInventory.PrintInventory();
                 inventoryLoader(inventory, 1);
             }
             Debug.Log("HUD Loaded");
@@ -99,7 +100,7 @@ public class HUDController : MonoBehaviour
             Debug.Log("count too small");
             return;
         }
-        for (int i = 1; i < hudSpace + 1; i++)
+        for (int i = 0; i < hudSpace; i++)
         {
             Debug.Log("i = " + i);
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
