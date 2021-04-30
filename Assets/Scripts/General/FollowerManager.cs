@@ -19,5 +19,4 @@ public class FollowerManager : MonoBehaviour
     {
         return followers;
     }
-
 }

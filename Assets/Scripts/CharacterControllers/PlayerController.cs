@@ -20,9 +20,10 @@ public class PlayerController : MonoBehaviour
     public int playerConstitution;
 
     public int statPoints; //What is stat points? Is it all of them? 
-    public int level; 
- 
+    public int level;
 
+    public int currentNpcStrength;
+    private GameObject currentFollower; 
 
     // Update is called once per frame
     void Update()
@@ -139,7 +140,16 @@ public class PlayerController : MonoBehaviour
         // how do you access the stats from the inventory
         // need this so that you can +/- from the player stats 
         //int npcCurrentStrength = FollowerInterface.Follower.npcStrength.get();
-        objectHit.GetComponent<FollowerInterface>().Add     
-
+        FollowerManager fm = GetComponent<FollowerManager>();
+        GameObject f = fm.GetComponent<Follower>(); 
+        ArrayList followers = fm.followers; 
+        for (int i = 0; i < followers.Count; i++)
+        {
+            currentFollower = followers[i]; 
+                //.GetComponent<Follower>().npcStrength.get(); 
+        }
+            objectHit.GetComponent<FollowerManager>();
+            FollowerInterface.npcStrength.get();
+        
     }
 }

@@ -35,15 +35,4 @@ public class FollowerInterface : MonoBehaviour
             npcConstitution = _npcConstitution; 
         }
     }
-   
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }
