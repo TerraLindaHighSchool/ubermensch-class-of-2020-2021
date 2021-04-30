@@ -13,5 +13,6 @@ public class SceneChangeLocation : MonoBehaviour
     public void teleport()
     {
         player.gameObject.position = destinationPosition;
+        DontDestroyOnLoad(player);
     }
 }
