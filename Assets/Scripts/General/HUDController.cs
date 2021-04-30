@@ -28,6 +28,9 @@ public class HUDController : MonoBehaviour
     public bool invOpen = false;
     public List<InventoryItemInterface> inventory;
     
+    /*
+     * HUD LOADER AND DELOADER
+     */
 
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
@@ -80,6 +83,27 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //Disables the active hud
+    public void HUDDeLoader(int hud)
+    {
+        if (hud == 0)
+        {
+            inConversation = false;
+            Debug.Log("Dialogue");
+        }
+        if (hud == 1)
+        {
+            invOpen = false;
+            Debug.Log("Inventory");
+        }
+        Huds[hud].SetActive(false);
+        Debug.Log("HUD Unloaded");
+    }
+
+    /*
+     *  INVENTORY HUD METHODS
+     */
+
     public void inventoryLoader(List<InventoryItemInterface> inventory, int hud)
     {
         int hudSpace = 0;
@@ -114,6 +138,10 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    /*
+     * DIALOGUE HUD METHODS
+     */
+
     //Called on button press to continue the conversation
     public void continueConversation(int buttonNumber)
     {
@@ -132,22 +160,5 @@ public class HUDController : MonoBehaviour
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
         dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
-    }
-
-    //Disables the active hud
-    public void HUDDeLoader(int hud)
-    {
-        if(hud == 0)
-        {
-            inConversation = false;
-            Debug.Log("Dialogue");
-        }
-        if (hud == 1)
-        {
-            invOpen = false;
-            Debug.Log("Inventory");
-        }
-        Huds[hud].SetActive(false);
-        Debug.Log("HUD Unloaded");
-    }
+    }    
 }
