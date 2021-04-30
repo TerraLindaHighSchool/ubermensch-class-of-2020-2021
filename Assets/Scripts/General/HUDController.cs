@@ -14,6 +14,7 @@ public class HUDController : MonoBehaviour
     private GameObject activeNpc;
     public GameObject player;
     public InventoryManager playerInventory;
+    public StandardInventoryItem rock;
 
     //Dialogue HUD Fields
 

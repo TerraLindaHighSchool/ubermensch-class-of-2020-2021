@@ -52,8 +52,8 @@ public class MovementController : MonoBehaviour
             yVelocity = 0;
         }
     }
-
-     private void testKeys()
+    public StandardInventoryItem rock;
+    private void testKeys()
     {
         HUDController TestHUDController;
         if (Input.GetKeyDown("k"))
@@ -78,7 +78,7 @@ public class MovementController : MonoBehaviour
         }
         if (Input.GetKeyDown("y"))
         {
-            this.GetComponentInParent<InventoryManager>().AddItem(new TestStick());
+            this.GetComponentInParent<InventoryManager>().AddItem(rock);
             stickCount++;
             Debug.Log(stickCount);
             
