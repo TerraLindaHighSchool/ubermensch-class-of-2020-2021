@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TradesManager : MonoBehaviour
 {
-    public int priceDifference;
-    public void Check()
+    public int itemCost;
+    public void UpdateUI()
     {
 
     }
