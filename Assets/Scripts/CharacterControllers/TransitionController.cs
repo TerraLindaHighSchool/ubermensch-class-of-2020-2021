@@ -15,10 +15,10 @@ public class TransitionController : MonoBehaviour
      * method of the PlayerController after triggering the portal and pressing 'E'.
      */
     
-    public void SceneLoader(string scene, Vector3 transitionPoint)
+    public void SceneLoader(string scene, Vector3 destination)
     {
         playerModel.transform.position = Vector3.zero;
-        transform.position = transitionPoint;
+        transform.position = destination;
         SceneManager.LoadScene(scene);
     }
 }
