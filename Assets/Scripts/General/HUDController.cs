@@ -125,7 +125,7 @@ public class HUDController : MonoBehaviour
             Debug.Log("count too small");
             return;
         }
-        for (int i = 0; i < hudSpace; i++)
+        for (int i = 0; i < inventory.Count; i++)
         {
             Debug.Log("i = " + i);
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;

@@ -29,6 +29,6 @@ public class InventoryManagerEditor : Editor
                 GUILayout.Label(string.Format("Item: {0}", item.Name));
             }
         }
-
+        DrawDefaultInspector();
     }
 }

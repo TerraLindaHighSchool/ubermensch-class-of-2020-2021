@@ -53,6 +53,7 @@ public class MovementController : MonoBehaviour
         }
     }
     public StandardInventoryItem rock;
+    public StandardInventoryItem empty;
     private void testKeys()
     {
         HUDController TestHUDController;
@@ -79,9 +80,13 @@ public class MovementController : MonoBehaviour
         if (Input.GetKeyDown("y"))
         {
             this.GetComponentInParent<InventoryManager>().AddItem(rock);
-            stickCount++;
-            Debug.Log(stickCount);
-            
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+        }
+        if (Input.GetKeyDown("t"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(empty);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+
         }
     } 
     // Update is called once per frame
