@@ -8,4 +8,5 @@ public interface InventoryItemInterface
     int Value { get; }
     GameObject Icon { get; }
     string ToolTip { get; }
+
 }

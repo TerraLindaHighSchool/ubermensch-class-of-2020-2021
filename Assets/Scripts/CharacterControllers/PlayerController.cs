@@ -140,12 +140,14 @@ public class PlayerController : MonoBehaviour
         // how do you access the stats from the inventory
         // need this so that you can +/- from the player stats 
         //int npcCurrentStrength = FollowerInterface.Follower.npcStrength.get();
-        FollowerManager fm = GetComponent<FollowerManager>();
-        GameObject f = fm.GetComponent<Follower>(); 
+        FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
+        // GameObject f = fm.GetComponent<Follower>(); Why is this needed? 
         ArrayList followers = fm.followers; 
         for (int i = 0; i < followers.Count; i++)
         {
-            currentFollower = followers[i]; 
+            FollowerInterface currentInterface = fm.GetComponent<FollowerInterface>(); // gets the follower interface
+            currentInterface.GetComponent<FollowerInterface.iFollowers>(); 
+            //currentFollower = followers[i]; 
                 //.GetComponent<Follower>().npcStrength.get(); 
         }
             objectHit.GetComponent<FollowerManager>();
