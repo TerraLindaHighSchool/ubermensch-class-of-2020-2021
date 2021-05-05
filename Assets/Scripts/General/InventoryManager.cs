@@ -13,16 +13,21 @@ public class InventoryManager : MonoBehaviour
         EquipMenu
     }
 
+    private bool playerFull;
+    private bool tradeFull;
+    private bool equipFull;
+
     public InvType inventoryType;
     public void AddItem(InventoryItemInterface item)
     {
         if(inventoryType == InvType.Player && inventoryItem.Count < 24)
         {
             inventoryItem.Add(item);
+            playerFull = false;
         }
         else
         {
-            Debug.Log("Inventory is full :(");
+            playerFull = true;
         }
         if (inventoryType == InvType.TradeMenu && inventoryItem.Count < 1)
         {
@@ -30,7 +35,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Inventory is full :(");
+            tradeFull = true;
         }
         if (inventoryType == InvType.EquipMenu && inventoryItem.Count < 4)
         {
@@ -38,9 +43,12 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Inventory is full :(");
+            equipFull = true;
         }
-
+        if(playerFull && tradeFull && equipFull)
+        {
+            Debug.Log("Inventory Full :(");
+        }
     }
 
     public void RemoveItem(InventoryItemInterface item)

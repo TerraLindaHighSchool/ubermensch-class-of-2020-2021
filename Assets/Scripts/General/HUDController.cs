@@ -28,6 +28,8 @@ public class HUDController : MonoBehaviour
     public GameObject[] inventoryButtonsHUD;
     public bool invOpen = false;
     public List<InventoryItemInterface> inventory;
+    public GameObject selectedItem;
+    public GameObject[] selectedText;
     
     /*
      * HUD LOADER AND DELOADER
@@ -75,6 +77,31 @@ public class HUDController : MonoBehaviour
                 Debug.Log("Dialogue");
                 inConversation = true;
                 conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
+            }
+            Debug.Log("HUD Loaded");
+        }
+        else
+        {
+            Debug.Log("HUD could not load");
+        }
+    }
+
+    public void HUDLoader()
+    {
+        if (activeHUD < Huds.Length)
+        {
+            Huds[activeHUD].SetActive(false);
+            Huds[activeHUD].SetActive(true);
+            if (activeHUD == 0)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
+            }
+            if (activeHUD == 1)
+            {
+                Debug.Log("Inventory");
+                invOpen = true;
+                inventory = playerInventory.PrintInventory();
+                inventoryLoader(inventory, 1);
             }
             Debug.Log("HUD Loaded");
         }
@@ -136,6 +163,19 @@ public class HUDController : MonoBehaviour
             localInv[i].AddComponent<InventoryContainer>();
             localInv[i].GetComponent<InventoryContainer>().item = inventory[i];
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
+        }
+    }
+
+    public void itemClick(int buttonNumber)
+    {
+        if(inventory.Count >= buttonNumber)
+        {
+            selectedItem.GetComponent<Image>().sprite = inventory[buttonNumber].Icon;
+            Debug.Log(buttonNumber + " was selected");
+        }
+        else
+        {
+            Debug.Log("oopsie no item");
         }
     }
 
