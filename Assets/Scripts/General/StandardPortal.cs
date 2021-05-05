@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class StandardPortal : ScriptableObject
 {
-  
     public string scene;
     public Vector3 destination;
     public string[] exitRequirements;
