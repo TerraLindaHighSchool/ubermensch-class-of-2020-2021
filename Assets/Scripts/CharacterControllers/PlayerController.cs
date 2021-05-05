@@ -84,6 +84,9 @@ public class PlayerController : MonoBehaviour
 
     public void SetPlayerStats()
     {
+        AddFollowerStatsToPlayer();
+        RemoveFollowerStatsFromPlayer();
+
         // Brings down player stats
         // By how much? When does combat start? 
         if(objectHit.CompareTag("Non-Friendly NPC"))
@@ -93,20 +96,6 @@ public class PlayerController : MonoBehaviour
             playerConstitution --;
             Debug.Log("Is in combat, strength, charisma, and constitution declined"); 
         }
-
-        // is the program set up that you can add NPCs yet? or is this ok?
-        // adds the NPC stats to the player stats. but when? 
-        playerStrength += ;
-        playerCharisma += npcCharisma;
-        playerConstitution += npcConstitution;
-        Debug.Log("Recruited NPC stats have been added to the player's");
-
-        // Takes away the stats if the NPC dies
-        // How do you know when the NPC dies?
-        playerStrength -= npcStrength;
-        playerCharisma -= npcCharisma;
-        playerConstitution -= npcConstitution;
-        Debug.Log("Dead NPC stats have been removed from the player's");
     }
 
     // Getter methods that return the player stats: 
@@ -135,23 +124,45 @@ public class PlayerController : MonoBehaviour
         playerConstitution += 2;
     }
 
-    public int GetNpcStat()
+    public void AddFollowerStatsToPlayer()
     {
-        // how do you access the stats from the inventory
-        // need this so that you can +/- from the player stats 
-        //int npcCurrentStrength = FollowerInterface.Follower.npcStrength.get();
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        // GameObject f = fm.GetComponent<Follower>(); Why is this needed? 
-        ArrayList followers = fm.followers; 
-        for (int i = 0; i < followers.Count; i++)
+        ArrayList followers = fm.followers;
+        foreach (Follower f in followers)
         {
-            FollowerInterface currentInterface = fm.GetComponent<FollowerInterface>(); // gets the follower interface
-            currentInterface.GetComponent<FollowerInterface.iFollowers>(); 
-            //currentFollower = followers[i]; 
-                //.GetComponent<Follower>().npcStrength.get(); 
+            // gets follow identity of the follower in the array 
+            FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
+            // gets the individual stat 
+            int followerStrength = currentFollower.GetFollowerStrength();
+            int followerCharisma = currentFollower.GetFollowerCharisma();
+            int followerConstitution = currentFollower.GetFollowerConstitution();
+            // adds the follower's stat to the player's stat
+            playerStrength += followerStrength;
+            playerCharisma += followerCharisma;
+            playerConstitution += followerConstitution; 
         }
-            objectHit.GetComponent<FollowerManager>();
-            FollowerInterface.npcStrength.get();
-        
+    }
+
+    public void RemoveFollowerStatsFromPlayer()
+    {
+        // How do you know when a follower is removed from the array
+        FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
+        ArrayList followers = fm.followers;
+        foreach (Follower f in followers)
+        {
+            FollowerManager currentFollowerManager = GetComponent<FollowerManager>();
+            if(currentFollowerManager.followerRemoved == true)
+            {
+                FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
+                // gets the individual stat 
+                int followerStrength = currentFollower.GetFollowerStrength();
+                int followerCharisma = currentFollower.GetFollowerCharisma();
+                int followerConstitution = currentFollower.GetFollowerConstitution();
+                // removes the stat from the player's 
+                playerStrength -= followerStrength;
+                playerCharisma -= followerCharisma;
+                playerConstitution -= followerConstitution;
+            }
+        }
     }
 }
