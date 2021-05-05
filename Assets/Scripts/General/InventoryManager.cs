@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 { 
-    ArrayList inventoryItem = new ArrayList(); 
+    ArrayList inventoryItem = new ArrayList();
+    public int soap;
 
     public void AddItem(InventoryItemInterface item)
     {
