@@ -89,6 +89,32 @@ public class MovementController : MonoBehaviour
 
         }
     } 
+
+    public void inventoryOpen()
+    {
+        HUDController InventoryHUDController;
+        if (Input.GetKeyDown("i"))
+        {
+            InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            InventoryHUDController.HUDLoader(1, this.gameObject);
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            InventoryHUDController.HUDDeLoader(1);
+        }
+        if (Input.GetKeyDown("y"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(rock);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+        }
+        if (Input.GetKeyDown("t"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(empty);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -99,6 +125,7 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        testKeys(); //FOR TESTING PURPOSES
+        //testKeys(); //FOR TESTING PURPOSES
+        inventoryOpen();
     }
 }

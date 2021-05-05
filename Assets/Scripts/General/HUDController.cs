@@ -15,6 +15,8 @@ public class HUDController : MonoBehaviour
     public GameObject player;
     public InventoryManager playerInventory;
     public StandardInventoryItem rock;
+    public StandardInventoryItem empty;
+
 
     //Dialogue HUD Fields
 
@@ -171,11 +173,24 @@ public class HUDController : MonoBehaviour
         if(inventory.Count >= buttonNumber)
         {
             selectedItem.GetComponent<Image>().sprite = inventory[buttonNumber].Icon;
+            selectedText[0].GetComponent<Text>().text = inventory[buttonNumber].Name;
+            selectedText[1].GetComponent<Text>().text = inventory[buttonNumber].Value;
+            selectedText[2].GetComponent<Text>().text = inventory[buttonNumber].ToolTip;
             Debug.Log(buttonNumber + " was selected");
         }
         else
         {
             Debug.Log("oopsie no item");
+        }
+    }
+
+    public void inventoryPreloader(List<InventoryItemInterface> inventory, int hud)
+    {
+        for(int i = 1; i < 25; i++)
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(empty);
+
+
         }
     }
 

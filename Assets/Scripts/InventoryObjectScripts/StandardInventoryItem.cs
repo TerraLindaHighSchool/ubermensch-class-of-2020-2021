@@ -8,14 +8,14 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public string _name;
     public string toolTip;
     public Sprite icon;
-    public int value;
+    public string value;
 
     public string Name { get
         {
             return _name;
         }
     }
-    public int Value { get
+    public string Value { get
         {
             return value;
         }
