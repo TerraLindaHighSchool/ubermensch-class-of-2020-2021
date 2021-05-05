@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     
     public void EndGame()
     {
+	//makes game end once
 	if(gameHasEnded == false)
 	{
 	    gameHasEnded = true;
