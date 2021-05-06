@@ -64,6 +64,13 @@ public class PlayerController : MonoBehaviour
             GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
             objectHit.SetActive(false); 
         }
+        if (objectHit.CompareTag("Portal"))
+        {
+            Debug.Log("Teleport");
+            string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
+            Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+        }
     }
 
     void OpenMenu()
