@@ -174,7 +174,7 @@ public class HUDController : MonoBehaviour
         {
             selectedItem.GetComponent<Image>().sprite = inventory[buttonNumber].Icon;
             selectedText[0].GetComponent<Text>().text = inventory[buttonNumber].Name;
-            selectedText[1].GetComponent<Text>().text = inventory[buttonNumber].Value;
+            selectedText[1].GetComponent<Text>().text = inventory[buttonNumber].Value.ToString();
             selectedText[2].GetComponent<Text>().text = inventory[buttonNumber].ToolTip;
             Debug.Log(buttonNumber + " was selected");
         }
