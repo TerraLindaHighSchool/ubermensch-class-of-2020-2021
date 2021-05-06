@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 { 
-    public List<InventoryItemInterface> inventoryItem = new List<InventoryItemInterface>(); 
-
+    public List<InventoryItemInterface> inventoryItem = new List<InventoryItemInterface>();
+    public int soap;
     public enum InvType
     {
         Player,

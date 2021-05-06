@@ -8,7 +8,7 @@ public class TradesManager : MonoBehaviour
     public InventoryItemInterface itemTraded;
     public void UpdateUI()
     {
-        itemCost = itemTraded.Value;
+        //itemCost = itemTraded.Value;
     }
 
     public void CheckOut()
