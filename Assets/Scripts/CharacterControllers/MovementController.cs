@@ -5,12 +5,13 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
-    public Animator AnimController;
+    public GameObject AnimController;
     public GameObject gravityRay;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
     private const float GRAVITY = 0.4f;
+    int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;
     
@@ -22,23 +23,16 @@ public class MovementController : MonoBehaviour
         //calculates direction to move based on inputs
         Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
-        //Will be set to true if player can move otherwise defaults to false
-        bool animate = false;
-
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
             if (CanMove)
             {
                 controller.Move(moveDirection * speed * Time.deltaTime);
-                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
+                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(vertical, -horizontal), 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
-                Debug.Log(turnTo);
-
-                animate = true;
             }
         }
-        AnimController.SetBool("isWalking", animate);
 
         //creates a Vector that keeps the player on the ground
         Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
@@ -49,7 +43,7 @@ public class MovementController : MonoBehaviour
     private void setGravity()
     {
         Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
-        if(ground.distance > .1 || ground.collider == null)
+        if(ground.distance > .5 || ground.collider == null)
         {
             yVelocity += GRAVITY;
         }
@@ -58,29 +52,80 @@ public class MovementController : MonoBehaviour
             yVelocity = 0;
         }
     }
-
-     private void testKeys()
+    public StandardInventoryItem rock;
+    public StandardInventoryItem empty;
+    private void testKeys()
     {
         HUDController TestHUDController;
         if (Input.GetKeyDown("k"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("GruceBustin"));
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
         }
-        if (Input.GetKeyDown("l"))
+        if (Input.GetKeyDown("1"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(0);
         }
+        if (Input.GetKeyDown("i"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(1, this.gameObject);
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(1);
+        }
+        if (Input.GetKeyDown("y"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(rock);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+        }
+        if (Input.GetKeyDown("t"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(empty);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+
+        }
     } 
+
+    public void inventoryOpen()
+    {
+        HUDController InventoryHUDController;
+        if (Input.GetKeyDown("i"))
+        {
+            InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            InventoryHUDController.HUDLoader(1, this.gameObject);
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            InventoryHUDController.HUDDeLoader(1);
+        }
+        if (Input.GetKeyDown("y"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(rock);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+        }
+        if (Input.GetKeyDown("t"))
+        {
+            this.GetComponentInParent<InventoryManager>().AddItem(empty);
+            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        //if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
+        /*if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation) 
         {
-            move();
-        }   
+            move(); FOR TESTING PURPOSES
+        }
+        */
+        move();
         setGravity();
-        //testKeys();
+        //testKeys(); //FOR TESTING PURPOSES
+        inventoryOpen();
     }
 }
