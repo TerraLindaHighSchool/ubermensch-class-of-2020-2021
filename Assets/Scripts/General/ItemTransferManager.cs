@@ -6,7 +6,7 @@ public class ItemTransferManager : MonoBehaviour
 {
     public bool Transfer(InventoryManager sender, InventoryManager reciever, InventoryItemInterface item)
     {
-        bool successful = false;
+        bool successful;
         if (sender.inventoryType == InventoryManager.InvType.Player && reciever.inventoryType == InventoryManager.InvType.Player)
         {
             if(reciever.soap >= item.Value)
@@ -29,7 +29,7 @@ public class ItemTransferManager : MonoBehaviour
             reciever.AddItem(item);
             successful = true;
         }
-        HUDController.HUDLoader();
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader();
         return successful;
     }
 }
