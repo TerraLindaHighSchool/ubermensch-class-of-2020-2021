@@ -87,7 +87,7 @@ public class PlayerController : MonoBehaviour
 
         // Brings down player stats
         // By how much? When does combat start? 
-        if(objectHit.CompareTag("Non-Friendly NPC"))
+        if(isInTriggerArea == true && objectHit.CompareTag("Non-Friendly NPC"))
         {            
             playerStrength --;
             playerCharisma --;
@@ -137,7 +137,8 @@ public class PlayerController : MonoBehaviour
             // adds the follower's stat to the player's stat
             playerStrength += followerStrength;
             playerCharisma += followerCharisma;
-            playerConstitution += followerConstitution; 
+            playerConstitution += followerConstitution;
+            Debug.Log("Follower Stats Added"); 
         }
     }
 
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
                 playerStrength -= followerStrength;
                 playerCharisma -= followerCharisma;
                 playerConstitution -= followerConstitution;
+                Debug.Log("Dead Follower Stats removed"); 
             }
         }
     }

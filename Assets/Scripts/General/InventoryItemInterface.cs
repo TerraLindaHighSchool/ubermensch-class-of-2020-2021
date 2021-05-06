@@ -9,6 +9,6 @@ public interface InventoryItemInterface
     GameObject ItemIcon { get; }
     string ToolTip { get; }
 
-    public string GetDisplayName();
-    public string GetDisplayDescription(); 
+    string GetDisplayName();
+    string GetDisplayDescription(); 
 }

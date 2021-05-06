@@ -48,5 +48,7 @@ public class FollowerIdentity : ScriptableObject, InventoryItemInterface
     {
         return npcConstitution;
     }
+
+
 }
   

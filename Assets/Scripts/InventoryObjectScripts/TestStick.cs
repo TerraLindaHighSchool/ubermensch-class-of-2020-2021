@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class TestStick : MonoBehaviour, InventoryItemInterface
 {
-    public string Name { get; private set; }
+    public string ItemName { get; private set; }
     public string ToolTip { get; private set; }
-    public GameObject Icon { get; private set; }
-    public int Value { get; private set; }
+    public GameObject ItemIcon { get; private set; }
+    public int ItemValue { get; private set; }
 
+    public string GetDisplayName()
+    {
+        return ItemName; 
+    }
+
+    public string GetDisplayDescription()
+    {
+        return ToolTip; 
+    }
 
     void Start()
     {
-        Name = "Stick";
+        ItemName = "Stick";
         ToolTip = "This is a stick, this is a test.";
-        Icon = Resources.Load<GameObject>("Assets/Resources/Icons/stick_noun_002_35886.jpg");
-        Value = 3;
+        ItemIcon = Resources.Load<GameObject>("Assets/Resources/Icons/stick_noun_002_35886.jpg");
+        ItemValue = 3;
     }
 }
