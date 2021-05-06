@@ -76,7 +76,7 @@ public class MovementController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
+        //if (!GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConvo) 
         {
             move();
         }   
