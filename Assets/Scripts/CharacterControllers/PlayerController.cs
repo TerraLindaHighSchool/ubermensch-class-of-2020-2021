@@ -22,8 +22,6 @@ public class PlayerController : MonoBehaviour
     public int statPoints; //What is stat points? Is it all of them? 
     public int level;
 
-    public int currentNpcStrength;
-    private GameObject currentFollower; 
 
     // Update is called once per frame
     void Update()
