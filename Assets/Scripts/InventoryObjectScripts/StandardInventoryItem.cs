@@ -8,14 +8,14 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public string _name;
     public string toolTip;
     public Sprite icon;
-    public string value;
+    public int value;
 
     public string Name { get
         {
             return _name;
         }
     }
-    public string Value { get
+    public int Value { get
         {
             return value;
         }
@@ -30,13 +30,4 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
             return toolTip;
         }
     }
-    /*
-    public TestStick()
-    {
-        Name = "Stick";
-        ToolTip = "This is a stick, this is a test.";
-        Icon = Resources.Load<Sprite>("Assets/Resources/Icons/stick_noun_002_35886.jpg");
-        Value = 3;
-    }
-    */
 }

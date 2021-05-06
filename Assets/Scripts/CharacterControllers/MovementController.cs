@@ -52,8 +52,11 @@ public class MovementController : MonoBehaviour
             yVelocity = 0;
         }
     }
+
+    //Used for testing different inventories
     public StandardInventoryItem rock;
     public StandardInventoryItem empty;
+    private bool invOpen;
     private void testKeys()
     {
         HUDController TestHUDController;
@@ -90,6 +93,7 @@ public class MovementController : MonoBehaviour
         }
     } 
 
+    //Used to open, close, and add to the player inventory
     public void inventoryOpen()
     {
         HUDController InventoryHUDController;
@@ -97,24 +101,26 @@ public class MovementController : MonoBehaviour
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
+            invOpen = true;
         }
         if (Input.GetKeyDown("2"))
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDDeLoader(1);
+            invOpen = false;
         }
         if (Input.GetKeyDown("y"))
         {
             this.GetComponentInParent<InventoryManager>().AddItem(rock);
             Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
-        }
-        if (Input.GetKeyDown("t"))
-        {
-            this.GetComponentInParent<InventoryManager>().AddItem(empty);
-            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
-
+            if(invOpen)
+            {
+                InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+                InventoryHUDController.HUDLoader();
+            }
         }
     }
+
     // Update is called once per frame
     void Update()
     {
