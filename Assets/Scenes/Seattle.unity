@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.851
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.21526659, g: 0.20673302, b: 0.20368686, a: 0.851}
+  m_IndirectSpecularColor: {r: 0.21526709, g: 0.20673352, b: 0.20368737, a: 0.851}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -121,30 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &85473987 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6334807267786980793, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 183190528}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &90849994 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4617056021866226023, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 183190528}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &90849995 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1100787407644495510, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 183190528}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 90849994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &149437831 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8079202839401479084, guid: 119f904f768c5f54e84fd9ebd3392837,
@@ -177,7 +153,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TargetGraphic
       value: 
-      objectReference: {fileID: 2066677183}
+      objectReference: {fileID: 0}
     - target: {fileID: 3541832482403121071, guid: 3425a8f0801cd8e4c8571cc2f9911759,
         type: 3}
       propertyPath: m_Name
@@ -357,7 +333,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TargetGraphic
       value: 
-      objectReference: {fileID: 90849995}
+      objectReference: {fileID: 0}
     - target: {fileID: 9142164671747479875, guid: 3425a8f0801cd8e4c8571cc2f9911759,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -448,6 +424,99 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 183190528}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &553418190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 553418194}
+  - component: {fileID: 553418193}
+  - component: {fileID: 553418192}
+  - component: {fileID: 553418191}
+  m_Layer: 0
+  m_Name: Seattle Entrance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &553418191
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553418190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &553418192
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553418190}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &553418193
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553418190}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &553418194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 553418190}
+  m_LocalRotation: {x: -0, y: 0.2828599, z: -0, w: 0.9591613}
+  m_LocalPosition: {x: 24.33, y: 67.73, z: 158.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 32.862003, z: 0}
 --- !u!1 &571457272 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4221608308717742101, guid: 119f904f768c5f54e84fd9ebd3392837,
@@ -467,19 +536,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 149437831}
---- !u!1 &595671121 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3541832482403121071, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 183190528}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &595671122 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 947055817515656214, guid: 3425a8f0801cd8e4c8571cc2f9911759,
     type: 3}
   m_PrefabInstance: {fileID: 183190528}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595671121}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
@@ -655,14 +718,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Huds:
   - {fileID: 434565543}
-  inConvo: 0
-  buttons:
-  - {fileID: 90849994}
-  - {fileID: 595671121}
-  - {fileID: 2066677182}
-  - {fileID: 85473987}
+  player: {fileID: 0}
+  playerInventory: {fileID: 0}
+  rock: {fileID: 0}
+  empty: {fileID: 0}
+  dialogueButtons: []
   npcName: {fileID: 1753168594}
   npcSpeak: {fileID: 1810067770}
+  inConversation: 0
+  inventoryButtonsHUD: []
+  invOpen: 0
+  selectedItem: {fileID: 0}
+  selectedText: []
 --- !u!4 &740582838
 Transform:
   m_ObjectHideFlags: 0
@@ -949,6 +1016,64 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6337229250fc7a64ca22124a714120a5, type: 3}
+--- !u!1 &1081918510
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1081918513}
+  - component: {fileID: 1081918512}
+  - component: {fileID: 1081918511}
+  m_Layer: 0
+  m_Name: Seattle Exit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1081918511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081918510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fdb2415f41a47448a61a8d742d14b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalData: {fileID: 0}
+--- !u!65 &1081918512
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081918510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1081918513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081918510}
+  m_LocalRotation: {x: -0, y: 0.2854718, z: -0, w: 0.95838714}
+  m_LocalPosition: {x: 164.36, y: 67.73, z: 150.98}
+  m_LocalScale: {x: 23.242914, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 33.174, z: 0}
 --- !u!1 &1267245221 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2668309756649414709, guid: 8f5a71d0acb98d241a75a9287b973814,
@@ -1025,14 +1150,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Huds:
   - {fileID: 434565543}
-  inConvo: 0
-  buttons:
-  - {fileID: 90849994}
-  - {fileID: 595671121}
-  - {fileID: 2066677182}
-  - {fileID: 85473987}
+  player: {fileID: 0}
+  playerInventory: {fileID: 0}
+  rock: {fileID: 0}
+  empty: {fileID: 0}
+  dialogueButtons: []
   npcName: {fileID: 1753168594}
   npcSpeak: {fileID: 1810067770}
+  inConversation: 0
+  inventoryButtonsHUD: []
+  invOpen: 0
+  selectedItem: {fileID: 0}
+  selectedText: []
 --- !u!4 &1856192598
 Transform:
   m_ObjectHideFlags: 0
@@ -1113,24 +1242,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2066677182 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7918331093389448960, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 183190528}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2066677183 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7579225578101235883, guid: 3425a8f0801cd8e4c8571cc2f9911759,
-    type: 3}
-  m_PrefabInstance: {fileID: 183190528}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2066677182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &2104287085 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 8997754436576604313, guid: 119f904f768c5f54e84fd9ebd3392837,
