@@ -6,6 +6,6 @@ public interface InventoryItemInterface
 {
     string Name { get; }
     int Value { get; }
-    GameObject Icon { get; }
+    Sprite Icon { get; }
     string ToolTip { get; }
 }
