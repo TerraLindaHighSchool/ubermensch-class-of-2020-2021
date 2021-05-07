@@ -125,6 +125,10 @@ public class HUDController : MonoBehaviour
         if (hud == 1)
         {
             invOpen = false;
+            selectedItem.GetComponent<Image>().sprite = empty.Icon;
+            selectedText[0].GetComponent<Text>().text = ("");
+            selectedText[1].GetComponent<Text>().text = ("");
+            selectedText[2].GetComponent<Text>().text = ("No Item is Selected");
             Debug.Log("Inventory");
         }
         Huds[hud].SetActive(false);
