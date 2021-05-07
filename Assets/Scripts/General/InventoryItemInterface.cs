@@ -4,11 +4,8 @@ using UnityEngine;
 
 public interface InventoryItemInterface
 {
-    string ItemName { get; }
-    int ItemValue { get; }
-    GameObject ItemIcon { get; }
+    string Name { get; }
+    int Value { get; }
+    Sprite Icon { get; }
     string ToolTip { get; }
-
-    string GetDisplayName();
-    string GetDisplayDescription(); 
 }
