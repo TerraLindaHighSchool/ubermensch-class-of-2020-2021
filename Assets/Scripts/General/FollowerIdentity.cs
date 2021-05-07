@@ -2,35 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowerIdentity : ScriptableObject, InventoryItemInterface
+[CreateAssetMenu(fileName = "New Follower Identity", menuName = "Assets/Resources/Followers", order = 1)] 
+public class FollowerIdentity : ScriptableObject 
 {
-    public string ItemName { get; set; }
-    public int ItemValue { get; set; }
-    public GameObject ItemIcon { get; set; }
-    public string ToolTip { get; set; }
-    public int npcStrength { get; set; }
-    public int npcCharisma { get; set; }
-    public int npcConstitution { get; set; }
+    public string Name;
+    public int Value;
+    public Sprite Icon;
+    public string ToolTip;
+    public int npcStrength;
+    public int npcCharisma;
+    public int npcConstitution;
 
-    public FollowerIdentity(string _name, int _value, GameObject _icon, string _tip, int _strength, int _charisma, int _constitution)
-    {
-        ItemName = _name;
-        ItemValue = _value;
-        ItemIcon = _icon;
-        ToolTip = _tip;
-        npcStrength = _strength;
-        npcCharisma = _charisma;
-        npcConstitution = _constitution; 
-    }
-
-    public string GetDisplayName()
-    {
-        return "The Follower's Name is: " + ItemName; 
-    }
+    public string GetDisplayName() => "The Follower's Name is: " + Name; 
+   
 
     public string GetDisplayDescription()
     {
-        return ItemName + "'s Strength is: " + npcStrength + " Their Charisma is: " + npcCharisma + " And their Consitution is: " + npcConstitution; 
+        return Name + "'s Strength is: " + npcStrength + " Their Charisma is: " + npcCharisma + " And their Consitution is: " + npcConstitution; 
     }
 
     // get methods for the PlayerController class 
