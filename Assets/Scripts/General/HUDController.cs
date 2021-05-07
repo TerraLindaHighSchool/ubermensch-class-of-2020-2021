@@ -88,6 +88,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //This is used to reload the inventory
     public void HUDLoader()
     {
         if (activeHUD < Huds.Length)
@@ -124,6 +125,10 @@ public class HUDController : MonoBehaviour
         if (hud == 1)
         {
             invOpen = false;
+            selectedItem.GetComponent<Image>().sprite = empty.Icon;
+            selectedText[0].GetComponent<Text>().text = ("");
+            selectedText[1].GetComponent<Text>().text = ("");
+            selectedText[2].GetComponent<Text>().text = ("No Item is Selected");
             Debug.Log("Inventory");
         }
         Huds[hud].SetActive(false);
@@ -134,6 +139,8 @@ public class HUDController : MonoBehaviour
      *  INVENTORY HUD METHODS
      */
 
+    //Loads every single different inventory.
+    //Currently only loads the player inventory, as other inventories do not exist yet
     public void inventoryLoader(List<InventoryItemInterface> inventory, int hud)
     {
         int hudSpace = 0;
@@ -168,9 +175,10 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //When an inventory item is clicked, it shows the proper icon, name, value, and description
     public void itemClick(int buttonNumber)
     {
-        if(inventory.Count >= buttonNumber)
+        if(inventory.Count > buttonNumber)
         {
             selectedItem.GetComponent<Image>().sprite = inventory[buttonNumber].Icon;
             selectedText[0].GetComponent<Text>().text = inventory[buttonNumber].Name;
@@ -180,17 +188,11 @@ public class HUDController : MonoBehaviour
         }
         else
         {
-            Debug.Log("oopsie no item");
-        }
-    }
-
-    public void inventoryPreloader(List<InventoryItemInterface> inventory, int hud)
-    {
-        for(int i = 1; i < 25; i++)
-        {
-            this.GetComponentInParent<InventoryManager>().AddItem(empty);
-
-
+            selectedItem.GetComponent<Image>().sprite = empty.Icon;
+            selectedText[0].GetComponent<Text>().text = empty.Name;
+            selectedText[1].GetComponent<Text>().text = ("");
+            selectedText[2].GetComponent<Text>().text = empty.ToolTip;
+            Debug.Log(buttonNumber + " was selected, but is empty :(");
         }
     }
 
