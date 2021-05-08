@@ -38,7 +38,7 @@ public class HUDController : MonoBehaviour
         get { return _inventoryPlayer; }
         set
         {
-            Debug.Log("InvAux set");
+            Debug.Log("InvPlay set");
             _inventoryPlayer = value;
         }
     }
