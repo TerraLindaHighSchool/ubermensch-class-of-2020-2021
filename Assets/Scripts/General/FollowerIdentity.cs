@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Follower Identity", menuName = "Assets/Resources/Followers", order = 1)] 
 public class FollowerIdentity : ScriptableObject 
 {
+
     public string Name;
     public int Value;
     public Sprite Icon;
