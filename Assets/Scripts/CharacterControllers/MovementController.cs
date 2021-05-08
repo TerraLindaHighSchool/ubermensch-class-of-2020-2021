@@ -117,11 +117,12 @@ public class MovementController : MonoBehaviour
         }
         if (Input.GetKeyDown("y"))
         {
-            this.GetComponentInParent<InventoryManager>().AddItem(rock);
+            InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            InventoryHUDController.determineInv();
+            InventoryHUDController.main.AddItem(rock);
             Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
             if(invOpen)
             {
-                InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
                 InventoryHUDController.HUDLoader();
             }
         }

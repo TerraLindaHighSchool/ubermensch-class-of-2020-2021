@@ -13,7 +13,9 @@ public class HUDController : MonoBehaviour
     public GameObject[] Huds;
     private GameObject activeNpc;
     public GameObject player;
-    public InventoryManager playerInventory;
+    //public InventoryManager playerInventory;
+    public InventoryManager main;
+    public InventoryManager equipMenu;
     public StandardInventoryItem rock;
     public StandardInventoryItem empty;
 
@@ -28,10 +30,13 @@ public class HUDController : MonoBehaviour
     //Inventory HUD Fields
 
     public GameObject[] inventoryButtonsHUD;
+    public GameObject[] equipButtonsHUD;
     public bool invOpen = false;
-    public List<InventoryItemInterface> inventory;
+    public List<InventoryItemInterface> inventoryPlayer;
+    public List<InventoryItemInterface> inventoryAuxillary;
     public GameObject selectedItem;
     public GameObject[] selectedText;
+    public int selectedNumber;
     
     /*
      * HUD LOADER AND DELOADER
@@ -54,8 +59,9 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Inventory");
                 invOpen = true;
-                inventory = playerInventory.PrintInventory();
-                inventoryLoader(inventory, 1);
+                determineInv();
+                inventoryLoader(equipMenu.PrintInventory(), 2);
+                inventoryLoader(main.PrintInventory(), 1);
             }
             Debug.Log("HUD Loaded");
         }
@@ -103,8 +109,9 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Inventory");
                 invOpen = true;
-                inventory = playerInventory.PrintInventory();
-                inventoryLoader(inventory, 1);
+                determineInv();
+                inventoryLoader(main.PrintInventory(), 1);
+                inventoryLoader(equipMenu.PrintInventory(), 2);
             }
             Debug.Log("HUD Loaded");
         }
@@ -129,6 +136,7 @@ public class HUDController : MonoBehaviour
             selectedText[0].GetComponent<Text>().text = ("");
             selectedText[1].GetComponent<Text>().text = ("");
             selectedText[2].GetComponent<Text>().text = ("No Item is Selected");
+            selectedText[3].SetActive(false);
             Debug.Log("Inventory");
         }
         Huds[hud].SetActive(false);
@@ -145,18 +153,27 @@ public class HUDController : MonoBehaviour
     {
         int hudSpace = 0;
         List<GameObject> localInv = new List<GameObject>();
-        
+
         switch (hud)
         {
             case 1:
                 hudSpace = 24;
+                inventoryPlayer = inventory;
                 foreach (GameObject obj in inventoryButtonsHUD)
                 {
                     localInv.Add(obj);
                 }
-                break; 
+                break;
+            case 2:
+                hudSpace = 4;
+                inventoryAuxillary = inventory;
+                foreach (GameObject obj in equipButtonsHUD)
+                {
+                    localInv.Add(obj);
+                }
+                break;
         }
-        if(inventory.Count > localInv.Count)
+        if (inventory.Count > localInv.Count)
         {
             Debug.Log("count too small");
             return;
@@ -173,17 +190,28 @@ public class HUDController : MonoBehaviour
             localInv[i].GetComponent<InventoryContainer>().item = inventory[i];
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
         }
+        selectedText[3].SetActive(false);
     }
 
     //When an inventory item is clicked, it shows the proper icon, name, value, and description
     public void itemClick(int buttonNumber)
     {
-        if(inventory.Count > buttonNumber)
+        List<InventoryItemInterface> inventoryClicked;
+        if (buttonNumber <= 23)
         {
-            selectedItem.GetComponent<Image>().sprite = inventory[buttonNumber].Icon;
-            selectedText[0].GetComponent<Text>().text = inventory[buttonNumber].Name;
-            selectedText[1].GetComponent<Text>().text = inventory[buttonNumber].Value.ToString();
-            selectedText[2].GetComponent<Text>().text = inventory[buttonNumber].ToolTip;
+            inventoryClicked = inventoryPlayer;
+        }
+        else
+        {
+            inventoryClicked = inventoryAuxillary;
+        }
+        if (inventoryClicked.Count > buttonNumber)
+        {
+            selectedItem.GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
+            selectedText[0].GetComponent<Text>().text = inventoryClicked[buttonNumber].Name;
+            selectedText[1].GetComponent<Text>().text = inventoryClicked[buttonNumber].Value.ToString();
+            selectedText[2].GetComponent<Text>().text = inventoryClicked[buttonNumber].ToolTip;
+            selectedText[3].SetActive(true);
             Debug.Log(buttonNumber + " was selected");
         }
         else
@@ -192,7 +220,44 @@ public class HUDController : MonoBehaviour
             selectedText[0].GetComponent<Text>().text = empty.Name;
             selectedText[1].GetComponent<Text>().text = ("");
             selectedText[2].GetComponent<Text>().text = empty.ToolTip;
+            selectedText[3].SetActive(false);
             Debug.Log(buttonNumber + " was selected, but is empty :(");
+        }
+        if(buttonNumber > 23)
+        {
+            selectedText[3].GetComponentInChildren<Text>().text = ("Unequip");
+        }
+        else
+        {
+            selectedText[3].GetComponentInChildren<Text>().text = ("Equip");
+        }
+        selectedNumber = buttonNumber;
+    }
+
+    public void determineInv()
+    {
+        InventoryManager[] menus = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<InventoryManager>();
+        if (menus[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        {
+            equipMenu = menus[0];
+            main = menus[1];
+        }
+        else
+        {
+            equipMenu = menus[1];
+            main = menus[0];
+        }
+    }
+    //Equips an item when the equip button is clicked
+    public void itemEquip()
+    {
+        if(selectedNumber < 24)
+        {
+            GetComponent<ItemTransferManager>().Transfer(main, equipMenu, inventoryPlayer[selectedNumber]);
+        }
+        else
+        {
+            GetComponent<ItemTransferManager>().Transfer(equipMenu, main, inventoryAuxillary[selectedNumber]);
         }
     }
 

@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class FollowerIdentity : ScriptableObject, InventoryItemInterface
 {
-    public string ItemName { get; set; }
-    public int ItemValue { get; set; }
-    public GameObject ItemIcon { get; set; }
+    public string Name { get; set; }
+    public int Value { get; set; }
+    public Sprite Icon { get; set; }
     public string ToolTip { get; set; }
     public int npcStrength { get; set; }
     public int npcCharisma { get; set; }
     public int npcConstitution { get; set; }
 
-    public FollowerIdentity(string _name, int _value, GameObject _icon, string _tip, int _strength, int _charisma, int _constitution)
+    public FollowerIdentity(string _name, int _value, Sprite _icon, string _tip, int _strength, int _charisma, int _constitution)
     {
-        ItemName = _name;
-        ItemValue = _value;
-        ItemIcon = _icon;
+        Name = _name;
+        Value = _value;
+        Icon = _icon;
         ToolTip = _tip;
         npcStrength = _strength;
         npcCharisma = _charisma;
@@ -25,12 +25,12 @@ public class FollowerIdentity : ScriptableObject, InventoryItemInterface
 
     public string GetDisplayName()
     {
-        return "The Follower's Name is: " + ItemName; 
+        return "The Follower's Name is: " + Name; 
     }
 
     public string GetDisplayDescription()
     {
-        return ItemName + "'s Strength is: " + npcStrength + " Their Charisma is: " + npcCharisma + " And their Consitution is: " + npcConstitution; 
+        return Name + "'s Strength is: " + npcStrength + " Their Charisma is: " + npcCharisma + " And their Consitution is: " + npcConstitution; 
     }
 
     // get methods for the PlayerController class 

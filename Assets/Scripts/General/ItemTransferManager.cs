@@ -25,8 +25,8 @@ public class ItemTransferManager : MonoBehaviour
         }
         else
         {
-            sender.RemoveItem(item);
             reciever.AddItem(item);
+            sender.RemoveItem(item);
             successful = true;
         }
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader();

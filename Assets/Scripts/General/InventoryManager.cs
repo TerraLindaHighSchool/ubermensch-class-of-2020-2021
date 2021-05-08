@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
     public InvType inventoryType;
     public void AddItem(InventoryItemInterface item)
     {
-        if(inventoryType == InvType.Player && inventoryItem.Count < 24)
+        if(inventoryType == InvType.Player && inventoryItem.Count <= 23)
         {
             inventoryItem.Add(item);
             playerFull = false;
