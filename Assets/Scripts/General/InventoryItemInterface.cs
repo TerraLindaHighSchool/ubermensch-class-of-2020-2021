@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryItemInterface
+public interface InventoryItemInterface
 {
-    public interface InventoryItem
-    {
-
-        string Name { get; }
-        int Value { get; }
-        GameObject Icon { get; }
-        string ToolTip { get; }
-
-    }
-
+    string Name { get; }
+    int Value { get; }
+    Sprite Icon { get; }
+    string ToolTip { get; }
 }
