@@ -46,7 +46,6 @@ public class HUDController : MonoBehaviour
     public GameObject selectedItem; // This is the information of the curently selected item
     public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information
     public int selectedNumber; // This is the Number of the currently selected Item
-    public int selectedHUD; // This is the HUD of the currently selected Item
 
     //DIALOUGE HUD FIELDS
     public GameObject[] dialogueButtons;
@@ -215,8 +214,18 @@ public class HUDController : MonoBehaviour
     //When an inventory item is clicked, it shows the proper icon, name, value, and description
     public void itemClick(int buttonNumber)
     {
-        Debug.Log("AMOGUS REMOVE LATER: " + gameObject.GetInstanceID());
+        selectedNumber = buttonNumber;
         List<InventoryItemInterface> inventoryClicked;
+
+        if (buttonNumber > 23)
+        {
+            selectedText[3].GetComponentInChildren<Text>().text = ("Unequip");
+        }
+        else
+        {
+            selectedText[3].GetComponentInChildren<Text>().text = ("Equip");
+        }
+
         if (buttonNumber <= 23)
         {
             inventoryClicked = main.PrintInventory();
@@ -224,7 +233,9 @@ public class HUDController : MonoBehaviour
         else
         {
             inventoryClicked = inventoryAuxillary;
+            buttonNumber -= 24;
         }
+
         if (inventoryClicked.Count > buttonNumber)
         {
             selectedItem.GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
@@ -243,15 +254,6 @@ public class HUDController : MonoBehaviour
             selectedText[3].SetActive(false);
             Debug.Log(buttonNumber + " was selected, but is empty :(");
         }
-        if(buttonNumber > 23)
-        {
-            selectedText[3].GetComponentInChildren<Text>().text = ("Unequip");
-        }
-        else
-        {
-            selectedText[3].GetComponentInChildren<Text>().text = ("Equip");
-        }
-        selectedNumber = buttonNumber;
     }
 
     public void determineInv()
@@ -271,13 +273,14 @@ public class HUDController : MonoBehaviour
     //Equips an item when the equip button is clicked
     public void itemEquip()
     {
-        if(selectedNumber < 24)
+        if(selectedNumber <= 23)
         {
+            Debug.Log("Equip HUD Instance ID " + gameObject.GetInstanceID());
             GetComponent<ItemTransferManager>().Transfer(main, equipMenu, main.PrintInventory()[selectedNumber]);
         }
         else
         {
-            GetComponent<ItemTransferManager>().Transfer(equipMenu, main, inventoryAuxillary[selectedNumber]);
+            GetComponent<ItemTransferManager>().Transfer(equipMenu, main, inventoryAuxillary[selectedNumber - 24]);
         }
     }
 
