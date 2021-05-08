@@ -9,57 +9,52 @@ using UnityEngine.UI;
  */
 public class HUDController : MonoBehaviour
 {
+                        // FIELDS
+
+    //GENERAL HUD FIELDS
     private int activeHUD;
     public GameObject[] Huds;
     private GameObject activeNpc;
     public GameObject player;
-    //public InventoryManager playerInventory;
-    public InventoryManager main;
-    public InventoryManager equipMenu;
-    public StandardInventoryItem rock;
-    public StandardInventoryItem empty;
 
-
-    //Dialogue HUD Fields
-
-    public GameObject[] dialogueButtons;
-    public GameObject npcName;
-    public GameObject npcSpeak;
-    public bool inConversation = false;
-
-    //Inventory HUD Fields
-
-    public GameObject[] inventoryButtonsHUD;
-    public GameObject[] equipButtonsHUD;
-    public bool invOpen = false;
-    private List<InventoryItemInterface> _inventoryPlayer;
-    public List<InventoryItemInterface> inventoryPlayer
-    {
-        get { return _inventoryPlayer; }
-        set
-        {
-            Debug.Log("InvPlay set");
-            _inventoryPlayer = value;
-        }
-    }
-    private List<InventoryItemInterface> _inventoryAuxillary;
+    //GENRAL INVENTORY FIELDS
+    public StandardInventoryItem empty; // This is used to DEFAULT empty slots
+    public bool invOpen = false; // If an inventory is loaded
+    public GameObject[] inventoryButtonsHUD; // These are the BUTTONS on the INVENTORY menu
+    public GameObject[] equipButtonsHUD; // These are the BUTTONS on the EQUIP menu
+    private List<InventoryItemInterface> _inventoryAuxillary; // This is 
     public List<InventoryItemInterface> inventoryAuxillary
     {
         get { return _inventoryAuxillary; }
         set
         {
-            Debug.Log("InvAux set");
+            Debug.Log("InvAux set" + gameObject.GetInstanceID());
             _inventoryAuxillary = value;
         }
     }
 
-    public GameObject selectedItem;
-    public GameObject[] selectedText;
-    public int selectedNumber;
+    //PLAYER FIELDS;
+    public InventoryManager main; // This is the PLAYERS main inventory
+    public InventoryManager equipMenu; // This is the PLAYERS equip
     
-    /*
-     * HUD LOADER AND DELOADER
-     */
+        //TRADE FIELDS
+
+
+    
+    
+
+    public GameObject selectedItem; // This is the information of the curently selected item
+    public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information
+    public int selectedNumber; // This is the Number of the currently selected Item
+    public int selectedHUD; // This is the HUD of the currently selected Item
+
+    //DIALOUGE HUD FIELDS
+    public GameObject[] dialogueButtons;
+    public GameObject npcName;
+    public GameObject npcSpeak;
+    public bool inConversation = false;
+
+                    // HUD LOADER AND DELOADER
 
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
@@ -116,6 +111,8 @@ public class HUDController : MonoBehaviour
     //This is used to reload the inventory
     public void HUDLoader()
     {
+        Debug.Log("HUD re-loaded?");
+
         if (activeHUD < Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
@@ -177,7 +174,6 @@ public class HUDController : MonoBehaviour
         {
             case 1:
                 hudSpace = 24;
-                inventoryPlayer = inventory;
                 foreach (GameObject obj in inventoryButtonsHUD)
                 {
                     localInv.Add(obj);
@@ -209,16 +205,21 @@ public class HUDController : MonoBehaviour
             localInv[i].GetComponent<InventoryContainer>().item = inventory[i];
             localInv[i].GetComponent<Image>().sprite = inventory[i].Icon;
         }
+        for (int i = inventory.Count; i < localInv.Count; i++)
+        {
+            localInv[i].GetComponent<Image>().sprite = empty.Icon;
+        }
         selectedText[3].SetActive(false);
     }
 
     //When an inventory item is clicked, it shows the proper icon, name, value, and description
     public void itemClick(int buttonNumber)
     {
+        Debug.Log("AMOGUS REMOVE LATER: " + gameObject.GetInstanceID());
         List<InventoryItemInterface> inventoryClicked;
         if (buttonNumber <= 23)
         {
-            inventoryClicked = inventoryPlayer;
+            inventoryClicked = main.PrintInventory();
         }
         else
         {
@@ -272,7 +273,7 @@ public class HUDController : MonoBehaviour
     {
         if(selectedNumber < 24)
         {
-            GetComponent<ItemTransferManager>().Transfer(main, equipMenu, inventoryPlayer[selectedNumber]);
+            GetComponent<ItemTransferManager>().Transfer(main, equipMenu, main.PrintInventory()[selectedNumber]);
         }
         else
         {
