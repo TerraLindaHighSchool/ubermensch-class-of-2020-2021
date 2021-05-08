@@ -30,13 +30,4 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
             return toolTip;
         }
     }
-    /*
-    public TestStick()
-    {
-        Name = "Stick";
-        ToolTip = "This is a stick, this is a test.";
-        Icon = Resources.Load<Sprite>("Assets/Resources/Icons/stick_noun_002_35886.jpg");
-        Value = 3;
-    }
-    */
 }

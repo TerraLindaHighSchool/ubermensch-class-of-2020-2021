@@ -9,10 +9,9 @@ public class ItemTransferManager : MonoBehaviour
         bool successful;
         if (sender.inventoryType == InventoryManager.InvType.Player && reciever.inventoryType == InventoryManager.InvType.Player)
         {
-            if(reciever.soap >= item.Value)
+            if(reciever.soap >= item.Value && reciever.AddItem(item))
             {
                 sender.RemoveItem(item);
-                reciever.AddItem(item);
                 sender.soap += item.Value;
                 reciever.soap -= item.Value;
                 successful = true;
@@ -25,9 +24,16 @@ public class ItemTransferManager : MonoBehaviour
         }
         else
         {
-            sender.RemoveItem(item);
-            reciever.AddItem(item);
-            successful = true;
+            if(reciever.AddItem(item))
+            {
+                sender.RemoveItem(item);
+                successful = true;
+            }
+            else
+            {
+                Debug.Log("Equip Failed");
+                successful = false;
+            }
         }
         GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader();
         return successful;
