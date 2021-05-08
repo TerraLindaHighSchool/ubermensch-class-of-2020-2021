@@ -17,8 +17,8 @@ public class TransitionController : MonoBehaviour
     
     public void SceneLoader(string scene, Vector3 destination)
     {
-        playerModel.transform.position = Vector3.zero;
-        transform.position = destination;
+        transform.position = Vector3.zero;
+        playerModel.transform.position = destination;
         SceneManager.LoadScene(scene);
     }
 }
