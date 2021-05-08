@@ -2,31 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowerIdentity : ScriptableObject, InventoryItemInterface
+[CreateAssetMenu(fileName = "New Follower Identity", menuName = "Assets/Resources/Followers", order = 1)] 
+public class FollowerIdentity : ScriptableObject 
 {
-    public string Name { get; set; }
-    public int Value { get; set; }
-    public Sprite Icon { get; set; }
-    public string ToolTip { get; set; }
-    public int npcStrength { get; set; }
-    public int npcCharisma { get; set; }
-    public int npcConstitution { get; set; }
 
-    public FollowerIdentity(string _name, int _value, Sprite _icon, string _tip, int _strength, int _charisma, int _constitution)
-    {
-        Name = _name;
-        Value = _value;
-        Icon = _icon;
-        ToolTip = _tip;
-        npcStrength = _strength;
-        npcCharisma = _charisma;
-        npcConstitution = _constitution; 
-    }
+    public string Name;
+    public int Value;
+    public Sprite Icon;
+    public string ToolTip;
+    public int npcStrength;
+    public int npcCharisma;
+    public int npcConstitution;
 
-    public string GetDisplayName()
-    {
-        return "The Follower's Name is: " + Name; 
-    }
+    public string GetDisplayName() => "The Follower's Name is: " + Name; 
+   
 
     public string GetDisplayDescription()
     {

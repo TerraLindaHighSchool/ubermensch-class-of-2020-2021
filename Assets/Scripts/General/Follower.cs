@@ -9,7 +9,7 @@ public class Follower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        identity =  new FollowerIdentity("testFollowr", 3, Resources.Load<Sprite>("Assets/Resources/Icons/stick_noun_002_35886.jpg"), "look", 5, 4, 3);
+    
     }
 
     // Update is called once per frame
