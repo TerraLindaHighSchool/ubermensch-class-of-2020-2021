@@ -32,8 +32,27 @@ public class HUDController : MonoBehaviour
     public GameObject[] inventoryButtonsHUD;
     public GameObject[] equipButtonsHUD;
     public bool invOpen = false;
-    public List<InventoryItemInterface> inventoryPlayer;
-    public List<InventoryItemInterface> inventoryAuxillary;
+    private List<InventoryItemInterface> _inventoryPlayer;
+    public List<InventoryItemInterface> inventoryPlayer
+    {
+        get { return _inventoryPlayer; }
+        set
+        {
+            Debug.Log("InvAux set");
+            _inventoryPlayer = value;
+        }
+    }
+    private List<InventoryItemInterface> _inventoryAuxillary;
+    public List<InventoryItemInterface> inventoryAuxillary
+    {
+        get { return _inventoryAuxillary; }
+        set
+        {
+            Debug.Log("InvAux set");
+            _inventoryAuxillary = value;
+        }
+    }
+
     public GameObject selectedItem;
     public GameObject[] selectedText;
     public int selectedNumber;
