@@ -69,7 +69,7 @@ public class MovementController : MonoBehaviour
         if (Input.GetKeyDown("k"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.FindGameObjectsWithTag("Friendly NPC")[0]);
         }
         if (Input.GetKeyDown("1"))
         {
@@ -138,7 +138,7 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        //testKeys(); //FOR TESTING PURPOSES
+        testKeys(); //FOR TESTING PURPOSES
         inventoryOpen();
     }
 }
