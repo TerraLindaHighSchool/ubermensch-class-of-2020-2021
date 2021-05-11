@@ -97,7 +97,7 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Dialogue");
                 inConversation = true;
-                conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
+                conversationLoader(activeNpc.GetComponentInChildren<DialogueController>().StartConversation());
             }
             Debug.Log("HUD Loaded");
         }
