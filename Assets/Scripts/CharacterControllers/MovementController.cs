@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
-    public GameObject AnimController;
+    public Animator AnimController;
     public GameObject gravityRay;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
@@ -23,22 +23,28 @@ public class MovementController : MonoBehaviour
         //calculates direction to move based on inputs
         Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
+        //Will be set to true if player can move otherwise defaults to false
+        bool animate = false;
+
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
             if (CanMove)
             {
                 controller.Move(moveDirection * speed * Time.deltaTime);
-                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(vertical, -horizontal), 0);
+                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
+                Debug.Log(turnTo);
+
+                animate = true;
             }
         }
+        AnimController.SetBool("isWalking", animate);
 
         //creates a Vector that keeps the player on the ground
         Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
         controller.Move(moveGravity);
     }
-
     //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
     private void setGravity()
     {
@@ -52,15 +58,18 @@ public class MovementController : MonoBehaviour
             yVelocity = 0;
         }
     }
+
+    //Used for testing different inventories
     public StandardInventoryItem rock;
     public StandardInventoryItem empty;
+    private bool invOpen;
     private void testKeys()
     {
         HUDController TestHUDController;
         if (Input.GetKeyDown("k"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(0, this.gameObject, GameObject.Find("/MockNPC"));
+            TestHUDController.HUDLoader(0, this.gameObject, GameObject.FindGameObjectsWithTag("Friendly NPC")[0]);
         }
         if (Input.GetKeyDown("1"))
         {
@@ -90,6 +99,7 @@ public class MovementController : MonoBehaviour
         }
     } 
 
+    //Used to open, close, and add to the player inventory
     public void inventoryOpen()
     {
         HUDController InventoryHUDController;
@@ -97,24 +107,27 @@ public class MovementController : MonoBehaviour
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
+            invOpen = true;
         }
         if (Input.GetKeyDown("2"))
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDDeLoader(1);
+            invOpen = false;
         }
         if (Input.GetKeyDown("y"))
         {
-            this.GetComponentInParent<InventoryManager>().AddItem(rock);
+            InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            InventoryHUDController.determineInv();
+            InventoryHUDController.main.AddItem(rock);
             Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
-        }
-        if (Input.GetKeyDown("t"))
-        {
-            this.GetComponentInParent<InventoryManager>().AddItem(empty);
-            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
-
+            if(invOpen)
+            {
+                InventoryHUDController.HUDLoader();
+            }
         }
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -125,7 +138,7 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        //testKeys(); //FOR TESTING PURPOSES
+        testKeys(); //FOR TESTING PURPOSES
         inventoryOpen();
     }
 }

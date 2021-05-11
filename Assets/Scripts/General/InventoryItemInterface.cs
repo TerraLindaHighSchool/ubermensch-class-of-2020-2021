@@ -5,7 +5,7 @@ using UnityEngine;
 public interface InventoryItemInterface
 {
     string Name { get; }
-    string Value { get; }
+    int Value { get; }
     Sprite Icon { get; }
     string ToolTip { get; }
 }
