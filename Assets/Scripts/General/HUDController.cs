@@ -37,12 +37,7 @@ public class HUDController : MonoBehaviour
     public InventoryManager main; // This is the PLAYERS main inventory
     public InventoryManager equipMenu; // This is the PLAYERS equip
     
-        //TRADE FIELDS
-
-
-    
-    
-
+    //TRADE FIELDS
     public GameObject selectedItem; // This is the information of the curently selected item
     public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information
     public int selectedNumber; // This is the Number of the currently selected Item
@@ -53,7 +48,7 @@ public class HUDController : MonoBehaviour
     public GameObject npcSpeak;
     public bool inConversation = false;
 
-                    // HUD LOADER AND DELOADER
+    // HUD LOADER AND DELOADER
 
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
@@ -97,7 +92,7 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Dialogue");
                 inConversation = true;
-                conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
+                conversationLoader(activeNpc.GetComponentInChildren<DialogueController>().StartConversation());
             }
             Debug.Log("HUD Loaded");
         }
@@ -297,11 +292,12 @@ public class HUDController : MonoBehaviour
              conversationLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
     }
-
+    
     //Loads a response based on which button was pressed
     public void conversationLoader(Statement info)
     {
         npcSpeak.GetComponent<Text>().text = info.NpcLine;
+        npcName.GetComponent<Text>().text = activeNpc.GetComponent<Follower>().identity.GetDisplayName();
         dialogueButtons[0].GetComponentInChildren<Text>().text = info.Response[0];
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
