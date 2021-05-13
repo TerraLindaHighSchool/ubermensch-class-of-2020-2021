@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     private Collider other;
     private GameObject objectHit;
 
+    // Scene Attributed that affect player
+    public float foodDepletionRate { get; set; }
+    public float oxygenDepletionRate { get; set; }
+
     // PlayerController Stat Additions
     // Needs a default 
     public int playerStrength;
@@ -78,6 +82,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            foodDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.FoodDepletionRate;
+            oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepletionRate;
             GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
         }
     }
