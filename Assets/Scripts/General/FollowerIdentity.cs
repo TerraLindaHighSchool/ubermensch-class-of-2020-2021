@@ -14,7 +14,7 @@ public class FollowerIdentity : ScriptableObject
     public int npcCharisma;
     public int npcConstitution;
 
-    public string GetDisplayName() => "The Follower's Name is: " + Name; 
+    public string GetDisplayName() => Name; 
    
 
     public string GetDisplayDescription()

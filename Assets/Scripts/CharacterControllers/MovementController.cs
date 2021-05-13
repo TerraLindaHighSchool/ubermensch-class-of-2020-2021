@@ -76,27 +76,6 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(0);
         }
-        if (Input.GetKeyDown("i"))
-        {
-            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(1, this.gameObject);
-        }
-        if (Input.GetKeyDown("2"))
-        {
-            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDDeLoader(1);
-        }
-        if (Input.GetKeyDown("y"))
-        {
-            this.GetComponentInParent<InventoryManager>().AddItem(rock);
-            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
-        }
-        if (Input.GetKeyDown("t"))
-        {
-            this.GetComponentInParent<InventoryManager>().AddItem(empty);
-            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
-
-        }
     } 
 
     //Used to open, close, and add to the player inventory
