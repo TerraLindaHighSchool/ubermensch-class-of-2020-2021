@@ -85,6 +85,7 @@ public class MovementController : MonoBehaviour
         HUDController InventoryHUDController;
         if (Input.GetKeyDown("i"))
         {
+            Debug.Log("PLAYER INSTANCE ID:" + this.gameObject.GetInstanceID());
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
             invOpen = true;
