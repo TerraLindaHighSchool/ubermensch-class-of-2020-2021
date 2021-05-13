@@ -5,9 +5,18 @@ using UnityEngine.SceneManagement;
 public class TransitionController : MonoBehaviour
 {
     [SerializeField] public GameObject playerModel;
-    private void Awake()
+    private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        foreach (GameObject i in GameObject.FindGameObjectsWithTag("DontDestroy"))
+        {
+            DontDestroyOnLoad(i);
+        }
+    }
+
+    public void DontDestroy(GameObject i)
+    {
+        DontDestroyOnLoad(i);
     }
 
     /* Each portal will be an IPortal ScriptableObject containing a scene name, transitionPoint
