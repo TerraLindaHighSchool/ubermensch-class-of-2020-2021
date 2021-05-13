@@ -9,8 +9,12 @@ public class StandardPortal : ScriptableObject
     public string scene;
     public Vector3 destination;
     public string[] exitRequirements;
+    public float foodDepletionRate;
+    public float oxygenDepletionRate;
 
     public string Scene => scene;
     public Vector3 Destination => destination;
     public string[] ExitRequirements => exitRequirements;
+    public float FoodDepletionRate => foodDepletionRate;
+    public float OxygenDepletionRate => oxygenDepletionRate;
 }
