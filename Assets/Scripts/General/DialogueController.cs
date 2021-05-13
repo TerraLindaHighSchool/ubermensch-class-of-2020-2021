@@ -232,6 +232,16 @@ public class DialogueController : MonoBehaviour
             // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
         }
+    
+        private void RecruitmentCheck()
+        {
+            if(conversation.RelationshipType > 1.5)
+            {               
+                GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>().AddFollower(this.gameObject);
+                for(int i = 0; i < this.GetComponentsInParent<InventoryManager>().inventoryItem.Count - 1; i++)
+                {
 
-
+                }
+            }
+        }
 }
