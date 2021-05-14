@@ -13,8 +13,9 @@ public class DialogueController : MonoBehaviour
     //
 
     private DialogueTree conversation;
-    private DialogueTree combat;
-    //not sure what this does
+    //private DialogueTree combat;
+    //combat is combat?
+    private Combat combat;
     private int currentposition;
     private bool inCombat; // if not in combat in conversation
 
@@ -72,14 +73,13 @@ public class DialogueController : MonoBehaviour
             //pretty sure relation ship type is supposeed to be 0-2 so I don't think there is a 2.5 but ok
             if (activeDialogueTree.relationshipType > 2.5)
             {
-                //not sure how we find which npc we are talking to
-                //or where the follower manager comes from
-                FollowerManager.AddFollower(Npc);
+                FollowerManager followers = GetComponent<FollowerManager>();
+                followers.AddFollower(Npc);
                 
             }
             else
             {
-                //did not know floats need an f
+                
                 setRelationshipType(-0.5f);
             }
 
@@ -97,10 +97,7 @@ public class DialogueController : MonoBehaviour
         conversation.relationshipType += change; //Relationship Type? 
     }
 
-    //csvinformation? statement is return type
-    //I think this is where the magic happens
-    //arrays start from zero
-
+  
     private Statement[] csvReader(TextAsset csvInfo)
     {
         string[][] Data = Parse(csvInfo);
