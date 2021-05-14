@@ -50,6 +50,12 @@ public class HUDController : MonoBehaviour
 
     // HUD LOADER AND DELOADER
 
+    private void Awake()
+    {
+        Debug.Log("I the HUD Manager, Exist!");
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)

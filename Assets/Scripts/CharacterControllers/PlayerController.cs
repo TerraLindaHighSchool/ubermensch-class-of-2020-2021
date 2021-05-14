@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     public int statPoints; //What are stat points used for?  
     public int level;
 
-
     // Update is called once per frame
     void Update()
     {
