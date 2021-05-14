@@ -236,12 +236,22 @@ public class DialogueController : MonoBehaviour
         private void RecruitmentCheck()
         {
             if(conversation.RelationshipType > 1.5)
-            {               
-                GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>().AddFollower(this.gameObject);
-                for(int i = 0; i < this.GetComponentsInParent<InventoryManager>().inventoryItem.Count - 1; i++)
+            {      
+                GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>().AddFollower(this.gameObject); //Adds the follower this is attatched to to player
+                InventoryManager npcInv = this.GetComponent<InventoryManager>();
+                for (int i = 0; i < npcInv.inventoryItem.Count - 1; i++)
                 {
-
+                    if (npcInv.inventoryItem[i].QuestItem)
+                    {
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryManager>().AddItem(npcInv.inventoryItem[i]); //adds quest item from npc to player
+                    }
                 }
+                Destroy(this.gameObject);
             }
+        }
+
+        private void Update()
+        {
+            RecruitmentCheck(); //making it constantly checking if the opinion is high enough
         }
 }
