@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int health { get; set; }
+    public float health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
     public bool isInDialogue { get; set; } //only for camera
@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     private bool isInTriggerArea;
     private Collider other;
     private GameObject objectHit;
+
+    // Scene Attributed that affect player
+    public float foodDepletionRate { get; set; }
+    public float oxygenDepletionRate { get; set; }
 
     // PlayerController Stat Additions
     // Needs a default 
@@ -32,6 +36,35 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             OpenMenu();
+        }
+        ConsumeFood();
+        ConsumeOxygen(); 
+    }
+
+    private void ConsumeFood()
+    {
+        if(food > 0)
+        {
+            food -= foodDepletionRate;
+            Debug.Log("Food is at: " + food); 
+        }
+        else if(health > 0)
+        {
+            health-= 0.0005f;
+            
+        }
+        
+    }
+
+    private void ConsumeOxygen()
+    {
+        if(oxygen > 0)
+        {
+            oxygen -= oxygenDepletionRate;
+        }
+        else if(health > 0)
+        {
+            health-= 0.05f; 
         }
     }
 
@@ -77,6 +110,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            foodDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.FoodDepletionRate;
+            oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepletionRate;
             GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
         }
     }
