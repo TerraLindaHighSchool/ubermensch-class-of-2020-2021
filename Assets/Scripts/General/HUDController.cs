@@ -22,6 +22,8 @@ public class HUDController : MonoBehaviour
     public bool invOpen = false; // If an inventory is loaded
     public GameObject[] inventoryButtonsHUD; // These are the BUTTONS on the INVENTORY menu
     public GameObject[] equipButtonsHUD; // These are the BUTTONS on the EQUIP menu
+    public GameObject[] npcButtonsHUD; // These are the BUTTONS on the NPC inventory menu
+    public InventoryManager npcInv; //This is the NPC's Inventory
     private List<InventoryItemInterface> _inventoryAuxillary; // This is 
     public List<InventoryItemInterface> inventoryAuxillary
     {
@@ -39,7 +41,8 @@ public class HUDController : MonoBehaviour
     
     //TRADE FIELDS
     public GameObject selectedItem; // This is the information of the curently selected item
-    public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information
+    public GameObject npcSelectedItem; // This is the item selected for the npc (icon)
+    public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information (0 is name 1 is value 2 is tooltip 3 is equip/select)
     public int selectedNumber; // This is the Number of the currently selected Item
 
     //DIALOUGE HUD FIELDS
@@ -93,6 +96,15 @@ public class HUDController : MonoBehaviour
                 Debug.Log("Dialogue");
                 inConversation = true;
                 conversationLoader(activeNpc.GetComponentInChildren<DialogueController>().StartConversation());
+            }
+            if(activeHUD == 1)
+            {
+                npcInv = activeNpc.GetComponentInChildren<InventoryManager>();
+                Debug.Log("Inventory");
+                invOpen = true;
+                determineInv();
+                inventoryLoader(main.PrintInventory(), 1);
+                inventoryLoader(npcInv.PrintInventory(), 3);
             }
             Debug.Log("HUD Loaded");
         }
@@ -181,6 +193,14 @@ public class HUDController : MonoBehaviour
                     localInv.Add(obj);
                 }
                 break;
+            case 3:
+                hudSpace = 24;
+                inventoryAuxillary = inventory;
+                foreach (GameObject obj in npcButtonsHUD)
+                {
+                    localInv.Add(obj);
+                }
+                break;
         }
         if (inventory.Count > localInv.Count)
         {
@@ -220,7 +240,6 @@ public class HUDController : MonoBehaviour
         {
             selectedText[3].GetComponentInChildren<Text>().text = ("Equip");
         }
-
         if (buttonNumber <= 23)
         {
             inventoryClicked = main.PrintInventory();
@@ -230,7 +249,6 @@ public class HUDController : MonoBehaviour
             inventoryClicked = inventoryAuxillary;
             buttonNumber -= 24;
         }
-
         if (inventoryClicked.Count > buttonNumber)
         {
             selectedItem.GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
@@ -276,6 +294,54 @@ public class HUDController : MonoBehaviour
         else
         {
             GetComponent<ItemTransferManager>().Transfer(equipMenu, main, inventoryAuxillary[selectedNumber - 24]);
+        }
+    }
+
+    public void itemTrade()
+    {
+        if (selectedNumber <= 23)
+        {
+            Debug.Log("Trade HUD Instance ID " + gameObject.GetInstanceID());
+            GetComponent<ItemTransferManager>().Transfer(main, npcInv, main.PrintInventory()[selectedNumber]);
+        }
+        else
+        {
+            GetComponent<ItemTransferManager>().Transfer(npcInv, main, inventoryAuxillary[selectedNumber - 24]);
+        }
+    }
+
+    public void tradeSelect(int buttonNumber)
+    {
+        selectedNumber = buttonNumber;
+        List<InventoryItemInterface> inventoryClicked;
+        if (buttonNumber > 23)
+        {
+            selectedText[3].GetComponentInChildren<Text>().text = ("Sell");
+        }
+        else
+        {
+            selectedText[3].GetComponentInChildren<Text>().text = ("Buy");
+        }
+        if (buttonNumber <= 23)
+        {
+            inventoryClicked = main.PrintInventory();
+        }
+        else
+        {
+            inventoryClicked = inventoryAuxillary;
+            buttonNumber -= 24;
+        }
+        if (inventoryClicked.Count > buttonNumber)
+        {
+            selectedItem.GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
+            selectedText[3].SetActive(true);
+            Debug.Log(buttonNumber + " was selected");
+        }
+        else
+        {
+            selectedItem.GetComponent<Image>().sprite = empty.Icon;
+            selectedText[3].SetActive(false);
+            Debug.Log(buttonNumber + " was selected, but is empty :(");
         }
     }
 
