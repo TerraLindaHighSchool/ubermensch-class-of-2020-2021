@@ -131,7 +131,18 @@ public class PlayerController : MonoBehaviour
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             ResourceConsumptionToDepletionRate();
-            GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+            int exitCheck = 0;
+            foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
+            {
+                foreach(InventoryItemInterface item in gameObject.GetComponent<InventoryManager>().PrintInventory())
+                {
+                    if(item == exitReq) { exitCheck++; }
+                }
+            }
+            if(exitCheck == objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
+            {
+                GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+            }
         }
     }
 
