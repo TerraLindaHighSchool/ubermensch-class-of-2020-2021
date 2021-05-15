@@ -232,6 +232,27 @@ public class DialogueController : MonoBehaviour
             // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
         }
+    
+        private void RecruitmentCheck()
+        {
+            if(conversation.RelationshipType > 2.5)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                FollowerManager followerManager = player.GetComponentInChildren<FollowerManager>();
+                GameObject npc = this.gameObject.GetComponentInParent<Transform>().gameObject;
+                followerManager.AddFollower(npc); //Adds the follower this is attatched to to player
+                InventoryManager npcInv = this.GetComponent<InventoryManager>();
+                for (int i = 0; i < npcInv.inventoryItem.Count - 1; i++)
+                {
+                    if (npcInv.inventoryItem[i].QuestItem)
+                    {
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryManager>().AddItem(npcInv.inventoryItem[i]); //adds quest item from npc to player
+                    }
+                }
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
+                Destroy(this.gameObject);
+            }
+        }
 
 
 }
