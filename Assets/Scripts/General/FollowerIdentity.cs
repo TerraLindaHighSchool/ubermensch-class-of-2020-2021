@@ -10,6 +10,7 @@ public class FollowerIdentity : ScriptableObject
     public int Value;
     public Sprite Icon;
     public string ToolTip;
+    public bool merchant;
     public int npcStrength;
     public int npcCharisma;
     public int npcConstitution;

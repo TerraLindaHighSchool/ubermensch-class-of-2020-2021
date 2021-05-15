@@ -9,7 +9,15 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public string toolTip;
     public Sprite icon;
     public int value;
+    public bool questItem;
 
+    public bool QuestItem
+    {
+        get
+        {
+            return questItem;
+        }
+    }
     public string Name { get
         {
             return _name;

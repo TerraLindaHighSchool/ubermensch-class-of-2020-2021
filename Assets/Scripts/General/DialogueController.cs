@@ -17,6 +17,12 @@ public class DialogueController : MonoBehaviour
     //not sure what this does
     private int currentposition;
     private bool inCombat; // if not in combat in conversation
+    private bool askedToJoin;
+
+    public bool AskedToJoin()
+    {
+        return askedToJoin;
+    }
 
     //this should probably go here or else it maybe could go into onenable
     //dont know what to name these
@@ -44,8 +50,10 @@ public class DialogueController : MonoBehaviour
         //I guess it means return but then it should return not load
         //this would use dialogue tree conversation
 
+        askedToJoin = false;
         inCombat = false;
-        return conversation.conversationPoints[0];
+        currentposition = 2;
+        return conversation.conversationPoints[2];
     }
 
     public Statement StartCombat()
@@ -64,6 +72,15 @@ public class DialogueController : MonoBehaviour
         setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
 
         currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
+
+        if(currentposition == 0)
+        {
+            askedToJoin = true;
+            if(conversation.RelationshipType <= 2.5)
+            {
+                currentposition = 1;
+            }
+        }
 
         return activeDialogueTree.conversationPoints[currentposition];
     }
@@ -231,6 +248,27 @@ public class DialogueController : MonoBehaviour
         {
             // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
+        }
+    
+        public void RecruitmentCheck()
+        {
+            if(conversation.RelationshipType > 2.5)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                FollowerManager followerManager = player.GetComponentInChildren<FollowerManager>();
+                GameObject npc = this.gameObject.GetComponentInParent<Transform>().gameObject;
+                followerManager.AddFollower(npc); //Adds the follower this is attatched to to player
+                InventoryManager npcInv = this.GetComponent<InventoryManager>();
+                foreach (InventoryItemInterface item in npcInv.inventoryItem)
+                {
+                    if (item.QuestItem)
+                    {
+                        GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().main.AddItem(item); //adds quest item from npc to player
+                    }
+                }
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
+                Destroy(this.gameObject);
+            }
         }
 
 
