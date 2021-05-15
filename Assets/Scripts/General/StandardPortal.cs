@@ -8,15 +8,16 @@ public class StandardPortal : ScriptableObject
 {
     public string scene;
     public Vector3 destination;
-    public StandardInventoryItem[] exitRequirements;
-    public float minutesToConsumeFood;
+    public string[] exitRequirements;
+    public AudioClip[] sceneMusic;
     public float minutesToConsumeOxygen;
 
     public string Scene => scene;
     public Vector3 Destination => destination;
-    public StandardInventoryItem[] ExitRequirements => exitRequirements;
-    
-    // minutes to consume assumes food level at 100% (1.0);
-    public float MinutesToConsumeFood => minutesToConsumeFood;
+    public string[] ExitRequirements => exitRequirements;
+
+    public AudioClip[] SceneMusic => sceneMusic;
+
+    // minutes to consume assumes oxygen level if starting at 100% (1.0);
     public float MinutesToConsumeOxygen => minutesToConsumeOxygen;
 }

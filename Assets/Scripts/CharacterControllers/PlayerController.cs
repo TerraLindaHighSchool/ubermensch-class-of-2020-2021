@@ -11,14 +11,12 @@ public class PlayerController : MonoBehaviour
 
 
     public bool isInDialogue { get; set; } //only for camera
-    private bool isInTrading;
     public GameObject mainCamera; // drag main camera into this
     private bool isInTriggerArea;
     private Collider other;
-    private GameObject objectHit;
+    public GameObject objectHit { get; private set; }
 
     // Scene Attributed that affect player.  
-    public float foodDepletionRate { get; set; }
     public float oxygenDepletionRate { get; set; }
 
     // PlayerController Stat Additions
@@ -50,15 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void ConsumeResources()
     {
-        if (food > 0)
-        {
-            food -= foodDepletionRate;
-            Debug.Log("Food is at: " + food);
-        }
-        else if (health > 0)
-        {
-            health -= 0.025f;
-        }
+        // food consumption goes here
 
         if (oxygen > 0)
         {
@@ -92,11 +82,7 @@ public class PlayerController : MonoBehaviour
             isInDialogue = false;
             GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
             mainCamera.GetComponent<switchCamera>().isInDialogue = false;
-        }
-        else if (isInTrading)
-        {
-            isInTrading = false;
-            GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
+
         }
     }
 
@@ -105,19 +91,10 @@ public class PlayerController : MonoBehaviour
         Debug.Log("taking action");
         if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
-            if (objectHit.GetComponent<Follower>().identity.merchant == false)
-            {
-                isInDialogue = true;
-                GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
-                mainCamera.GetComponent<switchCamera>().isInDialogue = true;
-                Debug.Log("is in conversation with " + objectHit.name);
-            } else
-            {
-                isInTrading = true;
-                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(2, this.gameObject, objectHit);
-                Debug.Log("is trading with " + objectHit.name);
-            }
-            
+            isInDialogue = true;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
+            mainCamera.GetComponent<switchCamera>().isInDialogue = true;
+            Debug.Log("is in conversation with " + objectHit.name);
         }
         if (objectHit.CompareTag("Inventory Object"))
         {
@@ -130,19 +107,9 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
-            ResourceConsumptionToDepletionRate();
-            int exitCheck = 0;
-            foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
-            {
-                foreach(InventoryItemInterface item in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
-                {
-                    if(item == exitReq) { exitCheck++; }
-                }
-            }
-            if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
-            {
-                GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
-            }
+            OxygenConsumptionToDepletionRate();
+            GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+
         }
     }
 
@@ -234,14 +201,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ResourceConsumptionToDepletionRate()
+    private void OxygenConsumptionToDepletionRate()
     {
-        float foodConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeFood;
-        if (foodConsumption != 0)
-        {
-            foodDepletionRate = 1 / foodConsumption;
-        }
-
         float oxygenConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeOxygen;
         if (oxygenConsumption != 0)
         {
