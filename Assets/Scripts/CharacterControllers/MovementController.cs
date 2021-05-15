@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class MovementController : MonoBehaviour
     int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;
-    
+
     private void move()
     {
         //Gets inputs from the players wasd or arrow keys
@@ -34,7 +35,7 @@ public class MovementController : MonoBehaviour
                 controller.Move(moveDirection * speed * Time.deltaTime);
                 Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
                 transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
-                Debug.Log(turnTo);
+                //Debug.Log(turnTo);
 
                 animate = true;
             }
@@ -94,6 +95,7 @@ public class MovementController : MonoBehaviour
         HUDController InventoryHUDController;
         if (Input.GetKeyDown("i"))
         {
+            Debug.Log("PLAYER INSTANCE ID:" + this.gameObject.GetInstanceID());
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
             invOpen = true;
@@ -116,6 +118,45 @@ public class MovementController : MonoBehaviour
             }
         }
     }
+    /*
+    private void TransitionCheck()
+    {
+        if (Input.GetKeyDown("e"))
+        {
+            try
+            {
+                StandardPortal _portal = GameObject.Find("InteractableDetector").GetComponent<InteractableCheck>().GetPortals()[0].GetComponent<PortalContainer>().portalData;
+                GetComponentInParent<TransitionController>().SceneLoader(_portal.Scene, _portal.Destination);
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+    }
+
+    private void ConversationCheck()
+    {
+        if (Input.GetKeyDown("k"))
+        {
+            HUDController _HUDController;
+            if (Input.GetKeyDown("k"))
+            {
+                try
+                {
+                    _HUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+                    InteractableCheck detector = GameObject.Find("InteractableDetector").GetComponent<InteractableCheck>();
+                    GameObject npc = detector.GetNpcs()[0];
+                    _HUDController.HUDLoader(0, this.gameObject, npc);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                }
+            }
+        }
+    }
+    */
 
     // Update is called once per frame
     void Update()
@@ -127,7 +168,8 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        //testKeys(); //FOR TESTING PURPOSES
+        //testKeys(); //FOR TESTING PURPOSES 
+        // I added this in the git editor lamo
         inventoryOpen();
     }
 }

@@ -1770,7 +1770,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2851510859428881174}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2050170773139985513
 MonoBehaviour:
@@ -1834,8 +1834,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2050170772979147245}
-  - {fileID: 1531622729453415656}
   - {fileID: 2050170773139985526}
+  - {fileID: 1531622729453415656}
   - {fileID: 1745462637551239168}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -2268,7 +2268,7 @@ PrefabInstance:
     - target: {fileID: 907056360888167717, guid: 5ed4c33243f00b344821431282fed728,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 907056360888167717, guid: 5ed4c33243f00b344821431282fed728,
         type: 3}
@@ -2597,9 +2597,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1862212288409453005}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1531622728371008044 stripped
+--- !u!1 &1531622729534268750 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 907056359805334497, guid: 5ed4c33243f00b344821431282fed728,
+  m_CorrespondingSourceObject: {fileID: 907056360666866819, guid: 5ed4c33243f00b344821431282fed728,
     type: 3}
   m_PrefabInstance: {fileID: 1862212288409453005}
   m_PrefabAsset: {fileID: 0}
@@ -2627,9 +2627,9 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1862212288409453005}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1531622727732760036 stripped
+--- !u!1 &1531622728186126151 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 907056360308231209, guid: 5ed4c33243f00b344821431282fed728,
+  m_CorrespondingSourceObject: {fileID: 907056359855464074, guid: 5ed4c33243f00b344821431282fed728,
     type: 3}
   m_PrefabInstance: {fileID: 1862212288409453005}
   m_PrefabAsset: {fileID: 0}
@@ -3029,6 +3029,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2050170773924615802}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7047158122435997998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9061000065793156948, guid: 9a20f252d15dbe649942857f90c6688b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2050170773924615802}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1745462636580848908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 309211745630835574, guid: 9a20f252d15dbe649942857f90c6688b,
@@ -3053,12 +3059,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 2050170773924615802}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7047158122435997998 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9061000065793156948, guid: 9a20f252d15dbe649942857f90c6688b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2050170773924615802}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2719515606214699448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3080,21 +3080,6 @@ PrefabInstance:
         type: 3}
       propertyPath: dialogueButtons.Array.size
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
-        type: 3}
-      propertyPath: Huds.Array.data[0]
-      value: 
-      objectReference: {fileID: 1745462637551239295}
-    - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
-        type: 3}
-      propertyPath: Huds.Array.data[1]
-      value: 
-      objectReference: {fileID: 1531622729453415657}
-    - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
-        type: 3}
-      propertyPath: player
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
         type: 3}
@@ -3306,6 +3291,21 @@ PrefabInstance:
       propertyPath: dialogueButtons.Array.data[4]
       value: 
       objectReference: {fileID: 1745462636982231421}
+    - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
+        type: 3}
+      propertyPath: Huds.Array.data[0]
+      value: 
+      objectReference: {fileID: 1745462637551239295}
+    - target: {fileID: 4165269444106487892, guid: cfb230dc3e6d05841895b312416aa9de,
+        type: 3}
+      propertyPath: Huds.Array.data[1]
+      value: 
+      objectReference: {fileID: 1531622729453415657}
     - target: {fileID: 4165269444106487893, guid: cfb230dc3e6d05841895b312416aa9de,
         type: 3}
       propertyPath: m_LocalPosition.x
