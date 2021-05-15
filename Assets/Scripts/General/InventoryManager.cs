@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 { 
     public List<InventoryItemInterface> inventoryItem = new List<InventoryItemInterface>();
+    public StandardInventoryItem[] startingInventory;
     public int soap;
     public enum InvType
     {
@@ -18,6 +19,15 @@ public class InventoryManager : MonoBehaviour
     private bool equipFull;
 
     public InvType inventoryType;
+
+    public void Awake()
+    {
+        foreach(StandardInventoryItem i in startingInventory)
+        {
+            AddItem(i);
+        }
+    }
+
     public bool AddItem(InventoryItemInterface item)
     {
         if(inventoryType == InvType.Player && inventoryItem.Count <= 23)
