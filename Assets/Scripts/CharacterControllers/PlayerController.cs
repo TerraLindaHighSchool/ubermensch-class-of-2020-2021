@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject mainCamera; // drag main camera into this
     private bool isInTriggerArea;
     private Collider other;
-    private GameObject objectHit;
+    public GameObject objectHit { get; private set; }
 
     // Scene Attributed that affect player.  
     public float oxygenDepletionRate { get; set; }
