@@ -9,7 +9,6 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public string toolTip;
     public Sprite icon;
     public int value;
-    public bool questItem;
 
     public string Name { get
         {
@@ -29,12 +28,6 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public string ToolTip { get
         {
             return toolTip;
-        }
-    }
-
-    public bool QuestItem { get
-        {
-            return questItem;
         }
     }
 }

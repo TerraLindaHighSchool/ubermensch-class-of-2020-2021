@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int health { get; set; }
+    // Set health, food, and oxygen to between 0 and 100% (0.0 - 1.0)
+    public float health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
+
+
     public bool isInDialogue { get; set; } //only for camera
     public GameObject mainCamera; // drag main camera into this
     private bool isInTriggerArea;
     private Collider other;
     private GameObject objectHit;
+
+    // Scene Attributed that affect player.  
+    public float foodDepletionRate { get; set; }
+    public float oxygenDepletionRate { get; set; }
 
     // PlayerController Stat Additions
     // Needs a default 
@@ -21,6 +28,11 @@ public class PlayerController : MonoBehaviour
 
     public int statPoints; //What are stat points used for?  
     public int level;
+    private void Start()
+    {
+        // Applies scenes depletion rate once per minute of game play.
+        InvokeRepeating(nameof(ConsumeResources), 0, 60);
+    }
 
     // Update is called once per frame
     void Update()
@@ -32,6 +44,33 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             OpenMenu();
+        }
+    }
+
+    void ConsumeResources()
+    {
+        if (food > 0)
+        {
+            food -= foodDepletionRate;
+            Debug.Log("Food is at: " + food);
+        }
+        else if (health > 0)
+        {
+            health -= 0.025f;
+        }
+
+        if (oxygen > 0)
+        {
+            oxygen -= oxygenDepletionRate;
+        }
+        else if (health > 0)
+        {
+            health -= 0.33f;
+        }
+
+        if (health < 0)
+        {
+            health = 0;
         }
     }
 
@@ -77,6 +116,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            ResourceConsumptionToDepletionRate();
             GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
         }
     }
@@ -166,6 +206,21 @@ public class PlayerController : MonoBehaviour
                 playerConstitution -= followerConstitution;
                 Debug.Log("Dead Follower Stats removed");
             }
+        }
+    }
+
+    private void ResourceConsumptionToDepletionRate()
+    {
+        float foodConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeFood;
+        if (foodConsumption != 0)
+        {
+            foodDepletionRate = 1 / foodConsumption;
+        }
+
+        float oxygenConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeOxygen;
+        if (oxygenConsumption != 0)
+        {
+            oxygenDepletionRate = 1 / oxygenConsumption;
         }
     }
 }

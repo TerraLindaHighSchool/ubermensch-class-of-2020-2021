@@ -8,5 +8,4 @@ public interface InventoryItemInterface
     int Value { get; }
     Sprite Icon { get; }
     string ToolTip { get; }
-    bool QuestItem { get; }
 }

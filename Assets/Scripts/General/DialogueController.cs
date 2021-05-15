@@ -254,8 +254,4 @@ public class DialogueController : MonoBehaviour
             }
         }
 
-        private void Update()
-        {
-            RecruitmentCheck(); //making it constantly checking if the opinion is high enough
-        }
 }
