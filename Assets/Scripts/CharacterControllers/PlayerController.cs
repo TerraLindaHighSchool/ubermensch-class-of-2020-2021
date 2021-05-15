@@ -134,12 +134,12 @@ public class PlayerController : MonoBehaviour
             int exitCheck = 0;
             foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
             {
-                foreach(InventoryItemInterface item in gameObject.GetComponent<InventoryManager>().PrintInventory())
+                foreach(InventoryItemInterface item in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
                 {
                     if(item == exitReq) { exitCheck++; }
                 }
             }
-            if(exitCheck == objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
+            if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
             {
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }

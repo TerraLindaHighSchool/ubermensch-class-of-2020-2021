@@ -259,13 +259,14 @@ public class DialogueController : MonoBehaviour
                 GameObject npc = this.gameObject.GetComponentInParent<Transform>().gameObject;
                 followerManager.AddFollower(npc); //Adds the follower this is attatched to to player
                 InventoryManager npcInv = this.GetComponent<InventoryManager>();
-                for (int i = 0; i < npcInv.inventoryItem.Count - 1; i++)
+                foreach (InventoryItemInterface item in npcInv.inventoryItem)
                 {
-                    if (npcInv.inventoryItem[i].QuestItem)
+                    if (item.QuestItem)
                     {
-                        GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryManager>().AddItem(npcInv.inventoryItem[i]); //adds quest item from npc to player
+                        GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().main.AddItem(item); //adds quest item from npc to player
                     }
                 }
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
                 Destroy(this.gameObject);
             }
         }
