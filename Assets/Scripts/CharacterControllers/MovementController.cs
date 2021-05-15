@@ -77,6 +77,16 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(0);
         }
+        if(Input.GetKeyDown("t"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(2, this.gameObject, GameObject.FindGameObjectsWithTag("Friendly NPC")[0]);
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(2);
+        }
     } 
 
     //Used to open, close, and add to the player inventory
@@ -101,7 +111,7 @@ public class MovementController : MonoBehaviour
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.determineInv();
             InventoryHUDController.main.AddItem(rock);
-            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+            Debug.Log("Number of items in inventory is " + GetComponentInParent<InventoryManager>().inventoryItem.Count);
             if(invOpen)
             {
                 InventoryHUDController.HUDLoader();
@@ -158,7 +168,8 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        // testKeys(); //FOR TESTING PURPOSES
+        //testKeys(); //FOR TESTING PURPOSES 
+        // I added this in the git editor lamo
         inventoryOpen();
     }
 }
