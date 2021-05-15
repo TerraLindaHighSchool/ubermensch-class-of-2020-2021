@@ -100,10 +100,17 @@ public class PlayerController : MonoBehaviour
         Debug.Log("taking action");
         if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
-            isInDialogue = true;
-            GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
-            mainCamera.GetComponent<switchCamera>().isInDialogue = true;
-            Debug.Log("is in conversation with " + objectHit.name);
+            if (objectHit.GetComponent<Follower>().identity.merchant == false)
+            {
+                isInDialogue = true;
+                GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
+                mainCamera.GetComponent<switchCamera>().isInDialogue = true;
+                Debug.Log("is in conversation with " + objectHit.name);
+            } else
+            {
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(2, this.gameObject, objectHit);
+            }
+            
         }
         if (objectHit.CompareTag("Inventory Object"))
         {
