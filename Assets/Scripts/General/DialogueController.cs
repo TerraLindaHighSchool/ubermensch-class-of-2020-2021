@@ -17,6 +17,12 @@ public class DialogueController : MonoBehaviour
     //not sure what this does
     private int currentposition;
     private bool inCombat; // if not in combat in conversation
+    private bool askedToJoin;
+
+    public bool AskedToJoin()
+    {
+        return askedToJoin;
+    }
 
     //this should probably go here or else it maybe could go into onenable
     //dont know what to name these
@@ -44,8 +50,10 @@ public class DialogueController : MonoBehaviour
         //I guess it means return but then it should return not load
         //this would use dialogue tree conversation
 
+        askedToJoin = false;
         inCombat = false;
-        return conversation.conversationPoints[0];
+        currentposition = 2;
+        return conversation.conversationPoints[2];
     }
 
     public Statement StartCombat()
@@ -64,6 +72,15 @@ public class DialogueController : MonoBehaviour
         setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
 
         currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
+
+        if(currentposition == 0)
+        {
+            askedToJoin = true;
+            if(conversation.RelationshipType > 2.5)
+            {
+                currentposition = 1;
+            }
+        }
 
         return activeDialogueTree.conversationPoints[currentposition];
     }
@@ -233,7 +250,7 @@ public class DialogueController : MonoBehaviour
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
         }
     
-        private void RecruitmentCheck()
+        public void RecruitmentCheck()
         {
             if(conversation.RelationshipType > 2.5)
             {

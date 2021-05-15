@@ -170,6 +170,10 @@ public class HUDController : MonoBehaviour
     {
         if (hud == 0)
         {
+            if(activeNpc.GetComponentInChildren<DialogueController>().AskedToJoin())
+            {
+                activeNpc.GetComponentInChildren<DialogueController>().RecruitmentCheck();
+            }
             inConversation = false;
             Debug.Log("Dialogue");
         }
