@@ -109,7 +109,7 @@ public class MovementController : MonoBehaviour
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.determineInv();
             InventoryHUDController.main.AddItem(rock);
-            Debug.Log(GetComponentInParent<InventoryManager>().inventoryItem.Count);
+            Debug.Log("Number of items in inventory is " + GetComponentInParent<InventoryManager>().inventoryItem.Count);
             if(invOpen)
             {
                 InventoryHUDController.HUDLoader();
@@ -127,7 +127,7 @@ public class MovementController : MonoBehaviour
         */
         move();
         setGravity();
-        testKeys(); //FOR TESTING PURPOSES
+        //testKeys(); //FOR TESTING PURPOSES
         inventoryOpen();
     }
 }
