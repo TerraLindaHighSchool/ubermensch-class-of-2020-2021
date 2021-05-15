@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     private GameObject objectHit;
 
     // Scene Attributed that affect player.  
-    public float foodDepletionRate { get; set; }
     public float oxygenDepletionRate { get; set; }
 
     // PlayerController Stat Additions
@@ -49,15 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void ConsumeResources()
     {
-        if (food > 0)
-        {
-            food -= foodDepletionRate;
-            Debug.Log("Food is at: " + food);
-        }
-        else if (health > 0)
-        {
-            health -= 0.025f;
-        }
+        // food consumption goes here
 
         if (oxygen > 0)
         {
@@ -115,9 +106,10 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
-            Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
-            ResourceConsumptionToDepletionRate();
+            Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;           
+            OxygenConsumptionToDepletionRate();
             GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+
         }
     }
 
@@ -209,14 +201,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ResourceConsumptionToDepletionRate()
+    private void OxygenConsumptionToDepletionRate()
     {
-        float foodConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeFood;
-        if (foodConsumption != 0)
-        {
-            foodDepletionRate = 1 / foodConsumption;
-        }
-
         float oxygenConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeOxygen;
         if (oxygenConsumption != 0)
         {
