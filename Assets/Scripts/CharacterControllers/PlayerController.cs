@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
-            Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;           
             OxygenConsumptionToDepletionRate();
             GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
 
