@@ -104,11 +104,11 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Dialogue");
                 inConversation = true;
-                conversationLoader(activeNpc.GetComponentInChildren<DialogueController>().StartConversation());
+                conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
             if(activeHUD == 2)
             {
-                npcInv = activeNpc.GetComponentInChildren<InventoryManager>();
+                npcInv = activeNpc.GetComponent<InventoryManager>();
                 Debug.Log(activeNpc.GetComponent<Follower>().identity.GetDisplayName());
                 npcTradeName.GetComponent<Text>().text = activeNpc.GetComponent<Follower>().identity.GetDisplayName();
                 Debug.Log("Inventory");
@@ -170,12 +170,12 @@ public class HUDController : MonoBehaviour
     {
         if (hud == 0)
         {
-            if(activeNpc.GetComponentInChildren<DialogueController>().AskedToJoin())
-            {
-                activeNpc.GetComponentInChildren<DialogueController>().RecruitmentCheck();
-            }
             inConversation = false;
             Debug.Log("Dialogue");
+            if (activeNpc.GetComponent<DialogueController>().AskedToJoin())
+            {
+                activeNpc.GetComponent<DialogueController>().RecruitmentCheck();
+            }
         }
         if (hud == 1)
         {

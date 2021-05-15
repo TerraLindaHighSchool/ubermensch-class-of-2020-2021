@@ -352,6 +352,18 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!114 &1482385946308663178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640027225353444844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 998a258ee6061c6439222c824679bf39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &640027225570331115
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +582,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3675188185121906453}
   m_Layer: 0
-  m_Name: UI_GameManagerAssets 1
+  m_Name: UI_GameManagerAssets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -595,18 +607,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1482385946308663178
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 640027225353444844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 998a258ee6061c6439222c824679bf39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &640027224055339651
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3325,6 +3325,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3756182046080218835, guid: 9a20f252d15dbe649942857f90c6688b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.7000122
+      objectReference: {fileID: 0}
     - target: {fileID: 5546151887926853082, guid: 9a20f252d15dbe649942857f90c6688b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -3359,6 +3364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7718381492209665969, guid: 9a20f252d15dbe649942857f90c6688b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 14.079987
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a20f252d15dbe649942857f90c6688b, type: 3}

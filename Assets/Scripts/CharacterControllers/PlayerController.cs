@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 
 
     public bool isInDialogue { get; set; } //only for camera
+    private bool isInTrading;
     public GameObject mainCamera; // drag main camera into this
     private bool isInTriggerArea;
     private Collider other;
@@ -91,7 +92,11 @@ public class PlayerController : MonoBehaviour
             isInDialogue = false;
             GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
             mainCamera.GetComponent<switchCamera>().isInDialogue = false;
-
+        }
+        else if (isInTrading)
+        {
+            isInTrading = false;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
         }
     }
 
@@ -108,7 +113,9 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("is in conversation with " + objectHit.name);
             } else
             {
+                isInTrading = true;
                 GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(2, this.gameObject, objectHit);
+                Debug.Log("is trading with " + objectHit.name);
             }
             
         }

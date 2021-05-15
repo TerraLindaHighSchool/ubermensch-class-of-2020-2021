@@ -76,7 +76,7 @@ public class DialogueController : MonoBehaviour
         if(currentposition == 0)
         {
             askedToJoin = true;
-            if(conversation.RelationshipType > 2.5)
+            if(conversation.RelationshipType <= 2.5)
             {
                 currentposition = 1;
             }
@@ -266,7 +266,6 @@ public class DialogueController : MonoBehaviour
                         GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryManager>().AddItem(npcInv.inventoryItem[i]); //adds quest item from npc to player
                     }
                 }
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
                 Destroy(this.gameObject);
             }
         }
