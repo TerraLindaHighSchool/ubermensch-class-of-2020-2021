@@ -73,13 +73,15 @@ public class PlayerController : MonoBehaviour
         if (health < 0)
         {
             health = 0;
+            GameObject UI = GameObject.FindGameObjectWithTag("UI_Manager");
+            GameObject Player = GameObject.FindGameObjectWithTag("Player");
             SceneManager.LoadScene("StartMenu");
-            Destroy(GameObject.FindGameObjectWithTag("UI Manager"));
+            Destroy(UI);
             foreach(GameObject e in GameObject.FindGameObjectsWithTag("DontDestroy"))
             {
                 Destroy(e);
             }
-            Destroy(GameObject.FindGameObjectWithTag("Player"));
+            Destroy(Player);
         }
     }
 
