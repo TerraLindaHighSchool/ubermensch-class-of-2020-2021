@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // Applies scenes depletion rate once per minute of game play.
-        InvokeRepeating("ConsumeResources", 2, 2);
+        InvokeRepeating("ConsumeResources", 2, 60);
     }
 
     // Update is called once per frame
@@ -51,10 +51,6 @@ public class PlayerController : MonoBehaviour
         {
             Interact();
         }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            OpenMenu();
-        }
     }
 
     void ConsumeResources()
@@ -62,7 +58,7 @@ public class PlayerController : MonoBehaviour
         if (oxygen > 0)
         {
             Debug.Log("oxygen at:" + oxygen);
-            oxygen -= (oxygenDepletionRate/60);
+            oxygen -= (oxygenDepletionRate);
         }
         else if (health > 0)
         {
@@ -140,7 +136,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
-            ResourceConsumptionToDepletionRate();
+            oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
             int exitCheck = 0;
             foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
             {
@@ -154,11 +150,6 @@ public class PlayerController : MonoBehaviour
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }
         }
-    }
-
-    void OpenMenu()
-    {
-        Debug.Log("Menu is opened");
     }
 
     public void SetPlayerStats()
@@ -241,15 +232,6 @@ public class PlayerController : MonoBehaviour
                 playerConstitution -= followerConstitution;
                 Debug.Log("Dead Follower Stats removed");
             }
-        }
-    }
-
-    private void ResourceConsumptionToDepletionRate()
-    {
-        float oxygenConsumption = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
-        if (oxygenConsumption != 0)
-        {
-            oxygenDepletionRate = 1 / oxygenConsumption;
         }
     }
 }
