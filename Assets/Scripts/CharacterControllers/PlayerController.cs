@@ -47,7 +47,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ConsumeResources();
         if (isInTriggerArea && Input.GetKeyDown(KeyCode.E))
         {
             Interact();
@@ -60,18 +59,6 @@ public class PlayerController : MonoBehaviour
 
     void ConsumeResources()
     {
-        /*
-        if (food > 0)
-        {
-            food -= foodDepletionRate;
-            Debug.Log("Food is at: " + food);
-        }
-        else if (health > 0)
-        {
-            health -= 0.025f;
-        }
-        */
-
         if (oxygen > 0)
         {
             Debug.Log("oxygen at:" + oxygen);
@@ -257,13 +244,7 @@ public class PlayerController : MonoBehaviour
 
     private void ResourceConsumptionToDepletionRate()
     {
-        float foodConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeFood;
-        if (foodConsumption != 0)
-        {
-            foodDepletionRate = 1 / foodConsumption;
-        }
-
-        float oxygenConsumption = objectHit.GetComponent<PortalContainer>().portalData.MinutesToConsumeOxygen;
+        float oxygenConsumption = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
         if (oxygenConsumption != 0)
         {
             oxygenDepletionRate = 1 / oxygenConsumption;
