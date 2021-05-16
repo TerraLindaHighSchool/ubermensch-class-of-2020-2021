@@ -29,6 +29,7 @@ public class TransitionController : MonoBehaviour
     
     public void SceneLoader(string scene, Vector3 destination)
     {
+        SceneMusic(scene);
         playerModel = transform.Find("PlayerModel").gameObject;
         playerModel.GetComponent<MovementController>().enabled = false;
         Debug.Log("Player Location before Change: " + playerModel.transform.position);
@@ -49,6 +50,26 @@ public class TransitionController : MonoBehaviour
         } else if(playerModel.GetComponent<MovementController>().enabled == false)
         {
             jankMoveFix++;
+        }
+    }
+
+    private void SceneMusic(string scene)
+    {
+        MusicController musicController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MusicController>();
+        switch (scene)
+        {
+            case "HomeBase_UnderSubway":
+                musicController.TrackSwitch(2);
+                break;
+            case "Seattle":
+                musicController.TrackSwitch(3);
+                break;
+            case "arcoflife":
+                musicController.TrackSwitch(4);
+                break;
+            default:
+                musicController.TrackSwitch(0);
+                break;
         }
     }
 }
