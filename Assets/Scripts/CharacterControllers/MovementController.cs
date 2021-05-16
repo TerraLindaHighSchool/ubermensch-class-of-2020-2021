@@ -49,8 +49,8 @@ public class MovementController : MonoBehaviour
     //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
     private void setGravity()
     {
-        Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
-        if(ground.distance > .1 || ground.collider == null)
+        Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height*10);
+        if(ground.distance > 0 || transitionGravityCheck(ground))
         {
             yVelocity += GRAVITY;
         }
@@ -58,6 +58,16 @@ public class MovementController : MonoBehaviour
         {
             yVelocity = 0;
         }
+    }
+
+    private bool transitionGravityCheck(RaycastHit ground)
+    {
+        bool result = false;
+        if(ground.collider == null)
+        {
+            //result = true;
+        }
+        return result;
     }
 
     //Used for testing different inventories
@@ -118,45 +128,6 @@ public class MovementController : MonoBehaviour
             }
         }
     }
-    /*
-    private void TransitionCheck()
-    {
-        if (Input.GetKeyDown("e"))
-        {
-            try
-            {
-                StandardPortal _portal = GameObject.Find("InteractableDetector").GetComponent<InteractableCheck>().GetPortals()[0].GetComponent<PortalContainer>().portalData;
-                GetComponentInParent<TransitionController>().SceneLoader(_portal.Scene, _portal.Destination);
-            }
-            catch(Exception e)
-            {
-                Debug.Log(e);
-            }
-        }
-    }
-
-    private void ConversationCheck()
-    {
-        if (Input.GetKeyDown("k"))
-        {
-            HUDController _HUDController;
-            if (Input.GetKeyDown("k"))
-            {
-                try
-                {
-                    _HUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-                    InteractableCheck detector = GameObject.Find("InteractableDetector").GetComponent<InteractableCheck>();
-                    GameObject npc = detector.GetNpcs()[0];
-                    _HUDController.HUDLoader(0, this.gameObject, npc);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
-        }
-    }
-    */
 
     // Update is called once per frame
     void Update()
@@ -166,10 +137,13 @@ public class MovementController : MonoBehaviour
             move(); FOR TESTING PURPOSES
         }
         */
-        move();
-        setGravity();
-        //testKeys(); //FOR TESTING PURPOSES 
-        // I added this in the git editor lamo
-        inventoryOpen();
+        if(this.enabled == true)
+        {
+            move();
+            setGravity();
+            //testKeys(); //FOR TESTING PURPOSES 
+            // I added this in the git editor lamo
+            inventoryOpen();
+        }
     }
 }
