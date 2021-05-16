@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,15 +30,24 @@ public class PlayerController : MonoBehaviour
 
     public int statPoints; //What are stat points used for?  
     public int level;
+
+    private void Awake()
+    {
+        health = 100;
+        food = 100;
+        oxygen = 100;
+    }
+
     private void Start()
     {
         // Applies scenes depletion rate once per minute of game play.
-        InvokeRepeating(nameof(ConsumeResources), 0, 60);
+        InvokeRepeating("ConsumeResources", 2, 2);
     }
 
     // Update is called once per frame
     void Update()
     {
+        ConsumeResources();
         if (isInTriggerArea && Input.GetKeyDown(KeyCode.E))
         {
             Interact();
@@ -50,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     void ConsumeResources()
     {
+        /*
         if (food > 0)
         {
             food -= foodDepletionRate;
@@ -59,19 +70,29 @@ public class PlayerController : MonoBehaviour
         {
             health -= 0.025f;
         }
+        */
 
         if (oxygen > 0)
         {
-            oxygen -= oxygenDepletionRate;
+            Debug.Log("oxygen at:" + oxygen);
+            oxygen -= (oxygenDepletionRate/60);
         }
         else if (health > 0)
         {
-            health -= 0.33f;
+            Debug.Log("health at:" + health);
+            health -= (33f);
         }
 
         if (health < 0)
         {
             health = 0;
+            SceneManager.LoadScene("StartMenu");
+            Destroy(GameObject.FindGameObjectWithTag("UI Manager"));
+            foreach(GameObject e in GameObject.FindGameObjectsWithTag("DontDestroy"))
+            {
+                Destroy(e);
+            }
+            Destroy(GameObject.FindGameObjectWithTag("Player"));
         }
     }
 

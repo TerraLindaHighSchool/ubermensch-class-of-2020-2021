@@ -266,7 +266,7 @@ public class DialogueController : MonoBehaviour
                         GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().main.AddItem(item); //adds quest item from npc to player
                     }
                 }
-                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
+                GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().mainCamera.GetComponent<switchCamera>().isInDialogue = false;
                 Destroy(this.gameObject);
             }
         }

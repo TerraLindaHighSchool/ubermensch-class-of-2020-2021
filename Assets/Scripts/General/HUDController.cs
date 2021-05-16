@@ -169,6 +169,9 @@ public class HUDController : MonoBehaviour
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
+        Huds[hud].SetActive(false);
+        Debug.Log("HUD Unloaded");
+
         if (hud == 0)
         {
             inConversation = false;
@@ -188,8 +191,6 @@ public class HUDController : MonoBehaviour
             selectedText[3].SetActive(false);
             Debug.Log("Inventory");
         }
-        Huds[hud].SetActive(false);
-        Debug.Log("HUD Unloaded");
     }
 
     /*
