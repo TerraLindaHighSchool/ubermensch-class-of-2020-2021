@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 public class TransitionController : MonoBehaviour
 {
     [SerializeField] public GameObject playerModel;
+
+    int jankMoveFix = 0;
+
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -35,6 +38,17 @@ public class TransitionController : MonoBehaviour
         SceneManager.LoadScene(scene);
         Debug.Log("Player Location after Change: " + playerModel.transform.position);
         Debug.Log(destination);
-        playerModel.GetComponent<MovementController>().enabled = true;
+    }
+
+    private void Update()
+    {
+        if(playerModel.GetComponent<MovementController>().enabled == false && jankMoveFix > 10)
+        {
+            playerModel.GetComponent<MovementController>().enabled = true;
+            jankMoveFix = 0;
+        } else if(playerModel.GetComponent<MovementController>().enabled == false)
+        {
+            jankMoveFix++;
+        }
     }
 }
