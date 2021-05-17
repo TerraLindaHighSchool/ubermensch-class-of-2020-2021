@@ -100,7 +100,7 @@ public class MovementController : MonoBehaviour
     } 
 
     //Used to open, close, and add to the player inventory
-    public void inventoryOpen()
+    private void inventoryOpen()
     {
         HUDController InventoryHUDController;
         if (Input.GetKeyDown("i"))
