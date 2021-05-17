@@ -26,22 +26,4 @@ public abstract class DialogueTree : MonoBehaviour
     //maybe this is how to puit in csvInformation but seems complicated
     //I think that was unnecessary
         //public TextAsset csvInformation;
-
-    void Start()
-    {
-        /*
-        //hopefully this is right //its not
-        TextAsset csvInformation = Resources.Load<TextAsset>(CSVFileName);
-        
-        // \n is the thingy for new line
-        string[] data = csvInformation.text.Split(new char[] { '\n' });
-
-        //this is assuming there is the collumn labelly things in the first row and nothing in the very last row
-        for (int i = 0; i < data.Length - 1; i++)
-        {
-            string[] row = data[i].Split(new char[] { ',' });
-
-        }
-        */
-    }
 }

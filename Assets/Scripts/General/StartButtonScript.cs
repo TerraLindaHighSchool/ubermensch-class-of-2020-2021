@@ -8,6 +8,7 @@ public class StartButtonScript : MonoBehaviour
     public GameObject player;
     public GameObject UI_GameManager;
     public Vector3 spawnPoint;
+
     public void StartGame()
     {
         Debug.Log("Scene Loaded");

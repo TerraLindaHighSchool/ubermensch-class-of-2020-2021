@@ -7,13 +7,23 @@ public class FollowerIdentity : ScriptableObject
 {
 
     public string Name;
-    public int Value;
+    public TYPE Type;
+    public GameObject avatar;
     public Sprite Icon;
     public string ToolTip;
-    public bool merchant;
+    public int level;
+    public int npcHealth;
     public int npcStrength;
     public int npcCharisma;
     public int npcConstitution;
+
+    public enum TYPE
+    {
+        Peaceful,
+        Dangerous,
+        Aggressive,
+        Merchant
+    }
 
     public string GetDisplayName() => Name; 
    
