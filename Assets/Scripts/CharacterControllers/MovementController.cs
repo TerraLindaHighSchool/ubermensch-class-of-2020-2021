@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MovementController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
     private float yVelocity;
-    private const float GRAVITY = 0.4f;
+    private const float GRAVITY = 0.1f;
     int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;
@@ -62,12 +63,7 @@ public class MovementController : MonoBehaviour
 
     private bool transitionGravityCheck(RaycastHit ground)
     {
-        bool result = false;
-        if(ground.collider == null)
-        {
-            //result = true;
-        }
-        return result;
+        return ground.collider == null ? true : false; 
     }
 
     //Used for testing different inventories
