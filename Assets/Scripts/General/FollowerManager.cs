@@ -5,15 +5,16 @@ using UnityEngine;
 public class FollowerManager : MonoBehaviour
 {
     public ArrayList followers = new ArrayList();
-    
-    public void AddFollower(GameObject follower)
+    public bool followerRemoved = false; 
+    public void AddFollower(GameObject avatar)
     {
-        followers.Add(follower);
+        followers.Add(avatar);
     }
     
-    public void RemoveFollower(GameObject follower)
+    public void RemoveFollower(string name)
     {
-        followers.Remove(follower);
+        followers.Remove(name);
+        followerRemoved = true; 
     }
 
     public ArrayList PrintFollowers()

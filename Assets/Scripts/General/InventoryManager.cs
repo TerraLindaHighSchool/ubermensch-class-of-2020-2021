@@ -20,7 +20,7 @@ public class InventoryManager : MonoBehaviour
 
     public InvType inventoryType;
 
-    private void Awake()
+    public void Awake()
     {
         foreach(StandardInventoryItem i in startingInventory)
         {

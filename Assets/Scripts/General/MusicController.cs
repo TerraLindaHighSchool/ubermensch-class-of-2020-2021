@@ -5,7 +5,7 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     public AudioClip[] tracks;//makes track array
-    private AudioSource audioPlayer;
+    AudioSource audioPlayer;
     private void Awake()
     {
         audioPlayer = this.GetComponent<AudioSource>();
@@ -39,7 +39,7 @@ public class MusicController : MonoBehaviour
         }
     }
 
-    private void ChangeVolume()
+    public void ChangeVolume()
     {
         if (Input.GetKey(KeyCode.Equals) || Input.GetKey(KeyCode.Plus))
         {
