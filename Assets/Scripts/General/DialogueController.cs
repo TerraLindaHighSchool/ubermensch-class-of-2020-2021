@@ -4,29 +4,12 @@ using UnityEngine;
 
 public class DialogueController : MonoBehaviour
 {
-    //I think Dialogue_GruceBustin row 6 should probably not link to 6 or you get stuck in a loop lol
-    //why did it move downa  row?
-    //where does relationship start at
-    //the statement only has one option but how many options are there supposed to be
-
-    //dialogue tree would set how many options? as many as possible
-    //
-
+   
     private DialogueTree conversation;
-    //private DialogueTree combat;
-    //combat is combat?
-    private Combat combat;
     private int currentposition;
-    private bool inCombat; // if not in combat in conversation
+    private bool inCombat;
+    private bool askedToJoin;
 
-    //this should probably go here or else it maybe could go into onenable
-    //dont know what to name these
-    //you just drag the csv file in the inspector as long as like it follows the rules and stuff
-
-
-    //find dialoguetree and combat tree and assign them to conversation and combat respectiveley respectively
-    //by find I think it will just get that from the textassets that you put in the inspector
-    //isn't there supposed to be like a public string thingy?
     private void OnEnable()
     {
         //uses csvreader for combat and conversation
