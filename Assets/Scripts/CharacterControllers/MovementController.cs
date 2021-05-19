@@ -141,5 +141,15 @@ public class MovementController : MonoBehaviour
             // I added this in the git editor lamo
             inventoryOpen();
         }
+
+        if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)
+        {
+            CanMove = false;
+        }
+        else
+        {
+            CanMove = true;
+        }
+
     }
 }
