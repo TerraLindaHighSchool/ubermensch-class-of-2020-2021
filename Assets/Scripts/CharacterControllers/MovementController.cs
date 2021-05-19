@@ -30,14 +30,14 @@ public class MovementController : MonoBehaviour
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
-            if (CanMove)
-            {
-                controller.Move(moveDirection * speed * Time.deltaTime);
-                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
-                transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
-                PreventFall(moveDirection);
-                controller.Move(Vector3.down);
+            controller.Move(moveDirection * speed * Time.deltaTime);
+            Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
+            PreventFall(moveDirection);
+            controller.Move(Vector3.down);
 
+            if(CanMove)
+            { 
                 animate = true;
             }
         }
@@ -51,7 +51,12 @@ public class MovementController : MonoBehaviour
         if (ground.collider == null && ground1.collider == null)
         {
             controller.Move(-moveDirection * speed * Time.deltaTime);
+            CanMove = false;
             //Debug.DrawRay(gravityRay.transform.position, Vector3.down);
+        }
+        else
+        {
+            CanMove = true;
         }
 
     }
