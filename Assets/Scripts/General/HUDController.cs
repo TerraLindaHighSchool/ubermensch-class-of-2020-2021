@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 /* HUD 0 IS CONVERSATION 
  * HUD 1 IS INVENTORY
- * HUD 2 IS EQUIP INVENTORY
+ * HUD 2 IS TRADE INVENTORY
+ * HUD 3 IS FOLLOWER MENU
  */
 public class HUDController : MonoBehaviour
 {
@@ -84,6 +85,14 @@ public class HUDController : MonoBehaviour
                 determineInv();
                 inventoryLoader(equipMenu.PrintInventory(), 2);
                 inventoryLoader(main.PrintInventory(), 1);
+            }
+            if(activeHUD == 2)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
+            }
+            if(activeHUD == 3)
+            {
+
             }
             Debug.Log("HUD Loaded");
         }
