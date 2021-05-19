@@ -78,7 +78,6 @@ public class DialogueController : MonoBehaviour
             askedToJoin = true;
             if(conversation.RelationshipType <= 2.5)
             {
-                setRelationshipType(-0.5f);
                 currentposition = 1;
             }
         }
