@@ -152,4 +152,14 @@ public class MovementController : MonoBehaviour
         }
 
     }
+
+    public void exitButtonMController() //used for exit button, there's like 3 methods and they're all connecte, it's confusing
+    {
+        HUDController InventoryHUDController;
+        InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+        InventoryHUDController.HUDDeLoader(1);
+        invOpen = false;
+        CanMove = true;
+    }
+
 }
