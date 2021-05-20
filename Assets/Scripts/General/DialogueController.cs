@@ -12,46 +12,47 @@ public class DialogueController : MonoBehaviour
 
     private void OnEnable()
     {
-        //uses csvreader for combat and conversation
-        //it maybe looks like this
         conversation = this.gameObject.GetComponent<DialogueTree>();
         conversation.conversationPoints = csvReader(conversation.csv);
         Debug.Log("DialogueController Reader enabled for " + gameObject.name);
-        //conversation.conversationPoints = csvReader(conversation.csv);
-        //combat.conversationPoints = csvReader(conversation.csv);
     }
 
-    //for start conversation tree? (load the first item in the start conversation tree)
+    //returns item [2] in conversation
     public Statement StartConversation()
     {
-        //not sure what it means by "load"
-        //I guess it means return but then it should return not load
-        //this would use dialogue tree conversation
-
         inCombat = false;
-        return conversation.conversationPoints[0];
+        return conversation.conversationPoints[2];
     }
 
+    //MVP ADDITION:
+      /*Checks if in combat and if so instead loads in combat options from the npcs in the players party
+      FollowerManager/ 
+      Attack/ 
+      playerDescription
+      If the player doesn't have 3 npcs in their party these options should default to being empty.
+      CREATES A NEW STATEMENT WITH THIS INFORMATION TO RETURN*/
     public Statement StartCombat()
     {
         inCombat = true;
         return combat.conversationPoints[0];
     }
 
+    //returns next statement based selected answer. If 0 is loaded askedToJoin will be set to true and 0/1 will be loaded based on relationshipType.
+    //MVP ADDITION:
+    /* Checks if in combat and if so just calls DamageNpc passing in the Damage from the selected option.
+    Then, calls DamagePlayer and gets the attack damage from the npc the player is fighting (they will have an attack script attached) (Doesn't change options so return the same statement created in StartCombat)*/
     public Statement LoadNext(int Option)
     {
         DialogueTree activeDialogueTree;
 
         if (inCombat) { activeDialogueTree = combat; }
         else { activeDialogueTree = conversation; }
-        //not sure if this would work for option 0?
         setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
 
         currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
 
         return activeDialogueTree.conversationPoints[currentposition];
-     //this should be right
-     if (Option == 0)
+    if (Option == 0)
         {
             //pretty sure relation ship type is supposeed to be 0-2 so I don't think there is a 2.5 but ok
             if (activeDialogueTree.relationshipType > 2.5)
@@ -67,6 +68,11 @@ public class DialogueController : MonoBehaviour
             }
 
         }
+    }
+
+    public bool AskedToJoin()
+    {
+        //?
     }
 
     public string Closer()
@@ -230,7 +236,4 @@ public class DialogueController : MonoBehaviour
             // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
         }
-
-    //public
-
 }
