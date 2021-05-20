@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /* HUD 0 IS CONVERSATION 
  * HUD 1 IS INVENTORY
  * HUD 2 IS TRADE INVENTORY
- * HUD 3 IS FOLLOWER MENU
+ * HUD 3 IS PLAYER FOLLOWER MENU
+ * HUD 4 IS HOMEBASE FOLLOWER MENU
  */
 public class HUDController : MonoBehaviour
 {
@@ -56,6 +58,19 @@ public class HUDController : MonoBehaviour
     public GameObject npcSpeak;
     public bool inConversation = false;
 
+    //FOLLOWER HUD FIELDS
+    public FollowerManager HomeBaseFollowerManager;
+    public FollowerManager PlayerFollowerManager;
+    Scene scene = SceneManager.GetActiveScene();
+    ArrayList HomeBaseFollowers;
+    ArrayList PlayerFollowers;
+    public GameObject[] followerNames = new GameObject[20];
+    public GameObject[] followerDescriptions = new GameObject[20];
+    public GameObject[] followerIcons = new GameObject[20];
+    public GameObject[] followerButtons = new GameObject[20];
+    public bool followerMenuIsOpen = false;
+    //public FollowerTrader FollowerMover();
+
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -92,7 +107,7 @@ public class HUDController : MonoBehaviour
             }
             if(activeHUD == 3)
             {
-
+                
             }
             Debug.Log("HUD Loaded");
         }
@@ -166,6 +181,14 @@ public class HUDController : MonoBehaviour
                 inventoryLoader(main.PrintInventory(), 3);
                 inventoryLoader(npcInv.PrintInventory(), 4);
                 playerSoap.GetComponent<Text>().text = main.soap.ToString();
+            }
+            else if(activeHUD == 3)
+            {
+                updateFollowers(true);
+            }
+            else if(activeHUD == 4)
+            {
+                updateFollowers(false);
             }
             Debug.Log("HUD Loaded");
         }
@@ -426,5 +449,41 @@ public class HUDController : MonoBehaviour
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
         dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
-    }    
+    }
+
+    //FOLLOWER HUD METHODS
+    public void updateFollowers(bool isInPlayer)
+    {
+
+        if(scene.name == "HomeBase_UnderSubway")
+        {
+            Debug.Log("HomeBase scene is being used");
+            HomeBaseFollowerManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerManager>();
+            HomeBaseFollowers = HomeBaseFollowerManager.PrintFollowers();
+            for(int i = 0; i < HomeBaseFollowers.Count; i++)
+            {
+
+            }
+        }
+        else
+        {
+            Debug.Log(scene.name);
+            PlayerFollowerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>();
+            PlayerFollowers = PlayerFollowerManager.PrintFollowers();
+        }
+    }
+
+    public void moveFollowers(int buttonNumber) //WAITING FOR FollowerTrader
+    {
+        /* 
+         * if(activeHUD == 3)
+         * {
+         *      moveFollower(buttonNumber, true);
+         *  }
+         * else if(activeHUD == 4)
+         * {
+         *      moveFollower(buttonNumber, false);
+         * }
+         */
+    }
 }

@@ -93,6 +93,10 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(2);
         }
+        if(Input.GetKeyDown("u"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+        }
     } 
 
     //Used to open, close, and add to the player inventory
