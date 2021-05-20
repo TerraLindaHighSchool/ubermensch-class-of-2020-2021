@@ -6,9 +6,10 @@ public class MusicController : MonoBehaviour
 {
     public AudioClip[] tracks;//makes track array
     AudioSource audioPlayer;
-    private void Start()
+    private void Awake()
     {
         audioPlayer = this.GetComponent<AudioSource>();
+        TrackSwitch(2);
     }
 
     private void Update()

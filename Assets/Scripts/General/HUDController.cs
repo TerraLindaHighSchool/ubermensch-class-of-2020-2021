@@ -22,6 +22,10 @@ public class HUDController : MonoBehaviour
     public bool invOpen = false; // If an inventory is loaded
     public GameObject[] inventoryButtonsHUD; // These are the BUTTONS on the INVENTORY menu
     public GameObject[] equipButtonsHUD; // These are the BUTTONS on the EQUIP menu
+    public GameObject[] npcTradeButtonsHUD; // These are the BUTTONS on the npc TRADE menu
+    public GameObject[] playerTradeButtonsHUD; // These are the BUTTONS on the player TRADE menu
+    public InventoryManager npcInv; //This is the NPC's Inventory
+    public GameObject npcTradeName;
     private List<InventoryItemInterface> _inventoryAuxillary; // This is 
     public List<InventoryItemInterface> inventoryAuxillary
     {
@@ -37,15 +41,13 @@ public class HUDController : MonoBehaviour
     public InventoryManager main; // This is the PLAYERS main inventory
     public InventoryManager equipMenu; // This is the PLAYERS equip
     
-        //TRADE FIELDS
-
-
-    
-    
-
+    //TRADE FIELDS
     public GameObject selectedItem; // This is the information of the curently selected item
-    public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information
+    public GameObject[] tradeSelectedItem; // These are the icons during a trade, 0 is the player's item, 1 is the npc's item
+    public GameObject[] tradeSelectedText; // These are the same as the selected text array, with 0-3 being for the player and 4-7 being for the npc
+    public GameObject[] selectedText; // These are the TEXT GameObjects assigned in the INSPECTOR that display item information (0 is name 1 is value 2 is tooltip 3 is equip)
     public int selectedNumber; // This is the Number of the currently selected Item
+    public GameObject playerSoap;
 
     //DIALOUGE HUD FIELDS
     public GameObject[] dialogueButtons;
@@ -53,7 +55,14 @@ public class HUDController : MonoBehaviour
     public GameObject npcSpeak;
     public bool inConversation = false;
 
-                    // HUD LOADER AND DELOADER
+    // HUD LOADER AND DELOADER
+
+    private void Awake()
+    {
+        determineInv();
+        Debug.Log("I the HUD Manager, Exist!");
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
@@ -91,7 +100,6 @@ public class HUDController : MonoBehaviour
         {
             Huds[activeHUD].SetActive(false);
             activeHUD = hud;
-            Huds[activeHUD].SetActive(true);
             activeNpc = Npc;
             if (activeHUD == 0)
             {
@@ -99,19 +107,32 @@ public class HUDController : MonoBehaviour
                 inConversation = true;
                 conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
+            if(activeHUD == 2)
+            {
+                npcInv = activeNpc.GetComponent<InventoryManager>();
+                Debug.Log(activeNpc.GetComponent<Follower>().identity.GetDisplayName());
+                npcTradeName.GetComponent<Text>().text = activeNpc.GetComponent<Follower>().identity.GetDisplayName();
+                Debug.Log("Inventory");
+                invOpen = true;
+                determineInv();
+                inventoryLoader(main.PrintInventory(), 3);
+                inventoryLoader(npcInv.PrintInventory(), 4);
+                playerSoap.GetComponent<Text>().text = main.soap.ToString();
+            }
             Debug.Log("HUD Loaded");
         }
         else
         {
             Debug.Log("HUD could not load");
         }
+        Huds[activeHUD].SetActive(true);
     }
 
     //This is used to reload the inventory
     public void HUDLoader()
     {
         Debug.Log("HUD re-loaded?");
-
+        Debug.Log("active hud is number " + activeHUD);
         if (activeHUD < Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
@@ -120,13 +141,22 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
             }
-            if (activeHUD == 1)
+            else if (activeHUD == 1)
             {
                 Debug.Log("Inventory");
                 invOpen = true;
                 determineInv();
                 inventoryLoader(main.PrintInventory(), 1);
                 inventoryLoader(equipMenu.PrintInventory(), 2);
+            }
+            else if(activeHUD == 2)
+            {
+                Debug.Log("Trade");
+                invOpen = true;
+                determineInv();
+                inventoryLoader(main.PrintInventory(), 3);
+                inventoryLoader(npcInv.PrintInventory(), 4);
+                playerSoap.GetComponent<Text>().text = main.soap.ToString();
             }
             Debug.Log("HUD Loaded");
         }
@@ -139,10 +169,17 @@ public class HUDController : MonoBehaviour
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
+        Huds[hud].SetActive(false);
+        Debug.Log("HUD Unloaded");
+
         if (hud == 0)
         {
             inConversation = false;
             Debug.Log("Dialogue");
+            if (activeNpc.GetComponent<DialogueController>().AskedToJoin())
+            {
+                activeNpc.GetComponent<DialogueController>().RecruitmentCheck();
+            }
         }
         if (hud == 1)
         {
@@ -154,8 +191,6 @@ public class HUDController : MonoBehaviour
             selectedText[3].SetActive(false);
             Debug.Log("Inventory");
         }
-        Huds[hud].SetActive(false);
-        Debug.Log("HUD Unloaded");
     }
 
     /*
@@ -186,6 +221,21 @@ public class HUDController : MonoBehaviour
                     localInv.Add(obj);
                 }
                 break;
+            case 3:
+                hudSpace = 24;
+                foreach (GameObject obj in playerTradeButtonsHUD)
+                {
+                    localInv.Add(obj);
+                }
+                break;
+            case 4:
+                hudSpace = 24;
+                inventoryAuxillary = inventory;
+                foreach (GameObject obj in npcTradeButtonsHUD)
+                {
+                    localInv.Add(obj);
+                }
+                break;
         }
         if (inventory.Count > localInv.Count)
         {
@@ -209,23 +259,40 @@ public class HUDController : MonoBehaviour
             localInv[i].GetComponent<Image>().sprite = empty.Icon;
         }
         selectedText[3].SetActive(false);
+        tradeSelectedText[3].SetActive(false);
+        tradeSelectedText[7].SetActive(false);
     }
 
     //When an inventory item is clicked, it shows the proper icon, name, value, and description
     public void itemClick(int buttonNumber)
     {
+        Debug.Log("active HUD is number " + activeHUD);
         selectedNumber = buttonNumber;
         List<InventoryItemInterface> inventoryClicked;
-
+        int npcTradeBoost = 0;
+        determineInv();
         if (buttonNumber > 23)
         {
-            selectedText[3].GetComponentInChildren<Text>().text = ("Unequip");
+            if(activeHUD == 1)
+            {
+                selectedText[3].GetComponentInChildren<Text>().text = ("Unequip");
+            }
+            else if(activeHUD == 2)
+            {
+                tradeSelectedText[7].GetComponentInChildren<Text>().text = ("Buy");
+            }
         }
         else
         {
-            selectedText[3].GetComponentInChildren<Text>().text = ("Equip");
+            if (activeHUD == 1)
+            {
+                selectedText[3].GetComponentInChildren<Text>().text = ("Equip");
+            }
+            else if(activeHUD == 2)
+            {
+                tradeSelectedText[3].GetComponentInChildren<Text>().text = ("Sell");
+            }
         }
-
         if (buttonNumber <= 23)
         {
             inventoryClicked = main.PrintInventory();
@@ -234,24 +301,52 @@ public class HUDController : MonoBehaviour
         {
             inventoryClicked = inventoryAuxillary;
             buttonNumber -= 24;
+            npcTradeBoost = 1;
         }
-
         if (inventoryClicked.Count > buttonNumber)
         {
-            selectedItem.GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
-            selectedText[0].GetComponent<Text>().text = inventoryClicked[buttonNumber].Name;
-            selectedText[1].GetComponent<Text>().text = inventoryClicked[buttonNumber].Value.ToString();
-            selectedText[2].GetComponent<Text>().text = inventoryClicked[buttonNumber].ToolTip;
-            selectedText[3].SetActive(true);
+            if (activeHUD == 1)
+            {
+                selectedItem.GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
+                selectedText[0].GetComponent<Text>().text = inventoryClicked[buttonNumber].Name;
+                selectedText[1].GetComponent<Text>().text = inventoryClicked[buttonNumber].Value.ToString();
+                selectedText[2].GetComponent<Text>().text = inventoryClicked[buttonNumber].ToolTip;
+                selectedText[3].SetActive(true);
+            }
+            else if(activeHUD == 2)
+            {
+                tradeSelectedItem[0 + npcTradeBoost].GetComponent<Image>().sprite = inventoryClicked[buttonNumber].Icon;
+                tradeSelectedText[0 + 4*npcTradeBoost].GetComponent<Text>().text = inventoryClicked[buttonNumber].Name;
+                tradeSelectedText[1 + 4 * npcTradeBoost].GetComponent<Text>().text = inventoryClicked[buttonNumber].Value.ToString();
+                tradeSelectedText[2 + 4 * npcTradeBoost].GetComponent<Text>().text = inventoryClicked[buttonNumber].ToolTip;
+                tradeSelectedText[3 + 4 * npcTradeBoost].SetActive(true);
+            }
+
             Debug.Log(buttonNumber + " was selected");
         }
         else
         {
-            selectedItem.GetComponent<Image>().sprite = empty.Icon;
-            selectedText[0].GetComponent<Text>().text = empty.Name;
-            selectedText[1].GetComponent<Text>().text = ("");
-            selectedText[2].GetComponent<Text>().text = empty.ToolTip;
-            selectedText[3].SetActive(false);
+            if (activeHUD == 1)
+            {
+                selectedItem.GetComponent<Image>().sprite = empty.Icon;
+                selectedText[0].GetComponent<Text>().text = empty.Name;
+                selectedText[1].GetComponent<Text>().text = ("");
+                selectedText[2].GetComponent<Text>().text = empty.ToolTip;
+                selectedText[3].SetActive(false);
+            }
+            else if(activeHUD == 2)
+            {
+                tradeSelectedItem[0].GetComponent<Image>().sprite = empty.Icon;
+                tradeSelectedItem[1].GetComponent<Image>().sprite = empty.Icon;
+                tradeSelectedText[0].GetComponent<Text>().text = empty.Name;
+                tradeSelectedText[1].GetComponent<Text>().text = ("");
+                tradeSelectedText[2].GetComponent<Text>().text = empty.ToolTip;
+                tradeSelectedText[3].SetActive(false);
+                tradeSelectedText[4].GetComponent<Text>().text = empty.Name;
+                tradeSelectedText[5].GetComponent<Text>().text = ("");
+                tradeSelectedText[6].GetComponent<Text>().text = empty.ToolTip;
+                tradeSelectedText[7].SetActive(false);
+            }
             Debug.Log(buttonNumber + " was selected, but is empty :(");
         }
     }
@@ -284,6 +379,21 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    public void itemTrade()
+    {
+        Debug.Log("traded :)");
+        if (selectedNumber <= 23)
+        {
+            Debug.Log("Trade HUD Instance ID " + gameObject.GetInstanceID());
+            GetComponent<ItemTransferManager>().Transfer(main, npcInv, main.PrintInventory()[selectedNumber]);
+        }
+        else
+        {
+            GetComponent<ItemTransferManager>().Transfer(npcInv, main, inventoryAuxillary[selectedNumber - 24]);
+        }
+        playerSoap.GetComponent<Text>().text = main.soap.ToString();
+    }
+
     /*
      * DIALOGUE HUD METHODS
      */
@@ -297,11 +407,12 @@ public class HUDController : MonoBehaviour
              conversationLoader(activeNpc.GetComponent<DialogueController>().LoadNext(buttonNumber));
         }
     }
-
+    
     //Loads a response based on which button was pressed
     public void conversationLoader(Statement info)
     {
         npcSpeak.GetComponent<Text>().text = info.NpcLine;
+        npcName.GetComponent<Text>().text = activeNpc.GetComponent<Follower>().identity.GetDisplayName();
         dialogueButtons[0].GetComponentInChildren<Text>().text = info.Response[0];
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
