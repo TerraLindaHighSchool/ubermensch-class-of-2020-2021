@@ -72,4 +72,9 @@ public class TransitionController : MonoBehaviour
                 break;
         }
     }
+
+    public void exitButton() //used for exit button
+    {
+        this.GetComponentInChildren<PlayerController>().exitTrade();
+    }
 }

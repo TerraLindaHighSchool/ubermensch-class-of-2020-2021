@@ -9,4 +9,7 @@ public interface InventoryItemInterface
     Sprite Icon { get; }
     string ToolTip { get; }
     bool QuestItem { get; }
+    int StrengthBoost { get; }
+    int CharismaBoost { get; }
+    int ConstitutionBoost { get; }
 }
