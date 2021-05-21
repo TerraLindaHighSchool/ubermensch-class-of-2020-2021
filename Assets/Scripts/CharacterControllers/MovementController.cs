@@ -9,10 +9,9 @@ public class MovementController : MonoBehaviour
     public CharacterController controller;
     public Animator AnimController;
     public GameObject gravityRay;
+    public GameObject gravityRay1;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
-    private float yVelocity;
-    private const float GRAVITY = 0.1f;
     int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;
@@ -23,7 +22,7 @@ public class MovementController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         //calculates direction to move based on inputs
-        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
 
         //Will be set to true if player can move otherwise defaults to false
         bool animate = false;
@@ -31,40 +30,37 @@ public class MovementController : MonoBehaviour
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
-            if (CanMove)
-            {
-                controller.Move(moveDirection * speed * Time.deltaTime);
-                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
-                transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
-                //Debug.Log(turnTo);
+            controller.Move(moveDirection * speed * Time.deltaTime);
+            Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
+            PreventFall(moveDirection);
+            controller.Move(Vector3.down);
 
+            if(CanMove)
+            { 
                 animate = true;
             }
         }
         AnimController.SetBool("isWalking", animate);
-
-        //creates a Vector that keeps the player on the ground
-        Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
-        controller.Move(moveGravity);
     }
     //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
-    private void setGravity()
+    private void PreventFall(Vector3 moveDirection)
     {
-        Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height*10);
-        if(ground.distance > 0 || transitionGravityCheck(ground))
+        Physics.Raycast(gravityRay.transform.position, Vector3.down, out RaycastHit ground, controller.height);
+        Physics.Raycast(gravityRay1.transform.position, Vector3.down, out RaycastHit ground1, controller.height);
+        if (ground.collider == null && ground1.collider == null)
         {
-            yVelocity += GRAVITY;
+            controller.Move(-moveDirection * speed * Time.deltaTime);
+            CanMove = false;
+            //Debug.DrawRay(gravityRay.transform.position, Vector3.down);
         }
         else
         {
-            yVelocity = 0;
+            CanMove = true;
         }
+
     }
 
-    private bool transitionGravityCheck(RaycastHit ground)
-    {
-        return ground.collider == null ? true : false; 
-    }
 
     //Used for testing different inventories
     public StandardInventoryItem rock;
@@ -136,7 +132,6 @@ public class MovementController : MonoBehaviour
         if(this.enabled == true)
         {
             move();
-            setGravity();
             //testKeys(); //FOR TESTING PURPOSES 
             // I added this in the git editor lamo
             inventoryOpen();
