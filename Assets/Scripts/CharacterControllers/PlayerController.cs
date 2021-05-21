@@ -1,17 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public int health { get; set; }
+    // Set health, food, and oxygen to between 0 and 100% (0.0 - 1.0)
+    public float health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
+
+
     public bool isInDialogue { get; set; } //only for camera
+    private bool isInTrading;
     public GameObject mainCamera; // drag main camera into this
     private bool isInTriggerArea;
     private Collider other;
     private GameObject objectHit;
+
+    // Scene Attributed that affect player.  
+    public float foodDepletionRate { get; set; }
+    public float oxygenDepletionRate { get; set; }
 
     // PlayerController Stat Additions
     // Needs a default 
@@ -22,6 +31,18 @@ public class PlayerController : MonoBehaviour
     public int statPoints; //What are stat points used for?  
     public int level;
 
+    private void Awake()
+    {
+        health = 100;
+        food = 100;
+        oxygen = 100;
+    }
+
+    private void Start()
+    {
+        // Applies scenes depletion rate once per minute of game play.
+        InvokeRepeating("ConsumeResources", 2, 60);
+    }
 
     // Update is called once per frame
     void Update()
@@ -30,9 +51,33 @@ public class PlayerController : MonoBehaviour
         {
             Interact();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+    }
+
+    void ConsumeResources()
+    {
+        if (oxygen > 0)
         {
-            OpenMenu();
+            Debug.Log("oxygen at:" + oxygen);
+            oxygen -= (oxygenDepletionRate);
+        }
+        else if (health > 0)
+        {
+            Debug.Log("health at:" + health);
+            health -= (33f);
+        }
+
+        if (health < 0)
+        {
+            health = 0;
+            GameObject UI = GameObject.FindGameObjectWithTag("UI_Manager");
+            GameObject Player = GameObject.FindGameObjectWithTag("Player");
+            SceneManager.LoadScene("StartMenu");
+            Destroy(UI);
+            foreach(GameObject e in GameObject.FindGameObjectsWithTag("DontDestroy"))
+            {
+                Destroy(e);
+            }
+            Destroy(Player);
         }
     }
 
@@ -53,7 +98,11 @@ public class PlayerController : MonoBehaviour
             isInDialogue = false;
             GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(0);
             mainCamera.GetComponent<switchCamera>().isInDialogue = false;
-
+        }
+        else if (isInTrading)
+        {
+            isInTrading = false;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
         }
     }
 
@@ -62,10 +111,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log("taking action");
         if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
-            isInDialogue = true;
-            GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
-            mainCamera.GetComponent<switchCamera>().isInDialogue = true;
-            Debug.Log("is in conversation with " + objectHit.name);
+            if (objectHit.GetComponent<Follower>().identity.merchant == false)
+            {
+                isInDialogue = true;
+                GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
+                mainCamera.GetComponent<switchCamera>().isInDialogue = true;
+                Debug.Log("is in conversation with " + objectHit.name);
+            } else
+            {
+                isInTrading = true;
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(2, this.gameObject, objectHit);
+                Debug.Log("is trading with " + objectHit.name);
+            }
+            
         }
         if (objectHit.CompareTag("Inventory Object"))
         {
@@ -78,13 +136,20 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
-            GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+            oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
+            int exitCheck = 0;
+            foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
+            {
+                foreach(InventoryItemInterface item in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
+                {
+                    if(item == exitReq) { exitCheck++; }
+                }
+            }
+            if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
+            {
+                GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+            }
         }
-    }
-
-    void OpenMenu()
-    {
-        Debug.Log("Menu is opened");
     }
 
     public void SetPlayerStats()
@@ -168,5 +233,11 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Dead Follower Stats removed");
             }
         }
+    }
+    public void exitTrade() //to be used by the exit button in UI
+    {
+        isInTrading = false;
+        GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
+        this.GetComponent<MovementController>().exitButtonMController();
     }
 }

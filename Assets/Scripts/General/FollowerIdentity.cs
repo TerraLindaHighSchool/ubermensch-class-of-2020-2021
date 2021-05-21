@@ -10,11 +10,12 @@ public class FollowerIdentity : ScriptableObject
     public int Value;
     public Sprite Icon;
     public string ToolTip;
+    public bool merchant;
     public int npcStrength;
     public int npcCharisma;
     public int npcConstitution;
 
-    public string GetDisplayName() => "The Follower's Name is: " + Name; 
+    public string GetDisplayName() => Name; 
    
 
     public string GetDisplayDescription()

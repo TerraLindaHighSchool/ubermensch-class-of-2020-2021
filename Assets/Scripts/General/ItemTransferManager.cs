@@ -27,6 +27,20 @@ public class ItemTransferManager : MonoBehaviour
             if(reciever.AddItem(item))
             {
                 sender.RemoveItem(item);
+                if(reciever.inventoryType == InventoryManager.InvType.EquipMenu)
+                {
+                    PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    player.playerStrength += item.StrengthBoost;
+                    player.playerCharisma += item.CharismaBoost;
+                    player.playerConstitution += item.ConstitutionBoost;
+                }
+                if (reciever.inventoryType == InventoryManager.InvType.Player)
+                {
+                    PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    player.playerStrength -= item.StrengthBoost;
+                    player.playerCharisma -= item.CharismaBoost;
+                    player.playerConstitution -= item.ConstitutionBoost;
+                }
                 successful = true;
             }
             else
