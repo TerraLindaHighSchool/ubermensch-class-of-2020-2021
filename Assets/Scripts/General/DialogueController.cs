@@ -149,7 +149,7 @@ public class DialogueController : MonoBehaviour
     }
 
     public string[] SeparateColumnsOfRow(string row)
-        {
+    {
             // Edge case: row is empty string
             if (row.Length == 0)
             {
@@ -221,9 +221,8 @@ public class DialogueController : MonoBehaviour
 
             //Once done, move records from list to array
             return finishedRecords.ToArray();
-
-        }
-
+    }
+    
         /// <summary>
         /// Returns true if the double quote at the currentIndex position of the rowAsCharArray
         /// is escaped.
@@ -231,9 +230,23 @@ public class DialogueController : MonoBehaviour
         /// <param name="rowAsCharArray"></param>
         /// <param name="currentIndex"></param>
         /// <returns></returns>
-        private bool IsDoubleQuoteEscaped(char[] rowAsCharArray, int currentIndex)
-        {
+
+    private bool IsDoubleQuoteEscaped(char[] rowAsCharArray, int currentIndex)
+    {
             // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
-        }
+    }
+    
+    //MVP ADDITION:
+    //This modifies the Npc the player is fightings health by damage
+    private void DamageNpc(int damage)
+    {
+
+    }
+    
+    //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
+    private void DamagePlayer(int damage, int Option)
+    {
+    
+    }
 }
