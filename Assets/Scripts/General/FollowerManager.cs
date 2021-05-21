@@ -1,24 +1,45 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// FollowerManager represents a list of follower identities.
+/// </summary>
 public class FollowerManager : MonoBehaviour
 {
-    public ArrayList followers = new ArrayList();
-    public bool followerRemoved = false; 
-    public void AddFollower(GameObject avatar)
+    [SerializeField]
+    private List<FollowerIdentity> followers = new List<FollowerIdentity>();
+
+    /// <summary>
+    /// Adds a follower to this manager.
+    /// </summary>
+    /// <param name="identityToAdd">The identity of the follower to add.</param>
+    public virtual void AddFollower(FollowerIdentity identityToAdd)
     {
-        followers.Add(avatar);
-    }
-    
-    public void RemoveFollower(string name)
-    {
-        followers.Remove(name);
-        followerRemoved = true; 
+        followers.Add(identityToAdd);
     }
 
-    public ArrayList PrintFollowers()
+    /// <summary>
+    /// Removes the given follower from this manager.
+    /// </summary>
+    /// <param name="identityToRemove">The identity of the follower to remove.</param>
+    /// <returns>True if the identity was removed, false otherwise</returns>
+    public virtual bool RemoveFollower(FollowerIdentity identityToRemove)
     {
-        return followers;
+        return followers.Remove(identityToRemove);
+    }
+
+    /// <summary>
+    /// Returns a read-only copy of the internal.
+    /// </summary>
+    /// <remarks>
+    /// This will return a NEW COPY of the underlying list.
+    /// If you modify this array, IT WILL NOT MODIFY THE UNDERLYING LIST.
+    /// </remarks>
+    public FollowerIdentity[] PrintFollowers()
+    {
+        FollowerIdentity[] copy = new FollowerIdentity[followers.Count];
+        return copy;
     }
 }
+

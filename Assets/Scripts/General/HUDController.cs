@@ -61,9 +61,6 @@ public class HUDController : MonoBehaviour
     //FOLLOWER HUD FIELDS
     public FollowerManager HomeBaseFollowerManager;
     public FollowerManager PlayerFollowerManager;
-    Scene scene = SceneManager.GetActiveScene();
-    ArrayList HomeBaseFollowers;
-    ArrayList PlayerFollowers;
     public GameObject[] followerNames = new GameObject[20];
     public GameObject[] followerDescriptions = new GameObject[20];
     public GameObject[] followerIcons = new GameObject[20];
@@ -454,22 +451,45 @@ public class HUDController : MonoBehaviour
     //FOLLOWER HUD METHODS
     public void updateFollowers(bool isInPlayer)
     {
-
-        if(scene.name == "HomeBase_UnderSubway")
+        FollowerManager currentManager;
+        FollowerIdentity[] currentFollowers;
+        if (!isInPlayer)
         {
-            Debug.Log("HomeBase scene is being used");
-            HomeBaseFollowerManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerManager>();
-            HomeBaseFollowers = HomeBaseFollowerManager.PrintFollowers();
-            for(int i = 0; i < HomeBaseFollowers.Count; i++)
-            {
-
-            }
+            Debug.Log("HomeBase Follower Manager is Being Used");
+            currentManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerManager>();
+            currentFollowers = HomeBaseFollowerManager.PrintFollowers();
         }
         else
         {
-            Debug.Log(scene.name);
-            PlayerFollowerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>();
-            PlayerFollowers = PlayerFollowerManager.PrintFollowers();
+            Debug.Log("Player Follower Manager is Being Used");
+            currentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>();
+            currentFollowers = PlayerFollowerManager.PrintFollowers();
+        }
+        for (int i = 0; i < currentFollowers.Length; i++)
+        {
+            followerDescriptions[i].GetComponentInChildren<Text>().text = currentFollowers[i].GetDisplayDescription();
+            followerNames[i].GetComponentInChildren<Text>().text = currentFollowers[i].GetDisplayName();
+            followerIcons[i].GetComponentInChildren<Image>().sprite = currentFollowers[i].Icon;
+            if(!isInPlayer)
+            {
+                followerButtons[i].GetComponentInChildren<Text>().text = ("Recruit");
+            }
+            else
+            {
+                followerButtons[i].GetComponentInChildren<Text>().text = ("Send Home");
+            }
+            followerDescriptions[i].SetActive(true);
+            followerNames[i].SetActive(true);
+            followerIcons[i].SetActive(true);
+            followerButtons[i].SetActive(true);
+            Debug.Log(currentFollowers[i].GetDisplayName());
+        }
+        for (int i = currentFollowers.Length; i < 21; i++)
+        {
+            followerDescriptions[i].SetActive(false);
+            followerNames[i].SetActive(false);
+            followerIcons[i].SetActive(false);
+            followerButtons[i].SetActive(false);
         }
     }
 

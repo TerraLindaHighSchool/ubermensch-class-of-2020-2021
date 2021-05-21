@@ -28,9 +28,15 @@ public class PlayerController : MonoBehaviour
     public int playerCharisma;
     public int playerConstitution;
 
+    //Total stats of NPCs following the player
+    private int totalNPCStrength;
+    private int totalNPCCharisma;
+    private int totalNPCConstitution;
+
     public int statPoints; //What are stat points used for?  
     public int level;
 
+    //AUTHOR VIVIAN***************************************************************************************************************************
     private void Awake()
     {
         health = 100;
@@ -152,6 +158,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //AUTHOR NICHOLAS**********************************************************************************************************
     public void SetPlayerStats()
     {
         AddFollowerStatsToPlayer();
@@ -169,17 +176,17 @@ public class PlayerController : MonoBehaviour
     // Getter methods that return the player stats: 
     public int GetPlayerStrength()
     {
-        return playerStrength;
+        return playerStrength + totalNPCStrength;
     }
 
     public int GetPlayerCharisma()
     {
-        return playerCharisma;
+        return playerCharisma + totalNPCCharisma;
     }
 
     public int GetPlayerConstitution()
     {
-        return playerConstitution;
+        return playerConstitution + totalNPCConstitution;
     }
 
     //Sets the level number and increases the stat points
@@ -215,8 +222,8 @@ public class PlayerController : MonoBehaviour
     public void RemoveFollowerStatsFromPlayer()
     {
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        ArrayList followers = fm.followers;
-        foreach (Follower f in followers)
+        FollowerIdentity[] followers = fm.PrintFollowers();
+        foreach (FollowerIdentity f in followers)
         {
             FollowerManager currentFollowerManager = GetComponent<FollowerManager>();
             if (currentFollowerManager.followerRemoved == true)
