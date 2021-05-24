@@ -17,7 +17,9 @@ GameObject:
   - component: {fileID: 7422398129273488576}
   - component: {fileID: 4772375970215433853}
   - component: {fileID: 2154553033914047527}
-  m_Layer: 0
+  - component: {fileID: 1973837209}
+  - component: {fileID: 1973837210}
+  m_Layer: 8
   m_Name: GruceBustinModel
   m_TagString: Friendly NPC
   m_Icon: {fileID: 0}
@@ -31,7 +33,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7175458227039033295}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -191,3 +193,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity: {fileID: 11400000, guid: 605b2d4ea57fdd5449228a1474ac848d, type: 2}
+--- !u!114 &1973837209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7175458227039033295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd49a9ef3368c43bca37a818245ff128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  navMeshAgent: {fileID: 1973837210}
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!195 &1973837210
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7175458227039033295}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.9673122
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0.1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.7134721
+  m_BaseOffset: 0.85673606
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
