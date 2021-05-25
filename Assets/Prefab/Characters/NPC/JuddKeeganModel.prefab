@@ -2125,6 +2125,36 @@ Transform:
   m_Father: {fileID: 5287878028473144604}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5730155552189556255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3198963177373654263}
+  m_Layer: 0
+  m_Name: ConversationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3198963177373654263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5730155552189556255}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7043096102844068506}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5884315179636123706
 GameObject:
   m_ObjectHideFlags: 0
@@ -2778,6 +2808,7 @@ GameObject:
   - component: {fileID: 8361355678639883103}
   - component: {fileID: 1786089652338153079}
   - component: {fileID: 6388873752808766181}
+  - component: {fileID: 487390574544874247}
   m_Layer: 0
   m_Name: JuddKeeganModel
   m_TagString: Friendly NPC
@@ -2800,6 +2831,7 @@ Transform:
   - {fileID: 2630903723049679880}
   - {fileID: 6985797813888124695}
   - {fileID: 1871206614636478220}
+  - {fileID: 3198963177373654263}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2886,6 +2918,19 @@ MonoBehaviour:
   startingInventory: []
   soap: 0
   inventoryType: 0
+--- !u!114 &487390574544874247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707288689554303008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5267b93bb924e00a605a296ce71736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversationTransform: {fileID: 5730155552189556255}
 --- !u!1 &7723225533231880408
 GameObject:
   m_ObjectHideFlags: 0

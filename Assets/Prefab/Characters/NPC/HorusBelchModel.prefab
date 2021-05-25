@@ -503,6 +503,7 @@ GameObject:
   - component: {fileID: 3434023259449020108}
   - component: {fileID: 2831412912617295192}
   - component: {fileID: 723610301510216991}
+  - component: {fileID: 2283396506434625208}
   m_Layer: 0
   m_Name: HorusBelchModel
   m_TagString: Friendly NPC
@@ -525,6 +526,7 @@ Transform:
   - {fileID: 6464821816516845611}
   - {fileID: 2145960648009243444}
   - {fileID: 7260556107876852527}
+  - {fileID: 4930077180115776036}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -611,6 +613,19 @@ MonoBehaviour:
   startingInventory: []
   soap: 0
   inventoryType: 0
+--- !u!114 &2283396506434625208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711574523457532931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5267b93bb924e00a605a296ce71736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversationTransform: {fileID: 3236696698340658781}
 --- !u!1 &1719256777493602079
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,6 +1174,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6464821816516845611}
   m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3236696698340658781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4930077180115776036}
+  m_Layer: 0
+  m_Name: ConversationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4930077180115776036
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3236696698340658781}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2056855686699757241}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3417278506448689847
 GameObject:
