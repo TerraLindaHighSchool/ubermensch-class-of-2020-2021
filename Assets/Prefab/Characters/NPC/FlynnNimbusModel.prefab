@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 5650602809053705643}
   - component: {fileID: 9054627154506679456}
   - component: {fileID: 8413806294619995681}
+  - component: {fileID: 604974724242292402}
   m_Layer: 0
   m_Name: FlynnNimbusModel
   m_TagString: Friendly NPC
@@ -310,6 +311,7 @@ Transform:
   - {fileID: 4851433026015182024}
   - {fileID: 514415604751124439}
   - {fileID: 9090169352759541708}
+  - {fileID: 960413276934757213}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -400,6 +402,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5001902828a554098bb14315e607458e, type: 2}
   soap: 360
   inventoryType: 0
+--- !u!114 &604974724242292402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 947113162683869408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5267b93bb924e00a605a296ce71736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conversationTransform: {fileID: 2857943624917517080}
 --- !u!1 &952633902485554172
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,6 +962,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1565718640677615835}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2857943624917517080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 960413276934757213}
+  m_Layer: 0
+  m_Name: ConversationPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &960413276934757213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857943624917517080}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 463592361259053658}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2862303314085498664
 GameObject:
