@@ -24,6 +24,10 @@ public class DialogueController : MonoBehaviour
         return conversation.conversationPoints[2];
     }
 
+    //this.gameObject
+    //gameobject all caps tag for player
+    //
+
     //MVP ADDITION:
       /*Checks if in combat and if so instead loads in combat options from the npcs in the players party
       FollowerManager/ 
@@ -33,8 +37,13 @@ public class DialogueController : MonoBehaviour
       CREATES A NEW STATEMENT WITH THIS INFORMATION TO RETURN*/
     public Statement StartCombat()
     {
-        inCombat = true;
-        return combat.conversationPoints[0];
+        //how does it load them in and like where does it get them from
+        //is it the player needs three for the options or depending on how many it has is how many it loads
+        if(inCombat)
+        {
+            inCombat = true;
+            return combat.conversationPoints[0];
+        }
     }
 
     //returns next statement based selected answer. If 0 is loaded askedToJoin will be set to true and 0/1 will be loaded based on relationshipType.
@@ -45,28 +54,33 @@ public class DialogueController : MonoBehaviour
     {
         DialogueTree activeDialogueTree;
 
-        if (inCombat) { activeDialogueTree = combat; }
+        if (inCombat)
+        {
+        activeDialogueTree = combat;
+        //how does like the statemet and the like damages and stuff work
+        //DamageNpc()
+        }
         else { activeDialogueTree = conversation; }
         setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
 
         currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
 
         return activeDialogueTree.conversationPoints[currentposition];
-    if (Option == 0)
+        if (Option == 0)
         {
-            //pretty sure relation ship type is supposeed to be 0-2 so I don't think there is a 2.5 but ok
+            askedToJoin = true;
+            
             if (activeDialogueTree.relationshipType > 2.5)
             {
-                FollowerManager followers = GetComponent<FollowerManager>();
-                followers.AddFollower(Npc);
-                
+                FollowerManager followers = GetComponent<FollowerManager();                
+                followers.AddFollower(this.gameObject.GetComponent<Follower>()); 
+                return activeDialogueTree.conversationPoints[0];              
             }
             else
-            {
-                
+            {   
                 setRelationshipType(-0.5f);
+                return activeDialogueTree.conversationPoints[1];
             }
-
         }
     }
 
@@ -241,12 +255,14 @@ public class DialogueController : MonoBehaviour
     //This modifies the Npc the player is fightings health by damage
     private void DamageNpc(int damage)
     {
-
+        npcBeingFought = this.gameObject.GetComponent<Follower>();
+        //is damage supposed to be positive or negative
+        npcBeingFought.identity.npcHealth = npcBeingFought.identity.npcHealth - damage;
     }
     
     //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
     private void DamagePlayer(int damage, int Option)
     {
-    
+        //why would the player die if option 0 attacked
     }
 }
