@@ -29,14 +29,14 @@ public class ItemTransferManager : MonoBehaviour
                 sender.RemoveItem(item);
                 if(reciever.inventoryType == InventoryManager.InvType.EquipMenu)
                 {
-                    PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
                     player.playerStrength += item.StrengthBoost;
                     player.playerCharisma += item.CharismaBoost;
                     player.playerConstitution += item.ConstitutionBoost;
                 }
                 if (reciever.inventoryType == InventoryManager.InvType.Player)
                 {
-                    PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+                    PlayerController player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
                     player.playerStrength -= item.StrengthBoost;
                     player.playerCharisma -= item.CharismaBoost;
                     player.playerConstitution -= item.ConstitutionBoost;
