@@ -159,33 +159,23 @@ public class PlayerController : MonoBehaviour
     }
 
     //AUTHOR NICHOLAS**********************************************************************************************************
-    public void SetPlayerStats()
-    {
-        AddFollowerStatsToPlayer();
-        RemoveFollowerStatsFromPlayer();
-
-        if (isInTriggerArea == true && objectHit.CompareTag("Non-Friendly NPC"))
-        {
-            playerStrength--;
-            playerCharisma--;
-            playerConstitution--;
-            Debug.Log("Is in combat, strength, charisma, and constitution declined");
-        }
-    }
 
     // Getter methods that return the player stats: 
     public int GetPlayerStrength()
     {
+        AddFollowerStatsToPlayer();
         return playerStrength + totalNPCStrength;
     }
 
     public int GetPlayerCharisma()
     {
+        AddFollowerStatsToPlayer();
         return playerCharisma + totalNPCCharisma;
     }
 
     public int GetPlayerConstitution()
     {
+        AddFollowerStatsToPlayer();
         return playerConstitution + totalNPCConstitution;
     }
 
@@ -194,16 +184,17 @@ public class PlayerController : MonoBehaviour
     public void SetLevelNum()
     {
         level++;
-        playerStrength += 2;
-        playerCharisma += 2;
-        playerConstitution += 2;
+        statPoints += 2;
     }
 
     public void AddFollowerStatsToPlayer()
     {
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        ArrayList followers = fm.followers;
-        foreach (Follower f in followers)
+        FollowerIdentity[] followers = fm.PrintFollowers();
+        totalNPCStrength = 0;
+        totalNPCCharisma = 0;
+        totalNPCConstitution = 0;
+        foreach (FollowerIdentity f in followers)
         {
             // gets follow identity of the follower in the array 
             FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
@@ -212,33 +203,10 @@ public class PlayerController : MonoBehaviour
             int followerCharisma = currentFollower.GetFollowerCharisma();
             int followerConstitution = currentFollower.GetFollowerConstitution();
             // adds the follower's stat to the player's stat
-            playerStrength += followerStrength;
-            playerCharisma += followerCharisma;
-            playerConstitution += followerConstitution;
-            Debug.Log("Follower Stats Added");
-        }
-    }
-
-    public void RemoveFollowerStatsFromPlayer()
-    {
-        FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        FollowerIdentity[] followers = fm.PrintFollowers();
-        foreach (FollowerIdentity f in followers)
-        {
-            FollowerManager currentFollowerManager = GetComponent<FollowerManager>();
-            if (currentFollowerManager.followerRemoved == true)
-            {
-                FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
-                // gets the individual stat 
-                int followerStrength = currentFollower.GetFollowerStrength();
-                int followerCharisma = currentFollower.GetFollowerCharisma();
-                int followerConstitution = currentFollower.GetFollowerConstitution();
-                // removes the stat from the player's 
-                playerStrength -= followerStrength;
-                playerCharisma -= followerCharisma;
-                playerConstitution -= followerConstitution;
-                Debug.Log("Dead Follower Stats removed");
-            }
+            totalNPCStrength += followerStrength;
+            totalNPCCharisma += followerCharisma;
+            totalNPCConstitution += followerConstitution;
+            Debug.Log("Follower Stats Totaled");
         }
     }
 }

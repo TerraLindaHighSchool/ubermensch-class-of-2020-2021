@@ -90,7 +90,7 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
             }
-            if (activeHUD == 1)
+            else if(activeHUD == 1)
             {
                 Debug.Log("Inventory");
                 invOpen = true;
@@ -98,13 +98,19 @@ public class HUDController : MonoBehaviour
                 inventoryLoader(equipMenu.PrintInventory(), 2);
                 inventoryLoader(main.PrintInventory(), 1);
             }
-            if(activeHUD == 2)
+            else if(activeHUD == 2)
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
             }
-            if(activeHUD == 3)
+            else if(activeHUD == 3)
             {
-                
+                updateFollowers(true);
+                Debug.Log("Player Follower");
+            }
+            else if(activeHUD == 4)
+            {
+                updateFollowers(false);
+                Debug.Log("HomeBase Follower");
             }
             Debug.Log("HUD Loaded");
         }
@@ -139,6 +145,14 @@ public class HUDController : MonoBehaviour
                 inventoryLoader(main.PrintInventory(), 3);
                 inventoryLoader(npcInv.PrintInventory(), 4);
                 playerSoap.GetComponent<Text>().text = main.soap.ToString();
+            }
+            if(activeHUD == 3)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+            }
+            if (activeHUD == 4)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
             }
             Debug.Log("HUD Loaded");
         }
@@ -199,7 +213,6 @@ public class HUDController : MonoBehaviour
     public void HUDDeLoader(int hud)
     {
         Huds[hud].SetActive(false);
-        Debug.Log("HUD Unloaded");
 
         if (hud == 0)
         {
@@ -220,6 +233,19 @@ public class HUDController : MonoBehaviour
             selectedText[3].SetActive(false);
             Debug.Log("Inventory");
         }
+        if(hud == 2)
+        {
+            Debug.Log("Trade Menu");
+        }
+        if(hud == 3)
+        {
+            Debug.Log("Player Follower");
+        }
+        if(hud == 4)
+        {
+            Debug.Log("HomeBase Follower");
+        }
+        Debug.Log("HUD Unloaded");
     }
 
     /*
@@ -227,7 +253,7 @@ public class HUDController : MonoBehaviour
      */
 
     //Loads every single different inventory.
-    //Currently only loads the player inventory, as other inventories do not exist yet
+    //Currently loads the player inventory with 1, the equip inventory with 2, the player trade inventory with 3, and the NPC trade inventory with 4
     public void inventoryLoader(List<InventoryItemInterface> inventory, int hud)
     {
         int hudSpace = 0;
@@ -380,6 +406,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //Sets equipMenu and main to the proper InventoryManagers of the Player
     public void determineInv()
     {
         InventoryManager[] menus = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<InventoryManager>();
@@ -408,6 +435,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //Trades the selected item when the button is pressed
     public void itemTrade()
     {
         Debug.Log("traded :)");
@@ -448,8 +476,12 @@ public class HUDController : MonoBehaviour
         dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
     }
 
-    //FOLLOWER HUD METHODS
-    public void updateFollowers(bool isInPlayer)
+    /*
+     * FOLLOWER HUD METHODS
+     */
+
+    //Based on if the Player follower list or Homebase follower list is being used, the proper follower list is loaded onto the HUD
+    public void updateFollowers(bool isInPlayer) 
     {
         FollowerManager currentManager;
         FollowerIdentity[] currentFollowers;
@@ -486,6 +518,7 @@ public class HUDController : MonoBehaviour
         }
         for (int i = currentFollowers.Length; i < 21; i++)
         {
+            //Scrollbar resizing here
             followerDescriptions[i].SetActive(false);
             followerNames[i].SetActive(false);
             followerIcons[i].SetActive(false);
@@ -493,6 +526,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //Moves the followers between the two follower lists on button press
     public void moveFollowers(int buttonNumber) //WAITING FOR FollowerTrader
     {
         /* 
