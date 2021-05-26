@@ -209,4 +209,10 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Follower Stats Totaled");
         }
     }
+    public void exitTrade() //to be used by the exit button in UI
+    {
+        isInTrading = false;
+        GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
+        this.GetComponent<MovementController>().exitButtonMController();
+    }
 }
