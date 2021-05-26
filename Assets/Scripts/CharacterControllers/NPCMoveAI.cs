@@ -7,12 +7,10 @@ public class NPCMoveAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
-    //private Animator animController;
+    private Animator animController;
     private GameObject player;
     private int currentWaypointIndex;
     private bool isAtWaypoint;
-    private float animationBlend;
-    private int blendHash;
     private const float SPEED = 2.0f;
     private const float ANGULAR_SPEED = 120.0f;
     private const float WAIT_TIME = 3.0f;
@@ -20,12 +18,12 @@ public class NPCMoveAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //animController = GetComponentInChildren<Animator>();
-        //animationBlend = 1.0f;  // set animation to walk
-        //blendHash = Animator.StringToHash("blend");
+        animController = GetComponent<Animator>();
         SetMotion(SPEED, ANGULAR_SPEED);
+        animController.SetFloat(Animator.StringToHash("Blend"), 1);
         navMeshAgent.stoppingDistance = 1.0f;
         navMeshAgent.SetDestination(waypoints[0].position);
+        navMeshAgent.stoppingDistance = .1f;
         player = GameObject.Find("PlayerModel"); 
     }
 
@@ -38,14 +36,11 @@ public class NPCMoveAI : MonoBehaviour
 
     private void CheckIfAtWaypoint()
     {
-        if(navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance - .9f)
+        if(navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
         {
             StartCoroutine(WaitAtWaypoint());
-            if (waypoints.Length > 0)
-            {
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-                navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
-            }
+            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+            navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
         }
     }
 
@@ -70,11 +65,12 @@ public class NPCMoveAI : MonoBehaviour
 
     private IEnumerator WaitAtWaypoint()
     {
-        
         isAtWaypoint = true;
-        SetMotion(0, 0); 
+        SetMotion(0, 0);
+        animController.SetFloat(Animator.StringToHash("Blend"), 0);
         yield return new WaitForSeconds(WAIT_TIME);
         isAtWaypoint = false;
         SetMotion(SPEED, ANGULAR_SPEED);
+        animController.SetFloat(Animator.StringToHash("Blend"), 1);
     }
 }
