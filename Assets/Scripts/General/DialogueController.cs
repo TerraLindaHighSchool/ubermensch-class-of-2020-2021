@@ -271,8 +271,9 @@ public class DialogueController : MonoBehaviour
         }
         else
         {
-            FollowerManager followers = getComponent<FollowerManager>();
-
+            FollowerManager followerDamaged = getComponent<FollowerManager>();
+            health = followerDamaged.followers[Option--].GetComponent<Follower>.identity.npcHealth;
+            health = health - damage;
         }
     }
 }
