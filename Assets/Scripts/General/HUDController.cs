@@ -59,8 +59,6 @@ public class HUDController : MonoBehaviour
     public bool inConversation = false;
 
     //FOLLOWER HUD FIELDS
-    public FollowerManager HomeBaseFollowerManager;
-    public FollowerManager PlayerFollowerManager;
     public GameObject[] followerNames = new GameObject[20];
     public GameObject[] followerDescriptions = new GameObject[20];
     public GameObject[] followerIcons = new GameObject[20];
@@ -489,13 +487,13 @@ public class HUDController : MonoBehaviour
         {
             Debug.Log("HomeBase Follower Manager is Being Used");
             currentManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerManager>();
-            currentFollowers = HomeBaseFollowerManager.PrintFollowers();
+            currentFollowers = currentManager.PrintFollowers();
         }
         else
         {
             Debug.Log("Player Follower Manager is Being Used");
             currentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>();
-            currentFollowers = PlayerFollowerManager.PrintFollowers();
+            currentFollowers = currentManager.PrintFollowers();
         }
         for (int i = 0; i < currentFollowers.Length; i++)
         {

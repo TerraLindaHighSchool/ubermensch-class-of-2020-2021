@@ -92,6 +92,12 @@ public class MovementController : MonoBehaviour
         if(Input.GetKeyDown("u"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(4, this.gameObject);
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(4);
         }
     } 
 
@@ -136,7 +142,7 @@ public class MovementController : MonoBehaviour
         if(this.enabled == true)
         {
             move();
-            //testKeys(); //FOR TESTING PURPOSES 
+            testKeys(); //FOR TESTING PURPOSES 
             // I added this in the git editor lamo
             inventoryOpen();
         }
