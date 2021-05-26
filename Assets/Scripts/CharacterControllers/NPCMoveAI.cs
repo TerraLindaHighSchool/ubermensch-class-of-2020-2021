@@ -7,7 +7,7 @@ public class NPCMoveAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
-    private Animator animController;
+    //private Animator animController;
     private GameObject player;
     private int currentWaypointIndex;
     private bool isAtWaypoint;
@@ -20,9 +20,9 @@ public class NPCMoveAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animController = GetComponentInChildren<Animator>();
-        animationBlend = 1.0f;  // set animation to walk
-        blendHash = Animator.StringToHash("blend");
+        //animController = GetComponentInChildren<Animator>();
+        //animationBlend = 1.0f;  // set animation to walk
+        //blendHash = Animator.StringToHash("blend");
         SetMotion(SPEED, ANGULAR_SPEED);
         navMeshAgent.stoppingDistance = 1.0f;
         navMeshAgent.SetDestination(waypoints[0].position);
@@ -34,16 +34,6 @@ public class NPCMoveAI : MonoBehaviour
     {
         CheckIfAtWaypoint();
         CheckIfNearPlayer(); 
-        if(navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
-        {
-            animationBlend -= Time.deltaTime * .1f;
-            animController.SetFloat(blendHash, animationBlend);
-        }
-        else if(animationBlend <= 1)
-        {
-            animationBlend += Time.deltaTime * .1f;
-            animController.SetFloat(blendHash, animationBlend);
-        }
     }
 
     private void CheckIfAtWaypoint()
@@ -51,8 +41,11 @@ public class NPCMoveAI : MonoBehaviour
         if(navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance - .9f)
         {
             StartCoroutine(WaitAtWaypoint());
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-            navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
+            if (waypoints.Length > 0)
+            {
+                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
+            }
         }
     }
 
