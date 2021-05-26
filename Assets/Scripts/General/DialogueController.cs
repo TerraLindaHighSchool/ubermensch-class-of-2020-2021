@@ -72,7 +72,7 @@ public class DialogueController : MonoBehaviour
             
             if (activeDialogueTree.relationshipType > 2.5)
             {
-                FollowerManager followers = GetComponent<FollowerManager();                
+                FollowerManager followers = GetComponent<FollowerManager>();                
                 followers.AddFollower(this.gameObject.GetComponent<Follower>()); 
                 return activeDialogueTree.conversationPoints[0];              
             }
@@ -255,7 +255,7 @@ public class DialogueController : MonoBehaviour
     //This modifies the Npc the player is fightings health by damage
     private void DamageNpc(int damage)
     {
-        npcBeingFought = this.gameObject.GetComponent<Follower>();
+        Follower npcBeingFought = this.gameObject.GetComponent<Follower>();
         //is damage supposed to be positive or negative
         npcBeingFought.identity.npcHealth = npcBeingFought.identity.npcHealth - damage;
     }
@@ -263,6 +263,14 @@ public class DialogueController : MonoBehaviour
     //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
     private void DamagePlayer(int damage, int Option)
     {
-        //why would the player die if option 0 attacked
+        //need the player and the Npc
+        if(Option = 0)
+        {
+            PlayerController player = getComponent<PlayerController>();
+        }
+        else
+        {
+        
+        }
     }
 }
