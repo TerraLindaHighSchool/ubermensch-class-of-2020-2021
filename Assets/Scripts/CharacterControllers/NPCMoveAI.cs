@@ -7,10 +7,12 @@ public class NPCMoveAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
-   // public Animator animController;
+    //private Animator animController;
     private GameObject player;
     private int currentWaypointIndex;
     private bool isAtWaypoint;
+    private float animationBlend;
+    private int blendHash;
     private const float SPEED = 2.0f;
     private const float ANGULAR_SPEED = 120.0f;
     private const float WAIT_TIME = 3.0f;
@@ -18,8 +20,11 @@ public class NPCMoveAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // start walking animation
+        //animController = GetComponentInChildren<Animator>();
+        //animationBlend = 1.0f;  // set animation to walk
+        //blendHash = Animator.StringToHash("blend");
         SetMotion(SPEED, ANGULAR_SPEED);
+        navMeshAgent.stoppingDistance = 1.0f;
         navMeshAgent.SetDestination(waypoints[0].position);
         player = GameObject.Find("PlayerModel"); 
     }
@@ -33,11 +38,14 @@ public class NPCMoveAI : MonoBehaviour
 
     private void CheckIfAtWaypoint()
     {
-        if(navMeshAgent.stoppingDistance > navMeshAgent.remainingDistance)
+        if(navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance - .9f)
         {
             StartCoroutine(WaitAtWaypoint());
-            currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
-            navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
+            if (waypoints.Length > 0)
+            {
+                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                navMeshAgent.SetDestination(waypoints[currentWaypointIndex].position);
+            }
         }
     }
 
@@ -62,13 +70,10 @@ public class NPCMoveAI : MonoBehaviour
 
     private IEnumerator WaitAtWaypoint()
     {
-        //run idle animation before yield
-        // animController.SetBool("isWalking", false); 
+        
         isAtWaypoint = true;
         SetMotion(0, 0); 
         yield return new WaitForSeconds(WAIT_TIME);
-        // start walking animation
-        // animController.SetBool("isWalking", true);
         isAtWaypoint = false;
         SetMotion(SPEED, ANGULAR_SPEED);
     }
