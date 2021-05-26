@@ -7,10 +7,12 @@ public class NPCMoveAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
-   // public Animator animController;
+    private Animator animController;
     private GameObject player;
     private int currentWaypointIndex;
     private bool isAtWaypoint;
+    private bool isNearPlayer;
+    private float animBlendValue;
     private const float SPEED = 2.0f;
     private const float ANGULAR_SPEED = 120.0f;
     private const float WAIT_TIME = 3.0f;
@@ -18,9 +20,13 @@ public class NPCMoveAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // start walking animation
+        animController = GetComponent<Animator>();
         SetMotion(SPEED, ANGULAR_SPEED);
+        animBlendValue = 1;
+        animController.SetFloat(Animator.StringToHash("Blend"), animBlendValue);
+        navMeshAgent.stoppingDistance = 1.0f;
         navMeshAgent.SetDestination(waypoints[0].position);
+        navMeshAgent.stoppingDistance = .1f;
         player = GameObject.Find("PlayerModel"); 
     }
 
@@ -28,12 +34,13 @@ public class NPCMoveAI : MonoBehaviour
     void Update()
     {
         CheckIfAtWaypoint();
-        CheckIfNearPlayer(); 
+        CheckIfNearPlayer();
+        animationTransition();
     }
 
     private void CheckIfAtWaypoint()
     {
-        if(navMeshAgent.stoppingDistance > navMeshAgent.remainingDistance)
+        if(navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
         {
             StartCoroutine(WaitAtWaypoint());
             currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
@@ -46,10 +53,12 @@ public class NPCMoveAI : MonoBehaviour
         Vector3 vectorToPlayer = player.transform.position - transform.position;
         if (vectorToPlayer.magnitude < 2)
         {
+            isNearPlayer = true;
             SetMotion(0, 0);
             Quaternion directionToPlayer = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(vectorToPlayer.x, vectorToPlayer.z), 0);            transform.rotation = Quaternion.Slerp(transform.rotation, directionToPlayer, 5.0f * Time.deltaTime);
-        }else if(! isAtWaypoint)
+        }else if(!isAtWaypoint)
         {
+            isNearPlayer = false;
             SetMotion(SPEED, ANGULAR_SPEED); 
         }
     }
@@ -60,16 +69,32 @@ public class NPCMoveAI : MonoBehaviour
         navMeshAgent.angularSpeed = angularSpeed; 
     }
 
+    private void animationTransition()
+    {
+        if(navMeshAgent.remainingDistance < 1 || isAtWaypoint || isNearPlayer)
+        {
+            if(animBlendValue >= 0)
+            {
+                animBlendValue -= Time.deltaTime;
+                animController.SetFloat(Animator.StringToHash("Blend"), animBlendValue);
+            }
+        }
+        else if(animBlendValue <= 1)
+        {
+            animBlendValue += Time.deltaTime;
+            animController.SetFloat(Animator.StringToHash("Blend"), animBlendValue);
+        }
+
+    }
+
     private IEnumerator WaitAtWaypoint()
     {
-        //run idle animation before yield
-        // animController.SetBool("isWalking", false); 
         isAtWaypoint = true;
-        SetMotion(0, 0); 
+        SetMotion(0, 0);
+        //animController.SetFloat(Animator.StringToHash("Blend"), 0);
         yield return new WaitForSeconds(WAIT_TIME);
-        // start walking animation
-        // animController.SetBool("isWalking", true);
         isAtWaypoint = false;
         SetMotion(SPEED, ANGULAR_SPEED);
+        //animController.SetFloat(Animator.StringToHash("Blend"), 1);
     }
 }
