@@ -57,8 +57,12 @@ public class DialogueController : MonoBehaviour
         if (inCombat)
         {
         activeDialogueTree = combat;
-        //how does like the statemet and the like damages and stuff work
-        //DamageNpc()
+        
+        //hmm
+        DamageNpc(Option);
+        
+        //is it 0?
+        DamagePlayer(GetComponent<Attack>().damage,0)
         }
         else { activeDialogueTree = conversation; }
         setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
@@ -266,12 +270,12 @@ public class DialogueController : MonoBehaviour
         //need the player and the Npc
         if(Option = 0)
         {
-            PlayerController player = getComponent<PlayerController>();
+            PlayerController player = GetComponent<PlayerController>();
             player health.set(0);
         }
         else
         {
-            FollowerManager followerDamaged = getComponent<FollowerManager>();
+            FollowerManager followerDamaged = GetComponent<FollowerManager>();
             health = followerDamaged.followers[Option--].GetComponent<Follower>.identity.npcHealth;
             health = health - damage;
         }
