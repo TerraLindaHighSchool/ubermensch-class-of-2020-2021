@@ -267,10 +267,12 @@ public class DialogueController : MonoBehaviour
         if(Option = 0)
         {
             PlayerController player = getComponent<PlayerController>();
+            player health.set(0);
         }
         else
         {
-        
+            FollowerManager followers = getComponent<FollowerManager>();
+
         }
     }
 }
