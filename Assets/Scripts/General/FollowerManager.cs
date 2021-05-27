@@ -38,7 +38,7 @@ public class FollowerManager : MonoBehaviour
     /// </remarks>
     public FollowerIdentity[] PrintFollowers()
     {
-        FollowerIdentity[] copy = new FollowerIdentity[followers.Count];
+        FollowerIdentity[] copy = followers.ToArray();
         return copy;
     }
 }

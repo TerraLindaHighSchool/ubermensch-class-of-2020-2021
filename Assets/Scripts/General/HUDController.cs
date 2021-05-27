@@ -514,13 +514,20 @@ public class HUDController : MonoBehaviour
             followerButtons[i].SetActive(true);
             Debug.Log(currentFollowers[i].GetDisplayName());
         }
-        for (int i = currentFollowers.Length; i < 21; i++)
+        for (int i = currentFollowers.Length; i < 20; i++)
         {
-            //Scrollbar resizing here
             followerDescriptions[i].SetActive(false);
             followerNames[i].SetActive(false);
             followerIcons[i].SetActive(false);
             followerButtons[i].SetActive(false);
+        }
+        if (currentFollowers.Length < 7)
+        {
+            GameObject.Find("Scrollbar Vertical").GetComponent<Scrollbar>().size = 0.99f;
+        }
+        else
+        {
+            GameObject.Find("Scrollbar Vertical").GetComponent<Scrollbar>().size = (1.2943f - .0491f * currentFollowers.Length);
         }
     }
 
