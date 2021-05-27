@@ -16,7 +16,6 @@ public class FollowerManager : MonoBehaviour
     public virtual void AddFollower(FollowerIdentity identityToAdd)
     {
         followers.Add(identityToAdd);
-        String.Copy("Hello");
     }
 
     /// <summary>
@@ -30,12 +29,43 @@ public class FollowerManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the FollowerIdentity for the given integer index.
+    /// </summary>
+    public FollowerIdentity this[int i]
+    {
+        get { return followers[i]; }
+    }
+
+    /// <summary>
+    /// Removes the follower at the given index.
+    /// </summary>
+    /// <param name="index">The index at which to remove the follower.</param>
+    /// <returns>
+    /// The FollowerIdentity that was removed, 
+    /// or null if the follower could not be removed.
+    /// </returns>
+    public virtual FollowerIdentity RemoveFollowerAt(int index)
+    {
+        // Do not remove if out of bounds.
+        if (index < 0 || index >= followers.Count)
+        {
+            return null;
+        }
+
+        // Remove
+        FollowerIdentity at = followers[index];
+        followers.RemoveAt(index);
+        return at;
+    }
+
+
+    /// <summary>
     /// Returns a copy of the internal list of followers
     /// </summary>
     /// <returns></returns>
     public FollowerIdentity[] PrintFollowers()
     {
-        FollowerIdentity[] copy = new FollowerIdentity[followers.Count];
+        FollowerIdentity[] copy = followers.ToArray();
         return copy;
     }
 }

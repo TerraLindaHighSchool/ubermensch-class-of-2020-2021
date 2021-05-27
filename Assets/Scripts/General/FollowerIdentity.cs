@@ -14,6 +14,7 @@ public class FollowerIdentity : ScriptableObject
     public int npcStrength;
     public int npcCharisma;
     public int npcConstitution;
+    public GameObject prefab;
 
     public string GetDisplayName() => Name; 
    
