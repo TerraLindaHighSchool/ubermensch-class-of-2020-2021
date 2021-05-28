@@ -65,7 +65,7 @@ public class HUDController : MonoBehaviour
     public GameObject[] followerIcons = new GameObject[20];
     public GameObject[] followerButtons = new GameObject[20];
     public bool followerMenuIsOpen = false;
-    //public FollowerTrader FollowerMover();
+    public FollowerTrader FollowerMover;
 
     //ACTIVE HUD FIELDS
     public GameObject hudFood;
@@ -539,10 +539,7 @@ public class HUDController : MonoBehaviour
         }
         for (int i = currentFollowers.Length; i < 20; i++)
         {
-            followerDescriptions[i].SetActive(false);
-            followerNames[i].SetActive(false);
-            followerIcons[i].SetActive(false);
-            followerButtons[i].SetActive(false);
+            deactivateFollower(i);
         }
         if (currentFollowers.Length < 7)
         {
@@ -554,19 +551,28 @@ public class HUDController : MonoBehaviour
         }
     }
 
-    //Moves the followers between the two follower lists on button press
-    public void moveFollowers(int buttonNumber) //WAITING FOR FollowerTrader
+    //Kills eye
+    private void deactivateFollower(int i)
     {
-        /* 
-         * if(activeHUD == 3)
-         * {
-         *      moveFollower(buttonNumber, true);
-         *  }
-         * else if(activeHUD == 4)
-         * {
-         *      moveFollower(buttonNumber, false);
-         * }
-         */
+        followerDescriptions[i].SetActive(false);
+        followerNames[i].SetActive(false);
+        followerIcons[i].SetActive(false);
+        followerButtons[i].SetActive(false);
+    }
+    //Moves the followers between the two follower lists on button press
+    public void moveFollowers(int buttonNumber)
+    {
+        if (activeHUD == 3)
+        {
+            FollowerMover.MoveFollower(buttonNumber, true);
+        }
+        else if (activeHUD == 4)
+        {
+            FollowerMover.MoveFollower(buttonNumber, false);
+        }
+        Debug.Log(followerNames[buttonNumber].GetComponentInChildren<Text>().text + " is no longer with us :)");
+        deactivateFollower(buttonNumber);
+        HUDLoader();
     }
 
     /*
@@ -579,5 +585,7 @@ public class HUDController : MonoBehaviour
         determineInv();
         hudSoap.GetComponentInChildren<Text>().text = main.soap.ToString();
         hudFood.GetComponentInChildren<Text>().text = playerHUDDetails.food.ToString();
+        hudHealth.GetComponent<RectTransform>().sizeDelta = new Vector2(13, (playerHUDDetails.health / 100 * 50.1f) + 2.9f);
+        hudOxygen.GetComponent<RectTransform>().sizeDelta = new Vector2(18, (playerHUDDetails.oxygen / 100 * 33.95f) + 3.1f);
     }
 }

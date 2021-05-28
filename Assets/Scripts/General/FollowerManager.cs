@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class FollowerManager : MonoBehaviour
 {
+    [SerializeField]
     private List<FollowerIdentity> followers = new List<FollowerIdentity>();
 
     /// <summary>

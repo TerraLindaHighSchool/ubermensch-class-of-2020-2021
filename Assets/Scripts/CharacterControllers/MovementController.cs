@@ -99,6 +99,16 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(4);
         }
+        if (Input.GetKeyDown("q"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDLoader(3, this.gameObject);
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            TestHUDController.HUDDeLoader(3);
+        }
     } 
 
     //Used to open, close, and add to the player inventory
@@ -142,7 +152,7 @@ public class MovementController : MonoBehaviour
         if(this.enabled == true)
         {
             move();
-            testKeys(); //FOR TESTING PURPOSES 
+            //testKeys(); //FOR TESTING PURPOSES 
             // I added this in the git editor lamo
             inventoryOpen();
         }
