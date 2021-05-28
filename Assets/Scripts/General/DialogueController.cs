@@ -46,17 +46,17 @@ public class DialogueController : MonoBehaviour
             gameObject currentPlayer = gameObject.Find("Player");
             FollowerManager curentFollowers = GetComponent<FollowerManager>();
             string[] descriptions;
-            for(l = 0, l < 2, l++)
+            float[] damageToDo;
+            int[] outcomes;
+            for(l = 0, l < 3, l++)
             {
                 descriptions[l] = currentFollowers[l].GetComponent<Attack>().playerDescription;
+                damageToDo[l] = (float) currentFollowers[l].GetCompenent<Attack>().damage;
+                //
+                outcomes[l] = 1;
             }
 
-            Statement statementToReturn = new Statement(combatNpc.npcDescription, , ,);
-            //get attack getcomp avatar
-            //so the player desccription is in place of NpcLine
-            //the options of the other ones are npc description R    need a string array
-            //responsemodifier is the Damage    float array
-            //and response outcome is 0    int array
+            Statement statementToReturn = new Statement(combatNpc.npcDescription, descriptions, damageToDo, outcomes);
             return statementToReturn;
         }
     }
