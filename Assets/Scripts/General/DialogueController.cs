@@ -39,10 +39,25 @@ public class DialogueController : MonoBehaviour
     {
         //how does it load them in and like where does it get them from
         //is it the player needs three for the options or depending on how many it has is how many it loads
-        if(inCombat)
+        for(inCombat)
         {
-            inCombat = true;
-            return combat.conversationPoints[0];
+            Attack combatNpc = GetComponent<Attack>();
+            
+            gameObject currentPlayer = gameObject.Find("Player");
+            FollowerManager curentFollowers = GetComponent<FollowerManager>();
+            string[] descriptions;
+            for(l = 0, l < 2, l++)
+            {
+                descriptions[l] = currentFollowers[l].GetComponent<Attack>().playerDescription;
+            }
+
+            Statement statementToReturn = new Statement(combatNpc.npcDescription, , ,);
+            //get attack getcomp avatar
+            //so the player desccription is in place of NpcLine
+            //the options of the other ones are npc description R    need a string array
+            //responsemodifier is the Damage    float array
+            //and response outcome is 0    int array
+            return statementToReturn;
         }
     }
 
@@ -270,13 +285,14 @@ public class DialogueController : MonoBehaviour
         //need the player and the Npc
         if(Option = 0)
         {
-            PlayerController player = GetComponent<PlayerController>();
+
+            PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
             player health.set(0);
         }
         else
         {
             FollowerManager followerDamaged = GetComponent<FollowerManager>();
-            health = followerDamaged.followers[Option--].GetComponent<Follower>.identity.npcHealth;
+            health = followerDamaged.followers[Option--].GetComponent<Follower>().identity.npcHealth;
             health = health - damage;
         }
     }
