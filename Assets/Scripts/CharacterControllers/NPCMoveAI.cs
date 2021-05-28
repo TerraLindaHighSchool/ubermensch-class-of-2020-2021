@@ -91,10 +91,8 @@ public class NPCMoveAI : MonoBehaviour
     {
         isAtWaypoint = true;
         SetMotion(0, 0);
-        //animController.SetFloat(Animator.StringToHash("Blend"), 0);
         yield return new WaitForSeconds(WAIT_TIME);
         isAtWaypoint = false;
         SetMotion(SPEED, ANGULAR_SPEED);
-        //animController.SetFloat(Animator.StringToHash("Blend"), 1);
     }
 }

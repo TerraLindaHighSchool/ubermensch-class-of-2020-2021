@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public class FollowerManager : MonoBehaviour
 {
-    [SerializeField]
     private List<FollowerIdentity> followers = new List<FollowerIdentity>();
 
     /// <summary>
@@ -30,12 +29,40 @@ public class FollowerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns a read-only copy of the internal.
+    /// Returns the FollowerIdentity for the given integer index.
     /// </summary>
-    /// <remarks>
-    /// This will return a NEW COPY of the underlying list.
-    /// If you modify this array, IT WILL NOT MODIFY THE UNDERLYING LIST.
-    /// </remarks>
+    public FollowerIdentity this[int i]
+    {
+        get { return followers[i]; }
+    }
+
+    /// <summary>
+    /// Removes the follower at the given index.
+    /// </summary>
+    /// <param name="index">The index at which to remove the follower.</param>
+    /// <returns>
+    /// The FollowerIdentity that was removed, 
+    /// or null if the follower could not be removed.
+    /// </returns>
+    public virtual FollowerIdentity RemoveFollowerAt(int index)
+    {
+        // Do not remove if out of bounds.
+        if (index < 0 || index >= followers.Count)
+        {
+            return null;
+        }
+
+        // Remove
+        FollowerIdentity at = followers[index];
+        followers.RemoveAt(index);
+        return at;
+    }
+
+
+    /// <summary>
+    /// Returns a copy of the internal list of followers
+    /// </summary>
+    /// <returns></returns>
     public FollowerIdentity[] PrintFollowers()
     {
         FollowerIdentity[] copy = followers.ToArray();
