@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
  * HUD 2 IS TRADE INVENTORY
  * HUD 3 IS PLAYER FOLLOWER MENU
  * HUD 4 IS HOMEBASE FOLLOWER MENU
+ * HUD 5 IS ACTIVE HUD
  */
 public class HUDController : MonoBehaviour
 {
@@ -66,6 +67,12 @@ public class HUDController : MonoBehaviour
     public bool followerMenuIsOpen = false;
     //public FollowerTrader FollowerMover();
 
+    //ACTIVE HUD FIELDS
+    public GameObject hudFood;
+    public GameObject hudOxygen;
+    public GameObject hudSoap;
+    public GameObject hudHealth;
+
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -110,6 +117,11 @@ public class HUDController : MonoBehaviour
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
             }
+            else if(activeHUD == 5)
+            {
+                loadBasicPlayerInfo();
+                Debug.Log("Active");
+            }
             Debug.Log("HUD Loaded");
         }
         else
@@ -149,6 +161,10 @@ public class HUDController : MonoBehaviour
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
             }
             if (activeHUD == 4)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+            }
+            if (activeHUD == 5)
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
             }
@@ -194,10 +210,17 @@ public class HUDController : MonoBehaviour
             else if(activeHUD == 3)
             {
                 updateFollowers(true);
+                Debug.Log("Player Follower");
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
+                Debug.Log("HomeBase Follower");
+            }
+            else if (activeHUD == 5)
+            {
+                loadBasicPlayerInfo();
+                Debug.Log("Active");
             }
             Debug.Log("HUD Loaded");
         }
@@ -492,7 +515,7 @@ public class HUDController : MonoBehaviour
         else
         {
             Debug.Log("Player Follower Manager is Being Used");
-            currentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>();
+            currentManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
             currentFollowers = currentManager.PrintFollowers();
         }
         for (int i = 0; i < currentFollowers.Length; i++)
@@ -544,5 +567,17 @@ public class HUDController : MonoBehaviour
          *      moveFollower(buttonNumber, false);
          * }
          */
+    }
+
+    /*
+     * ACTIVE HUD METHODS
+     */
+
+    public void loadBasicPlayerInfo()
+    {
+        PlayerController playerHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        determineInv();
+        hudSoap.GetComponentInChildren<Text>().text = main.soap.ToString();
+        hudFood.GetComponentInChildren<Text>().text = playerHUDDetails.food.ToString();
     }
 }
