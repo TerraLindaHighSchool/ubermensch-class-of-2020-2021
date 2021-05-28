@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    public AudioClip[] tracks;//makes track array
+    public AudioClip[] tracks {private get; set;}//makes track array
     AudioSource audioPlayer;
     private void Awake()
     {
         audioPlayer = this.GetComponent<AudioSource>();
-        TrackSwitch(2);
+        TrackSwitch(0);
     }
 
     private void Update()
