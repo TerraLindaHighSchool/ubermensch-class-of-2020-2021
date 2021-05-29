@@ -64,6 +64,7 @@ public class HUDController : MonoBehaviour
     public GameObject[] followerDescriptions = new GameObject[20];
     public GameObject[] followerIcons = new GameObject[20];
     public GameObject[] followerButtons = new GameObject[20];
+    private Vector3[] followerContainer = new Vector3[20];
     public bool followerMenuIsOpen = false;
     public FollowerTrader FollowerMover;
 
@@ -509,7 +510,7 @@ public class HUDController : MonoBehaviour
      */
 
     //Based on if the Player follower list or Homebase follower list is being used, the proper follower list is loaded onto the HUD
-    public void updateFollowers(bool isInPlayer) 
+    public void updateFollowers(bool isInPlayer)
     {
         FollowerManager currentManager;
         FollowerIdentity[] currentFollowers;
@@ -530,7 +531,7 @@ public class HUDController : MonoBehaviour
             followerDescriptions[i].GetComponentInChildren<Text>().text = currentFollowers[i].GetDisplayDescription();
             followerNames[i].GetComponentInChildren<Text>().text = currentFollowers[i].GetDisplayName();
             followerIcons[i].GetComponentInChildren<Image>().sprite = currentFollowers[i].Icon;
-            if(!isInPlayer)
+            if (!isInPlayer)
             {
                 followerButtons[i].GetComponentInChildren<Text>().text = ("Recruit");
             }
@@ -615,9 +616,10 @@ public class HUDController : MonoBehaviour
             }
             */
         }
+    }
 
-        //Deactivates follower on button press
-        private void deactivateFollower(int i)
+    //Deactivates follower on button press
+    private void deactivateFollower(int i)
     {
         followerDescriptions[i].SetActive(false);
         followerNames[i].SetActive(false);
