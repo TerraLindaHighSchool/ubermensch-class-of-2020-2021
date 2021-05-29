@@ -548,18 +548,76 @@ public class HUDController : MonoBehaviour
         {
             deactivateFollower(i);
         }
+
+        float fullheight = 637.38f;
+
         if (currentFollowers.Length < 7)
         {
-            GameObject.Find("Scrollbar Vertical").GetComponent<Scrollbar>().size = 0.99f;
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
+            for (int i = 1; i < 21; i++)
+            {
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / 200));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+            }
         }
         else
         {
-            GameObject.Find("Scrollbar Vertical").GetComponent<Scrollbar>().size = (1.2943f - .0491f * currentFollowers.Length);
-        }
-    }
+            float containerSize = 200 + (currentFollowers.Length - 6) * 36;
 
-    //Deactivates follower on button press
-    private void deactivateFollower(int i)
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, containerSize);
+            for (int i = 1; i < 21; i++)
+            {
+                Debug.Log(i);
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 24 + (3 * ((containerSize - 200) / (fullheight - 200))));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, (2.8f - 1.95f * Mathf.Pow((fullheight - 200) / (containerSize - 200), 1.5f)) * (i - 0.9f), 0);
+            }
+
+            /*
+            float containerSize = 200 + (currentFollowers.Length - 6) * 30;
+
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, containerSize);
+            for (int i = 1; i < 21; i++)
+            {
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / containerSize));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+            }
+            */
+
+            /*
+            float containerSize = 200 + (currentFollowers.Length - 6) * 50;
+
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, containerSize);
+            for (int i = 1; i < 21; i++)
+            {
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 27 * (fullheight / containerSize));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D += new Vector3(0, -3.0f, 0);
+            }
+            */
+        }
+
+        //Deactivates follower on button press
+        private void deactivateFollower(int i)
     {
         followerDescriptions[i].SetActive(false);
         followerNames[i].SetActive(false);
