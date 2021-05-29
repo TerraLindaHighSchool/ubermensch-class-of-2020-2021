@@ -16,7 +16,7 @@ public class HUDController : MonoBehaviour
                         // FIELDS
 
     //GENERAL HUD FIELDS
-    private int activeHUD;
+    private int activeHUD = 5;
     public GameObject[] Huds;
     private GameObject activeNpc;
     public GameObject player;
@@ -80,6 +80,7 @@ public class HUDController : MonoBehaviour
         determineInv();
         Debug.Log("I the HUD Manager, Exist!");
         player = GameObject.FindGameObjectWithTag("Player");
+        HUDLoader(5, this.gameObject);
     }
 
     //Disables the previously actived hud, activates the new hud, 
@@ -180,8 +181,7 @@ public class HUDController : MonoBehaviour
     //This is used to reload the inventory
     public void HUDLoader()
     {
-        Debug.Log("HUD re-loaded?");
-        Debug.Log("active hud is number " + activeHUD);
+        //Debug.Log("HUD re-loaded?");
         if (activeHUD < Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
@@ -217,12 +217,15 @@ public class HUDController : MonoBehaviour
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
             }
-            else if (activeHUD == 5)
+            if (activeHUD == 5)
             {
                 loadBasicPlayerInfo();
-                Debug.Log("Active");
             }
-            Debug.Log("HUD Loaded");
+            else
+            {
+                Debug.Log("HUD Loaded");
+                Debug.Log("active hud is number " + activeHUD);
+            }
         }
         else
         {
@@ -234,7 +237,7 @@ public class HUDController : MonoBehaviour
     public void HUDDeLoader(int hud)
     {
         Huds[hud].SetActive(false);
-
+        activeHUD = 5;
         if (hud == 0)
         {
             inConversation = false;
@@ -265,6 +268,10 @@ public class HUDController : MonoBehaviour
         if(hud == 4)
         {
             Debug.Log("HomeBase Follower");
+        }
+        if(hud == 5)
+        {
+            Debug.Log("Active");
         }
         Debug.Log("HUD Unloaded");
     }
@@ -551,7 +558,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
-    //Kills eye
+    //Deactivates follower on button press
     private void deactivateFollower(int i)
     {
         followerDescriptions[i].SetActive(false);
@@ -559,6 +566,7 @@ public class HUDController : MonoBehaviour
         followerIcons[i].SetActive(false);
         followerButtons[i].SetActive(false);
     }
+
     //Moves the followers between the two follower lists on button press
     public void moveFollowers(int buttonNumber)
     {
@@ -579,6 +587,7 @@ public class HUDController : MonoBehaviour
      * ACTIVE HUD METHODS
      */
 
+    //Loads the player's health, soap, food, and oxygen level onto the active hud
     public void loadBasicPlayerInfo()
     {
         PlayerController playerHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
@@ -587,5 +596,14 @@ public class HUDController : MonoBehaviour
         hudFood.GetComponentInChildren<Text>().text = playerHUDDetails.food.ToString();
         hudHealth.GetComponent<RectTransform>().sizeDelta = new Vector2(13, (playerHUDDetails.health / 100 * 50.1f) + 2.9f);
         hudOxygen.GetComponent<RectTransform>().sizeDelta = new Vector2(18, (playerHUDDetails.oxygen / 100 * 33.95f) + 3.1f);
+    }
+
+    //Ensures that the hud showing the player's health and other critical information is showing when not in a menu
+    private void Update()
+    {
+        if(activeHUD == 5)
+        {
+            HUDLoader();
+        }
     }
 }

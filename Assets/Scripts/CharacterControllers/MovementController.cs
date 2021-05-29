@@ -65,6 +65,8 @@ public class MovementController : MonoBehaviour
     //Used for testing different inventories
     public StandardInventoryItem rock;
     public StandardInventoryItem empty;
+    PlayerController testHealthOxy;
+   
     private bool invOpen;
     private void testKeys()
     {
@@ -89,7 +91,7 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(2);
         }
-        if(Input.GetKeyDown("u"))
+        if(Input.GetKeyDown("q"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDLoader(4, this.gameObject);
@@ -99,15 +101,21 @@ public class MovementController : MonoBehaviour
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             TestHUDController.HUDDeLoader(4);
         }
-        if (Input.GetKeyDown("q"))
+        if(Input.GetKeyDown("h"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDLoader(3, this.gameObject);
+            testHealthOxy = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+            testHealthOxy.health = 100;
+            testHealthOxy.oxygen = 100;
         }
-        if (Input.GetKeyDown("5"))
+        if (Input.GetKeyDown("8"))
         {
             TestHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            TestHUDController.HUDDeLoader(3);
+            testHealthOxy = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+            testHealthOxy.health -= 17;
+            testHealthOxy.oxygen -= 13;
+            Debug.Log("Health: " + testHealthOxy.health);
+            Debug.Log("Oxygen: " + testHealthOxy.oxygen);
         }
     } 
 
@@ -141,6 +149,21 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    private void openFollowers()
+    {
+        HUDController playerFollowerList;
+        if (Input.GetKeyDown("u"))
+        {
+            playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            playerFollowerList.HUDLoader(3, this.gameObject);
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            playerFollowerList.HUDDeLoader(3);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -155,6 +178,7 @@ public class MovementController : MonoBehaviour
             //testKeys(); //FOR TESTING PURPOSES 
             // I added this in the git editor lamo
             inventoryOpen();
+            openFollowers();
         }
 
         if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)
