@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    public AudioClip[] tracks {get; set;}//makes track array
     AudioSource audioPlayer;
 
     private void Awake()
     {
-        audioPlayer = this.GetComponent<AudioSource>();
-        TrackSwitch(0, tracks); //plays first track
+        audioPlayer = gameObject.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -22,17 +20,17 @@ public class MusicController : MonoBehaviour
     {
         if (trackIndex <= tracks.Length)
         {
-            float store = this.gameObject.GetComponent<AudioSource>().volume;
-            while (this.gameObject.GetComponent<AudioSource>().volume > 0)
+            float store = audioPlayer.volume;
+            while (audioPlayer.volume > 0)
             {
-                this.gameObject.GetComponent<AudioSource>().volume -= 0.05f;
+                audioPlayer.volume -= 0.00005f;
             }
-            this.gameObject.GetComponent<AudioSource>().Stop();
-            this.gameObject.GetComponent<AudioSource>().volume = store;
+            audioPlayer.Stop();
+            audioPlayer.volume = store;
 
             //plays the requested track
-            this.gameObject.GetComponent<AudioSource>().clip = tracks[trackIndex];
-            this.gameObject.GetComponent<AudioSource>().Play();
+            audioPlayer.clip = tracks[trackIndex];
+            audioPlayer.Play();
         }
         else
         {
