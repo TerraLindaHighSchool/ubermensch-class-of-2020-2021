@@ -59,6 +59,7 @@ public class HUDController : MonoBehaviour
 
     private void Awake()
     {
+        determineInv();
         Debug.Log("I the HUD Manager, Exist!");
         player = GameObject.FindGameObjectWithTag("Player");
     }
@@ -104,11 +105,11 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("Dialogue");
                 inConversation = true;
-                conversationLoader(activeNpc.GetComponentInChildren<DialogueController>().StartConversation());
+                conversationLoader(activeNpc.GetComponent<DialogueController>().StartConversation());
             }
             if(activeHUD == 2)
             {
-                npcInv = activeNpc.GetComponentInChildren<InventoryManager>();
+                npcInv = activeNpc.GetComponent<InventoryManager>();
                 Debug.Log(activeNpc.GetComponent<Follower>().identity.GetDisplayName());
                 npcTradeName.GetComponent<Text>().text = activeNpc.GetComponent<Follower>().identity.GetDisplayName();
                 Debug.Log("Inventory");
@@ -168,10 +169,17 @@ public class HUDController : MonoBehaviour
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
+        Huds[hud].SetActive(false);
+        Debug.Log("HUD Unloaded");
+
         if (hud == 0)
         {
             inConversation = false;
             Debug.Log("Dialogue");
+            if (activeNpc.GetComponent<DialogueController>().AskedToJoin())
+            {
+                activeNpc.GetComponent<DialogueController>().RecruitmentCheck();
+            }
         }
         if (hud == 1)
         {
@@ -183,8 +191,6 @@ public class HUDController : MonoBehaviour
             selectedText[3].SetActive(false);
             Debug.Log("Inventory");
         }
-        Huds[hud].SetActive(false);
-        Debug.Log("HUD Unloaded");
     }
 
     /*

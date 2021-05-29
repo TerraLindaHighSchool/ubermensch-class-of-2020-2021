@@ -2,16 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MovementController : MonoBehaviour
 {
     public CharacterController controller;
     public Animator AnimController;
     public GameObject gravityRay;
+    public GameObject gravityRay1;
     [SerializeField] public float speed = 3.5f;
     [SerializeField] public float turnSpeed = 3.5f;
-    private float yVelocity;
-    private const float GRAVITY = 0.4f;
     int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;
@@ -22,7 +22,7 @@ public class MovementController : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         //calculates direction to move based on inputs
-        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
+        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
 
         //Will be set to true if player can move otherwise defaults to false
         bool animate = false;
@@ -30,35 +30,37 @@ public class MovementController : MonoBehaviour
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f)
         {
-            if (CanMove)
-            {
-                controller.Move(moveDirection * speed * Time.deltaTime);
-                Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
-                transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
-                //Debug.Log(turnTo);
+            controller.Move(moveDirection * speed * Time.deltaTime);
+            Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
+            PreventFall(moveDirection);
+            controller.Move(Vector3.down);
 
+            if(CanMove)
+            { 
                 animate = true;
             }
         }
         AnimController.SetBool("isWalking", animate);
-
-        //creates a Vector that keeps the player on the ground
-        Vector3 moveGravity = new Vector3(0, -yVelocity * Time.deltaTime, 0);
-        controller.Move(moveGravity);
     }
     //if the player is on the ground, they do not move down. If they are off the ground, they fall down to the ground
-    private void setGravity()
+    private void PreventFall(Vector3 moveDirection)
     {
-        Physics.Raycast(gravityRay.transform.position, transform.TransformDirection(Vector3.down), out RaycastHit ground, controller.height);
-        if(ground.distance > .5 || ground.collider == null)
+        Physics.Raycast(gravityRay.transform.position, Vector3.down, out RaycastHit ground, controller.height);
+        Physics.Raycast(gravityRay1.transform.position, Vector3.down, out RaycastHit ground1, controller.height);
+        if (ground.collider == null && ground1.collider == null)
         {
-            yVelocity += GRAVITY;
+            controller.Move(-moveDirection * speed * Time.deltaTime);
+            CanMove = false;
+            //Debug.DrawRay(gravityRay.transform.position, Vector3.down);
         }
         else
         {
-            yVelocity = 0;
+            CanMove = true;
         }
+
     }
+
 
     //Used for testing different inventories
     public StandardInventoryItem rock;
@@ -118,45 +120,6 @@ public class MovementController : MonoBehaviour
             }
         }
     }
-    /*
-    private void TransitionCheck()
-    {
-        if (Input.GetKeyDown("e"))
-        {
-            try
-            {
-                StandardPortal _portal = GameObject.Find("InteractableDetector").GetComponent<InteractableCheck>().GetPortals()[0].GetComponent<PortalContainer>().portalData;
-                GetComponentInParent<TransitionController>().SceneLoader(_portal.Scene, _portal.Destination);
-            }
-            catch(Exception e)
-            {
-                Debug.Log(e);
-            }
-        }
-    }
-
-    private void ConversationCheck()
-    {
-        if (Input.GetKeyDown("k"))
-        {
-            HUDController _HUDController;
-            if (Input.GetKeyDown("k"))
-            {
-                try
-                {
-                    _HUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-                    InteractableCheck detector = GameObject.Find("InteractableDetector").GetComponent<InteractableCheck>();
-                    GameObject npc = detector.GetNpcs()[0];
-                    _HUDController.HUDLoader(0, this.gameObject, npc);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log(e);
-                }
-            }
-        }
-    }
-    */
 
     // Update is called once per frame
     void Update()
@@ -166,10 +129,32 @@ public class MovementController : MonoBehaviour
             move(); FOR TESTING PURPOSES
         }
         */
-        move();
-        setGravity();
-        //testKeys(); //FOR TESTING PURPOSES 
-        // I added this in the git editor lamo
-        inventoryOpen();
+        if(this.enabled == true)
+        {
+            move();
+            //testKeys(); //FOR TESTING PURPOSES 
+            // I added this in the git editor lamo
+            inventoryOpen();
+        }
+
+        if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)
+        {
+            CanMove = false;
+        }
+        else
+        {
+            CanMove = true;
+        }
+
     }
+
+    public void exitButtonMController() //used for exit button, there's like 3 methods and they're all connecte, it's confusing
+    {
+        HUDController InventoryHUDController;
+        InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+        InventoryHUDController.HUDDeLoader(1);
+        invOpen = false;
+        CanMove = true;
+    }
+
 }

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    public AudioClip[] tracks;//makes track array
+    public AudioClip[] tracks {get; set;}//makes track array
     AudioSource audioPlayer;
-    private void Start()
+
+    private void Awake()
     {
         audioPlayer = this.GetComponent<AudioSource>();
+        TrackSwitch(0, tracks); //plays first track
     }
 
     private void Update()
@@ -16,7 +18,7 @@ public class MusicController : MonoBehaviour
         ChangeVolume();
     }
 
-    public void TrackSwitch(int trackIndex)
+    public void TrackSwitch(int trackIndex, AudioClip[] tracks)
     {
         if (trackIndex <= tracks.Length)
         {
