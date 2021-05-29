@@ -29,7 +29,7 @@ public class TransitionController : MonoBehaviour
     
     public void SceneLoader(string scene, Vector3 destination)
     {
-        SceneMusic(scene);
+        //SceneMusic(scene);
         playerModel = transform.Find("PlayerModel").gameObject;
         playerModel.GetComponent<MovementController>().enabled = false;
         Debug.Log("Player Location before Change: " + playerModel.transform.position);
@@ -53,6 +53,7 @@ public class TransitionController : MonoBehaviour
         }
     }
 
+    /*
     private void SceneMusic(string scene)
     {
         MusicController musicController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<MusicController>();
@@ -72,6 +73,7 @@ public class TransitionController : MonoBehaviour
                 break;
         }
     }
+    */
 
     public void exitButton() //used for exit button
     {
