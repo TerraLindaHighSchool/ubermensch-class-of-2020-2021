@@ -257,7 +257,7 @@ public class DialogueController : MonoBehaviour
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
                 FollowerManager followerManager = player.GetComponentInChildren<FollowerManager>();
                 GameObject npc = this.gameObject.GetComponentInParent<Transform>().gameObject;
-                followerManager.AddFollower(npc); //Adds the follower this is attatched to to player
+                followerManager.AddFollower(npc.GetComponentInChildren<FollowerIdentity>()); //Adds the follower this is attatched to to player
                 InventoryManager npcInv = this.GetComponent<InventoryManager>();
                 foreach (InventoryItemInterface item in npcInv.inventoryItem)
                 {
