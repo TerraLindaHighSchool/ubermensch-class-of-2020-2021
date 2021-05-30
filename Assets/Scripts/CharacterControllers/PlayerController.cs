@@ -143,6 +143,9 @@ public class PlayerController : MonoBehaviour
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
+            AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
+            
+
             int exitCheck = 0;
             foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
             {
@@ -153,6 +156,8 @@ public class PlayerController : MonoBehaviour
             }
             if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
             {
+                //Sets MusicController's "tracks" field to the music put into the scriptable object portal
+                GameObject.Find("Main Camera").GetComponent<MusicController>().TrackSwitch(0, audioClips);
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }
         }
