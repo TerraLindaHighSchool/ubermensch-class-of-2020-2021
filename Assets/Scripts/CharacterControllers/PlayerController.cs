@@ -28,9 +28,15 @@ public class PlayerController : MonoBehaviour
     public int playerCharisma;
     public int playerConstitution;
 
+    //Total stats of NPCs following the player
+    private int totalNPCStrength;
+    private int totalNPCCharisma;
+    private int totalNPCConstitution;
+
     public int statPoints; //What are stat points used for?  
     public int level;
 
+    //AUTHOR VIVIAN***************************************************************************************************************************
     private void Awake()
     {
         health = 100;
@@ -137,6 +143,9 @@ public class PlayerController : MonoBehaviour
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
+            AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
+            
+
             int exitCheck = 0;
             foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
             {
@@ -147,39 +156,32 @@ public class PlayerController : MonoBehaviour
             }
             if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
             {
+                //Sets MusicController's "tracks" field to the music put into the scriptable object portal
+                GameObject.Find("Main Camera").GetComponent<MusicController>().TrackSwitch(0, audioClips);
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }
         }
     }
 
-    public void SetPlayerStats()
-    {
-        AddFollowerStatsToPlayer();
-        RemoveFollowerStatsFromPlayer();
-
-        if (isInTriggerArea == true && objectHit.CompareTag("Non-Friendly NPC"))
-        {
-            playerStrength--;
-            playerCharisma--;
-            playerConstitution--;
-            Debug.Log("Is in combat, strength, charisma, and constitution declined");
-        }
-    }
+    //AUTHOR NICHOLAS**********************************************************************************************************
 
     // Getter methods that return the player stats: 
     public int GetPlayerStrength()
     {
-        return playerStrength;
+        AddFollowerStatsToPlayer();
+        return playerStrength + totalNPCStrength;
     }
 
     public int GetPlayerCharisma()
     {
-        return playerCharisma;
+        AddFollowerStatsToPlayer();
+        return playerCharisma + totalNPCCharisma;
     }
 
     public int GetPlayerConstitution()
     {
-        return playerConstitution;
+        AddFollowerStatsToPlayer();
+        return playerConstitution + totalNPCConstitution;
     }
 
     //Sets the level number and increases the stat points
@@ -187,15 +189,16 @@ public class PlayerController : MonoBehaviour
     public void SetLevelNum()
     {
         level++;
-        playerStrength += 2;
-        playerCharisma += 2;
-        playerConstitution += 2;
+        statPoints += 2;
     }
 
     public void AddFollowerStatsToPlayer()
     {
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
         FollowerIdentity[] followers = fm.PrintFollowers();
+        totalNPCStrength = 0;
+        totalNPCCharisma = 0;
+        totalNPCConstitution = 0;
         foreach (FollowerIdentity f in followers)
         {
             // gets follow identity of the follower in the array 
@@ -205,35 +208,11 @@ public class PlayerController : MonoBehaviour
             int followerCharisma = currentFollower.GetFollowerCharisma();
             int followerConstitution = currentFollower.GetFollowerConstitution();
             // adds the follower's stat to the player's stat
-            playerStrength += followerStrength;
-            playerCharisma += followerCharisma;
-            playerConstitution += followerConstitution;
-            Debug.Log("Follower Stats Added");
-        }
-    }
 
-    public void RemoveFollowerStatsFromPlayer()
-    {
-        FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        FollowerIdentity[] followers = fm.PrintFollowers();
-        foreach (FollowerIdentity f in followers)
-        {
-            /*
-            FollowerManager currentFollowerManager = GetComponent<FollowerManager>();
-            if (currentFollowerManager.followerRemoved == true)
-            {
-                FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
-                // gets the individual stat 
-                int followerStrength = currentFollower.GetFollowerStrength();
-                int followerCharisma = currentFollower.GetFollowerCharisma();
-                int followerConstitution = currentFollower.GetFollowerConstitution();
-                // removes the stat from the player's 
-                playerStrength -= followerStrength;
-                playerCharisma -= followerCharisma;
-                playerConstitution -= followerConstitution;
-                Debug.Log("Dead Follower Stats removed");
-            }
-            */
+            totalNPCStrength += followerStrength;
+            totalNPCCharisma += followerCharisma;
+            totalNPCConstitution += followerConstitution;
+            Debug.Log("Follower Stats Totaled");
         }
     }
     public void exitTrade() //to be used by the exit button in UI

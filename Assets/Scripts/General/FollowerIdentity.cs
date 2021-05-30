@@ -22,7 +22,7 @@ public class FollowerIdentity : ScriptableObject
 
     public string GetDisplayDescription()
     {
-        return Name + "'s Strength is: " + npcStrength + " Their Charisma is: " + npcCharisma + " And their Consitution is: " + npcConstitution; 
+        return "Strength:" + npcStrength + " Charisma:" + npcCharisma + " Consitution:" + npcConstitution; 
     }
 
     // get methods for the PlayerController class 

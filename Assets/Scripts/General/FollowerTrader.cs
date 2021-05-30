@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class FollowerTrader : MonoBehaviour
 {
-    public FollowerManager playerManager;
-    public FollowerManager gameManager;
+    FollowerManager playerManager;
+    FollowerManager gameManager;
+    private void Awake()
+    {
+        playerManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerManager>();
+    }
+    
     private List<GameObject> createdNPCs = new List<GameObject>();
     Vector3[] partyPositions = new[] { new Vector3(30f, -1f, 13f), new Vector3(30f, -1f, 12f), new Vector3(30f, -1f, 11f), new Vector3(30f, -1f, 10f) };
 
-    void MoveFollower(int Num, bool isPlayerMenu)
+    public void MoveFollower(int Num, bool isPlayerMenu)
     {
         if (isPlayerMenu)
         {
@@ -20,6 +26,7 @@ public class FollowerTrader : MonoBehaviour
             playerManager.AddFollower(gameManager[Num]);
             gameManager.RemoveFollowerAt(Num);
         }
+        this.gameObject.GetComponent<HUDController>().HUDLoader();
     }
     void PartyInTheHomeBase()
        {
