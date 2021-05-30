@@ -202,12 +202,13 @@ public class PlayerController : MonoBehaviour
         foreach (FollowerIdentity f in followers)
         {
             // gets follow identity of the follower in the array 
-            FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
+            FollowerIdentity currentFollower = f;
             // gets the individual stat 
             int followerStrength = currentFollower.GetFollowerStrength();
             int followerCharisma = currentFollower.GetFollowerCharisma();
             int followerConstitution = currentFollower.GetFollowerConstitution();
             // adds the follower's stat to the player's stat
+
             totalNPCStrength += followerStrength;
             totalNPCCharisma += followerCharisma;
             totalNPCConstitution += followerConstitution;
