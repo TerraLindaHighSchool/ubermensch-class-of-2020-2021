@@ -175,7 +175,7 @@ public class MovementController : MonoBehaviour
         if(this.enabled == true)
         {
             move();
-            //testKeys(); //FOR TESTING PURPOSES 
+            testKeys(); //FOR TESTING PURPOSES 
             // I added this in the git editor lamo
             inventoryOpen();
             openFollowers();

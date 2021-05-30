@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 /* HUD 0 IS CONVERSATION 
  * HUD 1 IS INVENTORY
@@ -543,6 +544,8 @@ public class HUDController : MonoBehaviour
             followerNames[i].SetActive(true);
             followerIcons[i].SetActive(true);
             followerButtons[i].SetActive(true);
+            Debug.Log(i);
+            GameObject.Find("NPC" + (i + 1)).SetActive(true);
             Debug.Log(currentFollowers[i].GetDisplayName());
         }
         for (int i = currentFollowers.Length; i < 20; i++)
@@ -556,8 +559,9 @@ public class HUDController : MonoBehaviour
         {
             GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
             for (int i = 1; i < 21; i++)
-            {
-                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / 200));
+                {
+                    Debug.Log(i);
+                    GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / 200));
                 if (followerContainer[i] == null)
                 {
                     followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
@@ -581,7 +585,13 @@ public class HUDController : MonoBehaviour
                     followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
                 }
 
-                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, (2.8f - 1.95f * Mathf.Pow((fullheight - 200) / (containerSize - 200), 1.5f)) * (i - 0.9f), 0);
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0,
+                                                                                                                                 (0.2f + // GOOD!
+                                                                                                                                 (-24 * // ~24
+                                                                                                                                 (13 - (currentFollowers.Length - 6)) / 13)) * (i - 0.8f),
+                                                                                                                                 0);
+
+                //Modifier: (2.8f - 1.95f * Mathf.Pow((fullheight - 200) / (containerSize - 200), 4.3f)) * (i - 0.9f)
             }
 
             /*
@@ -625,6 +635,14 @@ public class HUDController : MonoBehaviour
         followerNames[i].SetActive(false);
         followerIcons[i].SetActive(false);
         followerButtons[i].SetActive(false);
+        try
+        {
+            GameObject.Find("NPC" + (i + 1)).SetActive(false);
+        }
+        catch(Exception e)
+        {
+            //Do something?
+        }
     }
 
     //Moves the followers between the two follower lists on button press

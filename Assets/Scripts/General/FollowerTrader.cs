@@ -26,6 +26,7 @@ public class FollowerTrader : MonoBehaviour
             playerManager.AddFollower(gameManager[Num]);
             gameManager.RemoveFollowerAt(Num);
         }
+        this.gameObject.GetComponent<HUDController>().HUDLoader();
     }
     void PartyInTheHomeBase()
        {
