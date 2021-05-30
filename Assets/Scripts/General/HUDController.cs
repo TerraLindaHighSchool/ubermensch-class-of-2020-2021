@@ -176,9 +176,9 @@ public class HUDController : MonoBehaviour
         {
             inConversation = false;
             Debug.Log("Dialogue");
-            if (activeNpc.GetComponent<DialogueController>().AskedToJoin())
+            if (activeNpc.GetComponent<DialogueController>().WillJoin())
             {
-                activeNpc.GetComponent<DialogueController>().RecruitmentCheck();
+                activeNpc.GetComponent<DialogueController>().Recruit();
             }
         }
         if (hud == 1)

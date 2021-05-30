@@ -195,11 +195,11 @@ public class PlayerController : MonoBehaviour
     public void AddFollowerStatsToPlayer()
     {
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        ArrayList followers = fm.followers;
-        foreach (Follower f in followers)
+        FollowerIdentity[] followers = fm.PrintFollowers();
+        foreach (FollowerIdentity f in followers)
         {
             // gets follow identity of the follower in the array 
-            FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
+            FollowerIdentity currentFollower = f;
             // gets the individual stat 
             int followerStrength = currentFollower.GetFollowerStrength();
             int followerCharisma = currentFollower.GetFollowerCharisma();
@@ -215,9 +215,10 @@ public class PlayerController : MonoBehaviour
     public void RemoveFollowerStatsFromPlayer()
     {
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        ArrayList followers = fm.followers;
-        foreach (Follower f in followers)
+        FollowerIdentity[] followers = fm.PrintFollowers();
+        foreach (FollowerIdentity f in followers)
         {
+            /*
             FollowerManager currentFollowerManager = GetComponent<FollowerManager>();
             if (currentFollowerManager.followerRemoved == true)
             {
@@ -232,6 +233,7 @@ public class PlayerController : MonoBehaviour
                 playerConstitution -= followerConstitution;
                 Debug.Log("Dead Follower Stats removed");
             }
+            */
         }
     }
     public void exitTrade() //to be used by the exit button in UI

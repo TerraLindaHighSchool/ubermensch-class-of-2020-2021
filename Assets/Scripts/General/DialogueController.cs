@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,28 +38,19 @@ public class DialogueController : MonoBehaviour
       CREATES A NEW STATEMENT WITH THIS INFORMATION TO RETURN*/
     public Statement StartCombat()
     {
-        //how does it load them in and like where does it get them from
-        //is it the player needs three for the options or depending on how many it has is how many it loads
-        for(inCombat)
-        {
-            Attack combatNpc = GetComponent<Attack>();
-            
-            gameObject currentPlayer = gameObject.Find("Player");
-            FollowerManager curentFollowers = GetComponent<FollowerManager>();
-            string[] descriptions;
-            float[] damageToDo;
-            int[] outcomes;
-            for(l = 0, l < 3, l++)
-            {
-                descriptions[l] = currentFollowers[l].GetComponent<Attack>().playerDescription;
-                damageToDo[l] = (float) currentFollowers[l].GetCompenent<Attack>().damage;
-                //
-                outcomes[l] = 1;
-            }
+        FollowerManager playerManager = GameObject.Find("Player").GetComponent<FollowerManager>();
 
-            Statement statementToReturn = new Statement(combatNpc.npcDescription, descriptions, damageToDo, outcomes);
-            return statementToReturn;
-        }
+        return new Statement(
+            "You've entered combat. You get the feeling your going to have a bad time.",
+            new string[] {
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription
+                },
+            new float[] { 0.0f, 0.0f, 0.0f, 0.0f },
+            new int[] { 0, 1, 2, 3 }
+            );
     }
 
     //returns next statement based selected answer. If 0 is loaded askedToJoin will be set to true and 0/1 will be loaded based on relationshipType.
@@ -71,41 +63,49 @@ public class DialogueController : MonoBehaviour
 
         if (inCombat)
         {
-        activeDialogueTree = combat;
-        
-        //hmm
-        DamageNpc(Option);
-        
-        //is it 0?
-        DamagePlayer(GetComponent<Attack>().damage,0)
+            DamageNpc(Option);
+
+            DamagePlayer();
+
+            FollowerManager playerManager = GameObject.Find("Player").GetComponent<FollowerManager>();
+
+            return new Statement(
+                this.gameObject.GetComponent<Attack>().npcDescription,
+                new string[] {
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
+                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription
+                    },
+                new float[] { 0.0f, 0.0f, 0.0f, 0.0f},
+                new int[] { 0, 1, 2, 3}
+                );
         }
-        else { activeDialogueTree = conversation; }
-        setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
-
-        currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
-
-        return activeDialogueTree.conversationPoints[currentposition];
-        if (Option == 0)
+        else
         {
-            askedToJoin = true;
-            
-            if (activeDialogueTree.relationshipType > 2.5)
-            {
-                FollowerManager followers = GetComponent<FollowerManager>();                
-                followers.AddFollower(this.gameObject.GetComponent<Follower>()); 
-                return activeDialogueTree.conversationPoints[0];              
-            }
-            else
-            {   
-                setRelationshipType(-0.5f);
-                return activeDialogueTree.conversationPoints[1];
-            }
-        }
-    }
+            activeDialogueTree = conversation;
 
-    public bool AskedToJoin()
-    {
-        //?
+            if (Option == 0)
+            {
+                askedToJoin = true;
+
+                if (activeDialogueTree.relationshipType > 2.5)
+                {
+                    return activeDialogueTree.conversationPoints[0];
+                }
+                else
+                {
+                    setRelationshipType(-0.5f);
+                    return activeDialogueTree.conversationPoints[1];
+                }
+            }
+
+            setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
+
+            currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
+
+            return activeDialogueTree.conversationPoints[currentposition];
+        }
     }
 
     public string Closer()
@@ -179,6 +179,25 @@ public class DialogueController : MonoBehaviour
         }
 
         return output;
+    }
+
+    public bool WillJoin()
+    {
+        if(askedToJoin && conversation.relationshipType > 2.5)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void Recruit()
+    {
+        FollowerManager followers = GetComponent<FollowerManager>();
+        followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
+        Destroy(this.gameObject);
     }
 
     public string[] SeparateColumnsOfRow(string row)
@@ -272,28 +291,18 @@ public class DialogueController : MonoBehaviour
     
     //MVP ADDITION:
     //This modifies the Npc the player is fightings health by damage
-    private void DamageNpc(int damage)
+    private void DamageNpc(int Option)
     {
-        Follower npcBeingFought = this.gameObject.GetComponent<Follower>();
-        //is damage supposed to be positive or negative
-        npcBeingFought.identity.npcHealth = npcBeingFought.identity.npcHealth - damage;
+        FollowerManager player = GameObject.Find("Player").GetComponent<FollowerManager>();
+
+        this.GetComponent<FollowerIdentity>().npcHealth -= player.PrintFollowers()[Option--].prefab.GetComponent<Attack>().damage;
     }
     
     //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
-    private void DamagePlayer(int damage, int Option)
+    private void DamagePlayer()
     {
-        //need the player and the Npc
-        if(Option = 0)
-        {
+        GameObject player = GameObject.Find("Player");
 
-            PlayerController player = GameObject.Find("Player").GetComponent<PlayerController>();
-            player health.set(0);
-        }
-        else
-        {
-            FollowerManager followerDamaged = GetComponent<FollowerManager>();
-            health = followerDamaged.followers[Option--].GetComponent<Follower>().identity.npcHealth;
-            health = health - damage;
-        }
+        player.GetComponent<PlayerController>().health -= this.GetComponent<Attack>().damage;
     }
 }
