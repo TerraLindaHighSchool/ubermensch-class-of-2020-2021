@@ -29,8 +29,8 @@ public class MusicController : MonoBehaviour
             audioPlayer.Stop();
             audioPlayer.volume = store;
 
-            //plays the requested track
-            //audioPlayer.clip = tracks[trackIndex];
+            // plays the requested track
+            audioPlayer.clip = tracks[trackIndex];
             audioPlayer.Play();
         }
         else
