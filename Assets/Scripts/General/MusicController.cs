@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
+    public AudioClip[] music;
     AudioSource audioPlayer;
 
     private void Awake()
@@ -29,7 +30,7 @@ public class MusicController : MonoBehaviour
             audioPlayer.volume = store;
 
             //plays the requested track
-            audioPlayer.clip = tracks[trackIndex];
+            //audioPlayer.clip = tracks[trackIndex];
             audioPlayer.Play();
         }
         else
