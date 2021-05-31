@@ -22,6 +22,7 @@ public class DialogueController : MonoBehaviour
     public Statement StartConversation()
     {
         inCombat = false;
+        currentposition = 2;
         return conversation.conversationPoints[2];
     }
 
@@ -85,7 +86,7 @@ public class DialogueController : MonoBehaviour
         {
             activeDialogueTree = conversation;
 
-            if (Option == 0)
+            if (activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1] == 0)
             {
                 askedToJoin = true;
 
@@ -183,7 +184,7 @@ public class DialogueController : MonoBehaviour
 
     public bool WillJoin()
     {
-        if(askedToJoin && conversation.relationshipType > 2.5)
+        if(askedToJoin && conversation.relationshipType >= 2.5f)
         {
             return true;
         }
@@ -195,8 +196,9 @@ public class DialogueController : MonoBehaviour
 
     public void Recruit()
     {
-        FollowerManager followers = GetComponent<FollowerManager>();
+        FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
         followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
         Destroy(this.gameObject);
     }
 
