@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     // Scene Attributed that affect player.  
     public float foodDepletionRate { get; set; }
     public float oxygenDepletionRate { get; set; }
+    private int checkResourceLevelsEachNumSeconds;
 
     // PlayerController Stat Additions
     // Needs a default 
@@ -42,12 +43,13 @@ public class PlayerController : MonoBehaviour
         health = 100;
         food = 100;
         oxygen = 100;
+        checkResourceLevelsEachNumSeconds = 60;
     }
 
     private void Start()
     {
         // Applies scenes depletion rate once per minute of game play.
-        InvokeRepeating("ConsumeResources", 2, 60);
+        InvokeRepeating("ConsumeResources", 2, checkResourceLevelsEachNumSeconds);
     }
 
     // Update is called once per frame
@@ -66,13 +68,21 @@ public class PlayerController : MonoBehaviour
             Debug.Log("oxygen at:" + oxygen);
             oxygen -= (oxygenDepletionRate);
         }
-        else if (health > 0)
+        else
+        {
+            InvokeRepeating("Health", 2, checkResourceLevelsEachNumSeconds / 60 + 1);
+        }
+    }
+
+    void Health()
+    { 
+        if (health > 0)
         {
             Debug.Log("health at:" + health);
-            health -= (33f);
+            health -= (2.5f);
         }
 
-        if (health < 0)
+        if (health <= 0)
         {
             health = 0;
             GameObject UI = GameObject.FindGameObjectWithTag("UI_Manager");
