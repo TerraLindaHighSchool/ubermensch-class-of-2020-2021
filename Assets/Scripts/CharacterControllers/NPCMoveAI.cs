@@ -15,7 +15,7 @@ public class NPCMoveAI : MonoBehaviour
     private float animBlendValue;
     private const float SPEED = 2.0f;
     private const float ANGULAR_SPEED = 120.0f;
-    private const float WAIT_TIME = 10.0f;
+    private const float WAIT_TIME = 3.0f;
 
     // Start is called before the first frame update
     void Start()
