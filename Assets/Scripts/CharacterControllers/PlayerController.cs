@@ -59,6 +59,10 @@ public class PlayerController : MonoBehaviour
         {
             Interact();
         }
+        else if(health < 0)
+        {
+            SceneManager.LoadScene("StartMenu");
+        }
     }
 
     void ConsumeResources()

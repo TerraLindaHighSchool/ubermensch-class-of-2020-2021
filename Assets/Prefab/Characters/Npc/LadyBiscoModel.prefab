@@ -1227,7 +1227,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9139307568226411606}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1885,6 +1885,7 @@ GameObject:
   - component: {fileID: 9139307568685658170}
   - component: {fileID: 9139307568685658168}
   - component: {fileID: 9139307568685658169}
+  - component: {fileID: 4313061543357446171}
   m_Layer: 8
   m_Name: LadyBiscoModel
   m_TagString: Non-Friendly NPC
@@ -1982,6 +1983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity: {fileID: 11400000, guid: f22bc0320e9b8488083b7c89153052a1, type: 2}
+  currentHp: 0
 --- !u!114 &9139307568685658116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2068,6 +2070,21 @@ MonoBehaviour:
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &4313061543357446171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9139307568685658174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dbce5f0ed35e4fe9a5dcd1463727460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDescription: Have Lady Bisco give em the old one two
+  npcDescription: Lady Bisco rocks you one
+  damage: 25
 --- !u!1 &9139307568689753860
 GameObject:
   m_ObjectHideFlags: 0
