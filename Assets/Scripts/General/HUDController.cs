@@ -84,6 +84,10 @@ public class HUDController : MonoBehaviour
         determineInv();
         Debug.Log("I the HUD Manager, Exist!");
         player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    private void Start()
+    {
         HUDLoader(5, this.gameObject);
     }
 

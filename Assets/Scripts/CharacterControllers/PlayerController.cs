@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("taking action");
         if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
-            if (objectHit.GetComponent<Follower>().identity.merchant == false)
+            if (objectHit.GetComponent<Follower>().identity.npcType != FollowerIdentity.NpcType.Merchant)
             {
                 isInDialogue = true;
                 GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);

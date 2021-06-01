@@ -39,15 +39,35 @@ public class DialogueController : MonoBehaviour
       CREATES A NEW STATEMENT WITH THIS INFORMATION TO RETURN*/
     public Statement StartCombat()
     {
-        FollowerManager playerManager = GameObject.Find("Player").GetComponent<FollowerManager>();
+        FollowerManager playerManager = GameObject.FindGameObjectWithTag("Player").GetComponent<FollowerManager>();
+
+        string[] StatementLines = new string[4];
+
+        for(int i = 0; i < 4; i++)
+        {
+            try
+            {
+                StatementLines[i] = playerManager.PrintFollowers()[i].prefab.GetComponent<Attack>().playerDescription;
+            }
+            catch(Exception e)
+            {
+                StatementLines[i] = " ";
+
+                if (i == 0)
+                {
+                    playerManager.gameObject.GetComponent<Attack>();
+                }
+                
+            }
+        }
 
         return new Statement(
             "You've entered combat. You get the feeling your going to have a bad time.",
             new string[] {
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription
+                    StatementLines[0],
+                    StatementLines[1],
+                    StatementLines[2],
+                    StatementLines[3]
                 },
             new float[] { 0.0f, 0.0f, 0.0f, 0.0f },
             new int[] { 0, 1, 2, 3 }
@@ -102,6 +122,11 @@ public class DialogueController : MonoBehaviour
             }
 
             setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
+
+            if(conversation.relationshipType <= 1 && (this.gameObject.GetComponent<Follower>().identity.npcType == FollowerIdentity.NpcType.Dangerous || this.gameObject.GetComponent<Follower>().identity.npcType == FollowerIdentity.NpcType.Aggressive))
+            {
+                return StartCombat();
+            }
 
             currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
 
@@ -199,6 +224,19 @@ public class DialogueController : MonoBehaviour
         FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
         followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
+        List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
+        foreach(StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
+        {
+            if(i.questItem == true)
+            {
+                toMove.Add(i);
+            }
+        }
+        foreach(StandardInventoryItem i in toMove)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().main.AddItem(i); //This will cause a crash as soon as someone changes protections. Nice :thumbs_up:
+            this.gameObject.GetComponent<InventoryManager>().RemoveItem(i);
+        }
         Destroy(this.gameObject);
     }
 
