@@ -171,6 +171,10 @@ public class PlayerController : MonoBehaviour
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }
         }
+        if(objectHit.CompareTag("HomeBase"))
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(4, this.gameObject);
+        }
     }
 
     //AUTHOR NICHOLAS**********************************************************************************************************
