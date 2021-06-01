@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 9057483817029363099}
   - component: {fileID: 8233038305615018128}
   - component: {fileID: 8739226964301770818}
+  - component: {fileID: 1356822065282596862}
   m_Layer: 8
   m_Name: GruceBustinModel-RIGGED
   m_TagString: Friendly NPC
@@ -325,6 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   identity: {fileID: 11400000, guid: 605b2d4ea57fdd5449228a1474ac848d, type: 2}
+  currentHp: 0
 --- !u!114 &7088018995923352182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +382,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   conversationTransform: {fileID: 2373351135174412142}
+--- !u!114 &1356822065282596862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4755609833643483031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dbce5f0ed35e4fe9a5dcd1463727460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDescription: Have Gruce throw soap in their eyes
+  npcDescription: Gruce Bustin throws soap in their eyes
+  damage: 5
 --- !u!1 &4755609833654152167
 GameObject:
   m_ObjectHideFlags: 0

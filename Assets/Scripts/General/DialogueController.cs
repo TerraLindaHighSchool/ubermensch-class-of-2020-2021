@@ -50,7 +50,8 @@ public class DialogueController : MonoBehaviour
         {
             try
             {
-                StatementLines[i] = playerManager.PrintFollowers()[i].prefab.GetComponent<Attack>().playerDescription;
+                GameObject npcObject = playerManager.PrintFollowers()[i].prefab;
+                StatementLines[i] = npcObject.GetComponentInChildren<Attack>().playerDescription;
             }
             catch(Exception e)
             {
@@ -60,7 +61,6 @@ public class DialogueController : MonoBehaviour
                 {
                     StatementLines[0] = playerManager.gameObject.GetComponent<Attack>().playerDescription;
                 }
-                
             }
         }
 
@@ -111,7 +111,6 @@ public class DialogueController : MonoBehaviour
                     {
                         StatementLines[0] = playerManager.gameObject.GetComponent<Attack>().playerDescription;
                     }
-
                 }
             }
 
