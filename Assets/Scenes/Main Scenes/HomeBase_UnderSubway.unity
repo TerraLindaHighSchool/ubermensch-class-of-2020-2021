@@ -576,7 +576,7 @@ PrefabInstance:
     - target: {fileID: 3721046939875055111, guid: 9da5fdf09c2d1c24592b638dfc55e3ad,
         type: 3}
       propertyPath: m_TagString
-      value: Friendly NPC
+      value: HomeBase
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9da5fdf09c2d1c24592b638dfc55e3ad, type: 3}
@@ -586,67 +586,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1007227700}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1007227702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007227701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b702c5022eaf1248b5de7e371f18273, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RelationshipType: 1.3
-  csv: {fileID: 4900000, guid: e5776bf17a2d64e80a72723ed6024eed, type: 3}
-  GoAway: Get out there soldier.
---- !u!114 &1007227703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007227701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f641b7ebe5372834083ef02f48b19a74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1007227704
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007227701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a08c20fa6aef476eb63d3ea7c307bbc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  identity: {fileID: 11400000, guid: 38ba48c4dd84e4018aa0738a1104a085, type: 2}
---- !u!114 &1007227705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007227701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b13eab65a3684e229d4093453184785, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startingInventory:
-  - {fileID: 11400000, guid: 5001902828a554098bb14315e607458e, type: 2}
-  - {fileID: 11400000, guid: 5001902828a554098bb14315e607458e, type: 2}
-  - {fileID: 11400000, guid: 470e4ccfbb54c40b086c646d31f7958a, type: 2}
-  - {fileID: 11400000, guid: 9072bd05786e945f1a10a6b854234386, type: 2}
-  - {fileID: 11400000, guid: 80b119a9d6e8649d499fe38d16efce49, type: 2}
-  - {fileID: 11400000, guid: cfc8ec0438eaf48daac15079e122e9c4, type: 2}
-  soap: 1460
-  inventoryType: 0
 --- !u!136 &1007227706
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1508,6 +1447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Regional Waypoints
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718521589101814836, guid: a7277f18b626cf646beea61a79e8cb9b,
+        type: 3}
+      propertyPath: m_Name
+      value: NPC1Waypoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7277f18b626cf646beea61a79e8cb9b, type: 3}

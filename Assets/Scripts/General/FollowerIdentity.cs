@@ -10,7 +10,7 @@ public class FollowerIdentity : ScriptableObject
     public int Value;
     public Sprite Icon;
     public string ToolTip;
-    public bool merchant;
+    public NpcType npcType;
     public int npcStrength;
     public int npcCharisma;
     public int npcConstitution;
@@ -18,7 +18,14 @@ public class FollowerIdentity : ScriptableObject
     public GameObject prefab;
 
     public string GetDisplayName() => Name; 
-   
+
+    public enum NpcType
+    {
+        Merchant,
+        Peaceful,
+        Dangerous,
+        Aggressive
+    }
 
     public string GetDisplayDescription()
     {

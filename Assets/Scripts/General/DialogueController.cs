@@ -22,6 +22,7 @@ public class DialogueController : MonoBehaviour
     public Statement StartConversation()
     {
         inCombat = false;
+        currentposition = 2;
         return conversation.conversationPoints[2];
     }
 
@@ -38,15 +39,38 @@ public class DialogueController : MonoBehaviour
       CREATES A NEW STATEMENT WITH THIS INFORMATION TO RETURN*/
     public Statement StartCombat()
     {
-        FollowerManager playerManager = GameObject.Find("Player").GetComponent<FollowerManager>();
+
+        inCombat = true;
+
+        FollowerManager playerManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+
+        string[] StatementLines = new string[4];
+
+        for(int i = 0; i < 4; i++)
+        {
+            try
+            {
+                GameObject npcObject = playerManager.PrintFollowers()[i].prefab;
+                StatementLines[i] = npcObject.GetComponent<Attack>().playerDescription;
+            }
+            catch(Exception e)
+            {
+                StatementLines[i] = " ";
+
+                if (i == 0)
+                {
+                    StatementLines[0] = playerManager.gameObject.GetComponent<Attack>().playerDescription;
+                }
+            }
+        }
 
         return new Statement(
             "You've entered combat. You get the feeling your going to have a bad time.",
             new string[] {
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription
+                    StatementLines[0],
+                    StatementLines[1],
+                    StatementLines[2],
+                    StatementLines[3]
                 },
             new float[] { 0.0f, 0.0f, 0.0f, 0.0f },
             new int[] { 0, 1, 2, 3 }
@@ -63,29 +87,50 @@ public class DialogueController : MonoBehaviour
 
         if (inCombat)
         {
+            Debug.Log("oof (combat option just selected)");
+
             DamageNpc(Option);
 
             DamagePlayer();
 
-            FollowerManager playerManager = GameObject.Find("Player").GetComponent<FollowerManager>();
+            FollowerManager playerManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+
+            string[] StatementLines = new string[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    StatementLines[i] = playerManager.PrintFollowers()[i].prefab.GetComponent<Attack>().playerDescription;
+                }
+                catch (Exception e)
+                {
+                    StatementLines[i] = " ";
+
+                    if (i == 0)
+                    {
+                        StatementLines[0] = playerManager.gameObject.GetComponent<Attack>().playerDescription;
+                    }
+                }
+            }
 
             return new Statement(
                 this.gameObject.GetComponent<Attack>().npcDescription,
                 new string[] {
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription,
-                    playerManager.PrintFollowers()[0].prefab.GetComponent<Attack>().playerDescription
+                    StatementLines[0],
+                    StatementLines[1],
+                    StatementLines[2],
+                    StatementLines[3]
                     },
-                new float[] { 0.0f, 0.0f, 0.0f, 0.0f},
-                new int[] { 0, 1, 2, 3}
+                new float[] { 0.0f, 0.0f, 0.0f, 0.0f },
+                new int[] { 0, 1, 2, 3 }
                 );
         }
         else
         {
             activeDialogueTree = conversation;
 
-            if (Option == 0)
+            if (activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1] == 0)
             {
                 askedToJoin = true;
 
@@ -101,6 +146,11 @@ public class DialogueController : MonoBehaviour
             }
 
             setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
+
+            if(conversation.relationshipType <= 1 && (this.gameObject.GetComponent<Follower>().identity.npcType == FollowerIdentity.NpcType.Dangerous || this.gameObject.GetComponent<Follower>().identity.npcType == FollowerIdentity.NpcType.Aggressive))
+            {
+                return StartCombat();
+            }
 
             currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
 
@@ -183,7 +233,7 @@ public class DialogueController : MonoBehaviour
 
     public bool WillJoin()
     {
-        if(askedToJoin && conversation.relationshipType > 2.5)
+        if(askedToJoin && conversation.relationshipType >= 2.5f)
         {
             return true;
         }
@@ -195,8 +245,22 @@ public class DialogueController : MonoBehaviour
 
     public void Recruit()
     {
-        FollowerManager followers = GetComponent<FollowerManager>();
+        FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
         followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
+        List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
+        foreach(StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
+        {
+            if(i.questItem == true)
+            {
+                toMove.Add(i);
+            }
+        }
+        foreach(StandardInventoryItem i in toMove)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().main.AddItem(i); //This will cause a crash as soon as someone changes protections. Nice :thumbs_up:
+            this.gameObject.GetComponent<InventoryManager>().RemoveItem(i);
+        }
         Destroy(this.gameObject);
     }
 
@@ -293,16 +357,43 @@ public class DialogueController : MonoBehaviour
     //This modifies the Npc the player is fightings health by damage
     private void DamageNpc(int Option)
     {
-        FollowerManager player = GameObject.Find("Player").GetComponent<FollowerManager>();
+        FollowerManager player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
 
-        this.GetComponent<FollowerIdentity>().npcHealth -= player.PrintFollowers()[Option--].prefab.GetComponent<Attack>().damage;
+        try
+        {
+            this.GetComponent<Follower>().currentHp -= player.PrintFollowers()[Option--].prefab.GetComponent<Attack>().damage;
+        }
+        catch(IndexOutOfRangeException e)
+        {
+            this.GetComponent<Follower>().currentHp -= player.gameObject.GetComponent<Attack>().damage;
+        }
+
+        if(this.GetComponent<Follower>().currentHp < 0)
+        {
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
+            List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
+            foreach (StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
+            {
+                if (i.questItem == true)
+                {
+                    toMove.Add(i);
+                }
+            }
+            foreach (StandardInventoryItem i in toMove)
+            {
+                GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().main.AddItem(i); //This will cause a crash as soon as someone changes protections. Nice :thumbs_up:
+                this.gameObject.GetComponent<InventoryManager>().RemoveItem(i);
+            }
+            GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().HUDDeLoader(0);
+            Destroy(this.gameObject);
+        }
     }
     
     //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
     private void DamagePlayer()
     {
-        GameObject player = GameObject.Find("Player");
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        player.GetComponent<PlayerController>().health -= this.GetComponent<Attack>().damage;
+        player.GetComponentInChildren<PlayerController>().health -= this.GetComponent<Attack>().damage;
     }
 }

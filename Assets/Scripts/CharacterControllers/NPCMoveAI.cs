@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class NPCMoveAI : MonoBehaviour
 {
@@ -20,22 +21,32 @@ public class NPCMoveAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animController = GetComponent<Animator>();
-        SetMotion(SPEED, ANGULAR_SPEED);
-        animBlendValue = 1;
-        animController.SetFloat(Animator.StringToHash("Blend"), animBlendValue);
-        navMeshAgent.stoppingDistance = 1.0f;
-        navMeshAgent.SetDestination(waypoints[0].position);
-        navMeshAgent.stoppingDistance = .1f;
-        player = GameObject.Find("PlayerModel"); 
+        try
+        {
+            animController = GetComponent<Animator>();
+            SetMotion(SPEED, ANGULAR_SPEED);
+            animBlendValue = 1;
+            animController.SetFloat(Animator.StringToHash("Blend"), animBlendValue);
+            navMeshAgent.stoppingDistance = 1.0f;
+            navMeshAgent.SetDestination(waypoints[0].position);
+            navMeshAgent.stoppingDistance = .1f;
+            player = GameObject.Find("PlayerModel");
+        }
+        catch(UnassignedReferenceException e)
+        {
+            Debug.Log("SHOULD BE IN HOME BASE");
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckIfAtWaypoint();
-        CheckIfNearPlayer();
-        animationTransition();
+        if(SceneManager.GetActiveScene().name != "HomeBase_UnderSubway")
+        {
+            CheckIfAtWaypoint();
+            CheckIfNearPlayer();
+            animationTransition();
+        }
     }
 
     private void CheckIfAtWaypoint()

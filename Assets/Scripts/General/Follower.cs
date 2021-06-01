@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class Follower : MonoBehaviour
 {
-    public FollowerIdentity identity; 
+    public FollowerIdentity identity;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    
-    }
+    public int currentHp;
 
-    // Update is called once per frame
-    void Update()
+    public void Awake()
     {
-        
+        currentHp = identity.npcHealth;
     }
 }

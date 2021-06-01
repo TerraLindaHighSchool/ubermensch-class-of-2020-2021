@@ -28,15 +28,16 @@ public class FollowerTrader : MonoBehaviour
         }
         this.gameObject.GetComponent<HUDController>().HUDLoader();
     }
-    void PartyInTheHomeBase()
+
+    public void PartyInTheHomeBase()
        {
-        foreach(GameObject GO in createdNPCs)
+        for(int i = 0; i < createdNPCs.Count; i++)
         {
-            Destroy(GO);
+            Destroy(createdNPCs[i]);
         }
         createdNPCs.Clear();
 
-        FollowerIdentity[] followersInHomeBase = gameManager.PrintFollowers();
+        FollowerIdentity[] followersInHomeBase = playerManager.PrintFollowers();
         for(int i = 0; i < followersInHomeBase.Length; i++)
         {
             GameObject NewNPC = Instantiate(followersInHomeBase[i].prefab , partyPositions[i], Quaternion.identity);

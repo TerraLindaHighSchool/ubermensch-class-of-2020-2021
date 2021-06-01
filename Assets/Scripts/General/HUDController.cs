@@ -66,6 +66,8 @@ public class HUDController : MonoBehaviour
     public GameObject[] followerIcons = new GameObject[20];
     public GameObject[] followerButtons = new GameObject[20];
     private Vector3[] followerContainer = new Vector3[20];
+    public GameObject[] followerContainerGameObject = new GameObject[20];
+
     public bool followerMenuIsOpen = false;
     public FollowerTrader FollowerMover;
 
@@ -82,6 +84,10 @@ public class HUDController : MonoBehaviour
         determineInv();
         Debug.Log("I the HUD Manager, Exist!");
         player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    private void Start()
+    {
         HUDLoader(5, this.gameObject);
     }
 
@@ -545,7 +551,8 @@ public class HUDController : MonoBehaviour
             followerIcons[i].SetActive(true);
             followerButtons[i].SetActive(true);
             Debug.Log(i);
-            GameObject.Find("NPC" + (i + 1)).SetActive(true);
+            GameObject npcContainer = followerContainerGameObject[i];
+            npcContainer.SetActive(true);
             Debug.Log(currentFollowers[i].GetDisplayName());
         }
         for (int i = currentFollowers.Length; i < 20; i++)
@@ -582,7 +589,7 @@ public class HUDController : MonoBehaviour
                 GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 24 + (3 * ((containerSize - 200) / (fullheight - 200))));
                 if (followerContainer[i] == null)
                 {
-                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                    followerContainer[i] = followerContainerGameObject[i].GetComponent<RectTransform>().anchoredPosition3D;
                 }
 
                 GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0,
@@ -631,13 +638,14 @@ public class HUDController : MonoBehaviour
     //Deactivates follower on button press
     private void deactivateFollower(int i)
     {
+        Debug.Log(i);
         followerDescriptions[i].SetActive(false);
         followerNames[i].SetActive(false);
         followerIcons[i].SetActive(false);
         followerButtons[i].SetActive(false);
         try
         {
-            GameObject.Find("NPC" + (i + 1)).SetActive(false);
+            followerContainerGameObject[i].SetActive(false);
         }
         catch(Exception e)
         {
