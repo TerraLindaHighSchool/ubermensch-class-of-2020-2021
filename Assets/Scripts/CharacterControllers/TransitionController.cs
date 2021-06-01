@@ -15,6 +15,15 @@ public class TransitionController : MonoBehaviour
         {
             DontDestroyOnLoad(i);
         }
+        /*
+         * This breaks things??
+         * 
+         * 
+        if (SceneManager.GetActiveScene().name == "HomeBase_UnderSubway")
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerTrader>().PartyInTheHomeBase();
+        }
+        */
     }
 
     public void DontDestroy(GameObject i)
@@ -26,7 +35,7 @@ public class TransitionController : MonoBehaviour
      * and the inventory required to transition.  SceneLoader will be called from the Interact 
      * method of the PlayerController after triggering the portal and pressing 'E'.
      */
-    
+
     public void SceneLoader(string scene, Vector3 destination)
     {
         //SceneMusic(scene);
