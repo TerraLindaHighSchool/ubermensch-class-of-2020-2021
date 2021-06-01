@@ -51,7 +51,7 @@ public class DialogueController : MonoBehaviour
             try
             {
                 GameObject npcObject = playerManager.PrintFollowers()[i].prefab;
-                StatementLines[i] = npcObject.GetComponentInChildren<Attack>().playerDescription;
+                StatementLines[i] = npcObject.GetComponent<Attack>().playerDescription;
             }
             catch(Exception e)
             {
