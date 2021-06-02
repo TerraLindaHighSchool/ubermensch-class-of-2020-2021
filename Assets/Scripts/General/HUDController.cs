@@ -716,4 +716,30 @@ public class HUDController : MonoBehaviour
         statTotals[1].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerCharisma().ToString();
         statTotals[2].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerConstitution().ToString();
     }
+
+    public void statSpend(int buttonNumber)
+    {
+        PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        if(bioHUDDetails.statPoints > 0)
+        {
+            if (buttonNumber == 0)
+            {
+                bioHUDDetails.playerStrength += 1;
+            }
+            else if (buttonNumber == 1)
+            {
+                bioHUDDetails.playerCharisma += 1;
+            }
+            else if (buttonNumber == 2)
+            {
+                bioHUDDetails.playerConstitution += 1;
+            }
+            bioHUDDetails.statPoints -= 1;
+        }
+        else
+        {
+            Debug.Log("No points available smh");
+        }
+        loadBioMenu();
+    }
 }
