@@ -10,6 +10,9 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public Sprite icon;
     public int value;
     public bool questItem;
+    public int strengthBoost;
+    public int charismaBoost;
+    public int constitutionBoost;
 
     public bool QuestItem
     {
@@ -36,6 +39,21 @@ public class StandardInventoryItem : ScriptableObject, InventoryItemInterface
     public string ToolTip { get
         {
             return toolTip;
+        }
+    }
+    public int StrengthBoost { get
+        {
+            return strengthBoost;
+        }
+    }
+     public int CharismaBoost { get
+        {
+            return charismaBoost;
+        }
+    }
+     public int ConstitutionBoost { get
+        {
+            return constitutionBoost;
         }
     }
 }

@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System;
 
 /* HUD 0 IS CONVERSATION 
  * HUD 1 IS INVENTORY
- * HUD 2 IS EQUIP INVENTORY
+ * HUD 2 IS TRADE INVENTORY
+ * HUD 3 IS PLAYER FOLLOWER MENU
+ * HUD 4 IS HOMEBASE FOLLOWER MENU
+ * HUD 5 IS ACTIVE HUD
  */
 public class HUDController : MonoBehaviour
 {
                         // FIELDS
 
     //GENERAL HUD FIELDS
-    private int activeHUD;
+    private int activeHUD = 5;
     public GameObject[] Huds;
     private GameObject activeNpc;
     public GameObject player;
@@ -55,6 +60,23 @@ public class HUDController : MonoBehaviour
     public GameObject npcSpeak;
     public bool inConversation = false;
 
+    //FOLLOWER HUD FIELDS
+    public GameObject[] followerNames = new GameObject[20];
+    public GameObject[] followerDescriptions = new GameObject[20];
+    public GameObject[] followerIcons = new GameObject[20];
+    public GameObject[] followerButtons = new GameObject[20];
+    private Vector3[] followerContainer = new Vector3[20];
+    public GameObject[] followerContainerGameObject = new GameObject[20];
+
+    public bool followerMenuIsOpen = false;
+    public FollowerTrader FollowerMover;
+
+    //ACTIVE HUD FIELDS
+    public GameObject hudFood;
+    public GameObject hudOxygen;
+    public GameObject hudSoap;
+    public GameObject hudHealth;
+
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -62,6 +84,11 @@ public class HUDController : MonoBehaviour
         determineInv();
         Debug.Log("I the HUD Manager, Exist!");
         player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    private void Start()
+    {
+        HUDLoader(5, this.gameObject);
     }
 
     //Disables the previously actived hud, activates the new hud, 
@@ -77,13 +104,32 @@ public class HUDController : MonoBehaviour
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
             }
-            if (activeHUD == 1)
+            else if(activeHUD == 1)
             {
                 Debug.Log("Inventory");
                 invOpen = true;
                 determineInv();
                 inventoryLoader(equipMenu.PrintInventory(), 2);
                 inventoryLoader(main.PrintInventory(), 1);
+            }
+            else if(activeHUD == 2)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller, GameObject Npc)");
+            }
+            else if(activeHUD == 3)
+            {
+                updateFollowers(true);
+                Debug.Log("Player Follower");
+            }
+            else if(activeHUD == 4)
+            {
+                updateFollowers(false);
+                Debug.Log("HomeBase Follower");
+            }
+            else if(activeHUD == 5)
+            {
+                loadBasicPlayerInfo();
+                Debug.Log("Active");
             }
             Debug.Log("HUD Loaded");
         }
@@ -119,6 +165,18 @@ public class HUDController : MonoBehaviour
                 inventoryLoader(npcInv.PrintInventory(), 4);
                 playerSoap.GetComponent<Text>().text = main.soap.ToString();
             }
+            if(activeHUD == 3)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+            }
+            if (activeHUD == 4)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+            }
+            if (activeHUD == 5)
+            {
+                Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+            }
             Debug.Log("HUD Loaded");
         }
         else
@@ -131,8 +189,7 @@ public class HUDController : MonoBehaviour
     //This is used to reload the inventory
     public void HUDLoader()
     {
-        Debug.Log("HUD re-loaded?");
-        Debug.Log("active hud is number " + activeHUD);
+        //Debug.Log("HUD re-loaded?");
         if (activeHUD < Huds.Length)
         {
             Huds[activeHUD].SetActive(false);
@@ -158,7 +215,25 @@ public class HUDController : MonoBehaviour
                 inventoryLoader(npcInv.PrintInventory(), 4);
                 playerSoap.GetComponent<Text>().text = main.soap.ToString();
             }
-            Debug.Log("HUD Loaded");
+            else if(activeHUD == 3)
+            {
+                updateFollowers(true);
+                Debug.Log("Player Follower");
+            }
+            else if(activeHUD == 4)
+            {
+                updateFollowers(false);
+                Debug.Log("HomeBase Follower");
+            }
+            if (activeHUD == 5)
+            {
+                loadBasicPlayerInfo();
+            }
+            else
+            {
+                Debug.Log("HUD Loaded");
+                Debug.Log("active hud is number " + activeHUD);
+            }
         }
         else
         {
@@ -170,15 +245,14 @@ public class HUDController : MonoBehaviour
     public void HUDDeLoader(int hud)
     {
         Huds[hud].SetActive(false);
-        Debug.Log("HUD Unloaded");
-
+        activeHUD = 5;
         if (hud == 0)
         {
             inConversation = false;
             Debug.Log("Dialogue");
-            if (activeNpc.GetComponent<DialogueController>().AskedToJoin())
+            if (activeNpc.GetComponent<DialogueController>().WillJoin())
             {
-                activeNpc.GetComponent<DialogueController>().RecruitmentCheck();
+                activeNpc.GetComponent<DialogueController>().Recruit();
             }
         }
         if (hud == 1)
@@ -191,6 +265,23 @@ public class HUDController : MonoBehaviour
             selectedText[3].SetActive(false);
             Debug.Log("Inventory");
         }
+        if(hud == 2)
+        {
+            Debug.Log("Trade Menu");
+        }
+        if(hud == 3)
+        {
+            Debug.Log("Player Follower");
+        }
+        if(hud == 4)
+        {
+            Debug.Log("HomeBase Follower");
+        }
+        if(hud == 5)
+        {
+            Debug.Log("Active");
+        }
+        Debug.Log("HUD Unloaded");
     }
 
     /*
@@ -198,7 +289,7 @@ public class HUDController : MonoBehaviour
      */
 
     //Loads every single different inventory.
-    //Currently only loads the player inventory, as other inventories do not exist yet
+    //Currently loads the player inventory with 1, the equip inventory with 2, the player trade inventory with 3, and the NPC trade inventory with 4
     public void inventoryLoader(List<InventoryItemInterface> inventory, int hud)
     {
         int hudSpace = 0;
@@ -351,6 +442,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //Sets equipMenu and main to the proper InventoryManagers of the Player
     public void determineInv()
     {
         InventoryManager[] menus = GameObject.FindGameObjectWithTag("Player").GetComponentsInChildren<InventoryManager>();
@@ -379,6 +471,7 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    //Trades the selected item when the button is pressed
     public void itemTrade()
     {
         Debug.Log("traded :)");
@@ -417,5 +510,186 @@ public class HUDController : MonoBehaviour
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
         dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
-    }    
+    }
+
+    /*
+     * FOLLOWER HUD METHODS
+     */
+
+    //Based on if the Player follower list or Homebase follower list is being used, the proper follower list is loaded onto the HUD
+    public void updateFollowers(bool isInPlayer)
+    {
+        FollowerManager currentManager;
+        FollowerIdentity[] currentFollowers;
+        if (!isInPlayer)
+        {
+            Debug.Log("HomeBase Follower Manager is Being Used");
+            currentManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<FollowerManager>();
+            currentFollowers = currentManager.PrintFollowers();
+        }
+        else
+        {
+            Debug.Log("Player Follower Manager is Being Used");
+            currentManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+            currentFollowers = currentManager.PrintFollowers();
+        }
+        for (int i = 0; i < currentFollowers.Length; i++)
+        {
+            followerDescriptions[i].GetComponentInChildren<Text>().text = currentFollowers[i].GetDisplayDescription();
+            followerNames[i].GetComponentInChildren<Text>().text = currentFollowers[i].GetDisplayName();
+            followerIcons[i].GetComponentInChildren<Image>().sprite = currentFollowers[i].Icon;
+            if (!isInPlayer)
+            {
+                followerButtons[i].GetComponentInChildren<Text>().text = ("Recruit");
+            }
+            else
+            {
+                followerButtons[i].GetComponentInChildren<Text>().text = ("Send Home");
+            }
+            followerDescriptions[i].SetActive(true);
+            followerNames[i].SetActive(true);
+            followerIcons[i].SetActive(true);
+            followerButtons[i].SetActive(true);
+            Debug.Log(i);
+            GameObject npcContainer = followerContainerGameObject[i];
+            npcContainer.SetActive(true);
+            Debug.Log(currentFollowers[i].GetDisplayName());
+        }
+        for (int i = currentFollowers.Length; i < 20; i++)
+        {
+            deactivateFollower(i);
+        }
+
+        float fullheight = 637.38f;
+
+        if (currentFollowers.Length < 7)
+        {
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
+            for (int i = 1; i < 21; i++)
+                {
+                    Debug.Log(i);
+                    GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / 200));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+            }
+        }
+        else
+        {
+            float containerSize = 200 + (currentFollowers.Length - 6) * 36;
+
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, containerSize);
+            for (int i = 1; i < 21; i++)
+            {
+                Debug.Log(i);
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 24 + (3 * ((containerSize - 200) / (fullheight - 200))));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = followerContainerGameObject[i].GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0,
+                                                                                                                                 (0.2f + // GOOD!
+                                                                                                                                 (-24 * // ~24
+                                                                                                                                 (13 - (currentFollowers.Length - 6)) / 13)) * (i - 0.8f),
+                                                                                                                                 0);
+
+                //Modifier: (2.8f - 1.95f * Mathf.Pow((fullheight - 200) / (containerSize - 200), 4.3f)) * (i - 0.9f)
+            }
+
+            /*
+            float containerSize = 200 + (currentFollowers.Length - 6) * 30;
+
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, containerSize);
+            for (int i = 1; i < 21; i++)
+            {
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / containerSize));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+            }
+            */
+
+            /*
+            float containerSize = 200 + (currentFollowers.Length - 6) * 50;
+
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, containerSize);
+            for (int i = 1; i < 21; i++)
+            {
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 27 * (fullheight / containerSize));
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                }
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D += new Vector3(0, -3.0f, 0);
+            }
+            */
+        }
+    }
+
+    //Deactivates follower on button press
+    private void deactivateFollower(int i)
+    {
+        Debug.Log(i);
+        followerDescriptions[i].SetActive(false);
+        followerNames[i].SetActive(false);
+        followerIcons[i].SetActive(false);
+        followerButtons[i].SetActive(false);
+        try
+        {
+            followerContainerGameObject[i].SetActive(false);
+        }
+        catch(Exception e)
+        {
+            //Do something?
+        }
+    }
+
+    //Moves the followers between the two follower lists on button press
+    public void moveFollowers(int buttonNumber)
+    {
+        if (activeHUD == 3)
+        {
+            FollowerMover.MoveFollower(buttonNumber, true);
+        }
+        else if (activeHUD == 4)
+        {
+            FollowerMover.MoveFollower(buttonNumber, false);
+        }
+        Debug.Log(followerNames[buttonNumber].GetComponentInChildren<Text>().text + " is no longer with us :)");
+        deactivateFollower(buttonNumber);
+        HUDLoader();
+    }
+
+    /*
+     * ACTIVE HUD METHODS
+     */
+
+    //Loads the player's health, soap, food, and oxygen level onto the active hud
+    public void loadBasicPlayerInfo()
+    {
+        PlayerController playerHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        determineInv();
+        hudSoap.GetComponentInChildren<Text>().text = main.soap.ToString();
+        hudFood.GetComponentInChildren<Text>().text = playerHUDDetails.food.ToString();
+        hudHealth.GetComponent<RectTransform>().sizeDelta = new Vector2(13, (playerHUDDetails.health / 100 * 50.1f) + 2.9f);
+        hudOxygen.GetComponent<RectTransform>().sizeDelta = new Vector2(18, (playerHUDDetails.oxygen / 100 * 33.95f) + 3.1f);
+    }
+
+    //Ensures that the hud showing the player's health and other critical information is showing when not in a menu
+    private void Update()
+    {
+        if(activeHUD == 5)
+        {
+            HUDLoader();
+        }
+    }
 }
