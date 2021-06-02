@@ -11,6 +11,7 @@ using System;
  * HUD 3 IS PLAYER FOLLOWER MENU
  * HUD 4 IS HOMEBASE FOLLOWER MENU
  * HUD 5 IS ACTIVE HUD
+ * HUD 6 IS BIO HUD
  */
 public class HUDController : MonoBehaviour
 {
@@ -77,6 +78,11 @@ public class HUDController : MonoBehaviour
     public GameObject hudSoap;
     public GameObject hudHealth;
 
+    //BIO HUD FIELDS
+    public GameObject[] statTotals; //0 is Strength, 1 is Charisma, 2 is Constitution
+    public GameObject availablePoints;
+    public GameObject statButton;
+
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -130,6 +136,10 @@ public class HUDController : MonoBehaviour
             {
                 loadBasicPlayerInfo();
                 Debug.Log("Active");
+            }
+            else if(activeHUD == 6)
+            {
+                Debug.Log("Bio");
             }
             Debug.Log("HUD Loaded");
         }
@@ -249,6 +259,7 @@ public class HUDController : MonoBehaviour
         if (hud == 0)
         {
             inConversation = false;
+            GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
             Debug.Log("Dialogue");
             if (activeNpc.GetComponent<DialogueController>().WillJoin())
             {
@@ -691,5 +702,18 @@ public class HUDController : MonoBehaviour
         {
             HUDLoader();
         }
+    }
+
+    /*
+     * BIO HUD METHODS
+     */
+
+    private void loadBioMenu()
+    {
+        PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        availablePoints.GetComponentInChildren<Text>().text = bioHUDDetails.statPoints.ToString();
+        statTotals[0].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerStrength().ToString();
+        statTotals[1].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerCharisma().ToString();
+        statTotals[2].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerConstitution().ToString();
     }
 }
