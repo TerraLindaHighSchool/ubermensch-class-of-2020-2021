@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         health = 100;
         food = 100;
         oxygen = 100;
-        checkResourceLevelsEachNumSeconds = 60;
+        checkResourceLevelsEachNumSeconds = 20;
     }
 
     private void Start()
@@ -149,6 +149,11 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Picking up");
             GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
+            objectHit.SetActive(false);
+        }
+        if (objectHit.CompareTag("oxygen"))
+        {
+            oxygen = 100;
             objectHit.SetActive(false);
         }
         if (objectHit.CompareTag("Portal"))
