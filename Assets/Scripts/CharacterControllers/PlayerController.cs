@@ -153,7 +153,15 @@ public class PlayerController : MonoBehaviour
         }
         if (objectHit.CompareTag("oxygen"))
         {
-            oxygen = 100;
+            if (oxygen + objectHit.GetComponent<OxygenSupply>().oxygenSupply > 100)
+            {
+                oxygen = 100;
+            }
+            else
+            {
+                oxygen += objectHit.GetComponent<OxygenSupply>().oxygenSupply;
+            }
+            
             objectHit.SetActive(false);
         }
         if (objectHit.CompareTag("Portal"))
