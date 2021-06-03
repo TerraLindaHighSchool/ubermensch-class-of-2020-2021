@@ -8,6 +8,7 @@ public class NPCMoveAI : MonoBehaviour
 {
     public NavMeshAgent navMeshAgent;
     public Transform[] waypoints;
+    public float waitTime;
     private Animator animController;
     private GameObject player;
     private int currentWaypointIndex;
@@ -16,7 +17,6 @@ public class NPCMoveAI : MonoBehaviour
     private float animBlendValue;
     private const float SPEED = 2.0f;
     private const float ANGULAR_SPEED = 120.0f;
-    private const float WAIT_TIME = 3.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +82,7 @@ public class NPCMoveAI : MonoBehaviour
 
     private void animationTransition()
     {
-        if(navMeshAgent.remainingDistance < 1 || isAtWaypoint || isNearPlayer)
+        if(navMeshAgent.remainingDistance < 1 || isAtWaypoint || isNearPlayer || waypoints.Length == 1)
         {
             if(animBlendValue >= 0)
             {
@@ -102,7 +102,7 @@ public class NPCMoveAI : MonoBehaviour
     {
         isAtWaypoint = true;
         SetMotion(0, 0);
-        yield return new WaitForSeconds(WAIT_TIME);
+        yield return new WaitForSeconds(waitTime);
         isAtWaypoint = false;
         SetMotion(SPEED, ANGULAR_SPEED);
     }
