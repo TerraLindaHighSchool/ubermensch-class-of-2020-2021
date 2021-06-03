@@ -81,8 +81,9 @@ public class HUDController : MonoBehaviour
     //BIO HUD FIELDS
     public GameObject[] statTotals; //0 is Strength, 1 is Charisma, 2 is Constitution
     public GameObject availablePoints;
-    public GameObject statButton;
-
+    public GameObject missionText;
+    public GameObject playerPicture;
+    public GameObject playerName;
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -139,6 +140,7 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 6)
             {
+                loadBioMenu();
                 Debug.Log("Bio");
             }
             Debug.Log("HUD Loaded");
@@ -711,10 +713,13 @@ public class HUDController : MonoBehaviour
     private void loadBioMenu()
     {
         PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
-        availablePoints.GetComponentInChildren<Text>().text = bioHUDDetails.statPoints.ToString();
-        statTotals[0].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerStrength().ToString();
-        statTotals[1].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerCharisma().ToString();
-        statTotals[2].GetComponentInChildren<Text>().text = bioHUDDetails.GetPlayerConstitution().ToString();
+        availablePoints.GetComponentInChildren<Text>().text = bioHUDDetails.statPoints.ToString() + " points available";
+        statTotals[0].GetComponentInChildren<Text>().text = "Strength = " + bioHUDDetails.GetPlayerStrength().ToString();
+        statTotals[1].GetComponentInChildren<Text>().text = "Charisma = " +bioHUDDetails.GetPlayerCharisma().ToString();
+        statTotals[2].GetComponentInChildren<Text>().text = "Constitution = " + bioHUDDetails.GetPlayerConstitution().ToString();
+        missionText.GetComponentInChildren<Text>().text = bioHUDDetails.currentMission;
+        playerPicture.GetComponent<Image>().sprite = bioHUDDetails.profilePic;
+        playerName.GetComponentInChildren<Text>().text = bioHUDDetails.yourName;
     }
 
     public void statSpend(int buttonNumber)

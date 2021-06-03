@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
     public int statPoints; //What are stat points used for?  
     public int level;
+    public string yourName = "xXcoolXx";
+    public Sprite profilePic;
+    public string currentMission = "It's a secret shhhhh ;)";
 
     //AUTHOR VIVIAN***************************************************************************************************************************
     private void Awake()
