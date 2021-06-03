@@ -42,14 +42,13 @@ public class PlayerController : MonoBehaviour
     {
         health = 100;
         food = 100;
-        oxygen = 70;
-        checkResourceLevelsEachNumSeconds = 20;
+        oxygen = 30;
     }
 
     private void Start()
     {
         // Applies scenes depletion rate once per minute of game play.
-        InvokeRepeating("ConsumeResources", 2, checkResourceLevelsEachNumSeconds);
+        InvokeRepeating("ConsumeResources", 2, 10);
     }
 
     // Update is called once per frame
@@ -74,7 +73,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            InvokeRepeating("Health", 2, checkResourceLevelsEachNumSeconds / 60 + 1);
+            InvokeRepeating("Health", 2, 1);
         }
     }
 
@@ -162,7 +161,14 @@ public class PlayerController : MonoBehaviour
 
         if (objectHit.CompareTag("oxygen"))
         {
-            oxygen += objectHit.GetComponent<OxygenSupply>().oxygenSupply;           
+            if (oxygen + objectHit.GetComponent<OxygenSupply>().oxygenSupply > 100)
+            {
+                oxygen = 100;
+            }
+            else
+            {
+                oxygen += objectHit.GetComponent<OxygenSupply>().oxygenSupply;
+            }
             objectHit.SetActive(false);
         }
 
