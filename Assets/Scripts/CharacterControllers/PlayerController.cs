@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    // Set health, food, and oxygen to between 0 and 100% (0.0 - 1.0)
+    // Set health, food, and oxygen to between 0 and 100% (0.0 - 100.0)
     public float health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         health = 100;
         food = 100;
-        oxygen = 100;
+        oxygen = 70;
         checkResourceLevelsEachNumSeconds = 20;
     }
 
@@ -145,25 +145,27 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
+        if (objectHit.CompareTag("Message") || objectHit.CompareTag("Map"))
+        {
+            isInDialogue = true;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
+            Debug.Log("Reading " + objectHit.name);
+        }
+
         if (objectHit.CompareTag("Inventory Object"))
         {
             Debug.Log("Picking up");
             GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
             objectHit.SetActive(false);
         }
+
         if (objectHit.CompareTag("oxygen"))
         {
-            if (oxygen + objectHit.GetComponent<OxygenSupply>().oxygenSupply > 100)
-            {
-                oxygen = 100;
-            }
-            else
-            {
-                oxygen += objectHit.GetComponent<OxygenSupply>().oxygenSupply;
-            }
-            
+            oxygen += objectHit.GetComponent<OxygenSupply>().oxygenSupply;           
             objectHit.SetActive(false);
         }
+
         if (objectHit.CompareTag("Portal"))
         {
             Debug.Log("Teleport");
@@ -188,6 +190,7 @@ public class PlayerController : MonoBehaviour
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }
         }
+
         if(objectHit.CompareTag("HomeBase"))
         {
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(4, this.gameObject);
