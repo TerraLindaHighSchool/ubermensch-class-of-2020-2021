@@ -120,11 +120,15 @@ public class HUDController : MonoBehaviour
             {
                 updateFollowers(true);
                 Debug.Log("Player Follower");
+                followerMenuIsOpen = true;
+                Debug.Log("set true 3");
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
+                followerMenuIsOpen = true;
+                Debug.Log("set true 4");
             }
             else if(activeHUD == 5)
             {
@@ -168,10 +172,14 @@ public class HUDController : MonoBehaviour
             if(activeHUD == 3)
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+                followerMenuIsOpen = true;
+                Debug.Log("set true 5");
             }
             if (activeHUD == 4)
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
+                followerMenuIsOpen = true;
+                Debug.Log("set true 6");
             }
             if (activeHUD == 5)
             {
@@ -219,11 +227,15 @@ public class HUDController : MonoBehaviour
             {
                 updateFollowers(true);
                 Debug.Log("Player Follower");
+                followerMenuIsOpen = true;
+                Debug.Log("set true 1");
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
+                followerMenuIsOpen = true;
+                Debug.Log("set true 2");
             }
             if (activeHUD == 5)
             {
@@ -272,10 +284,12 @@ public class HUDController : MonoBehaviour
         if(hud == 3)
         {
             Debug.Log("Player Follower");
+            followerMenuIsOpen = false;
         }
         if(hud == 4)
         {
             Debug.Log("HomeBase Follower");
+            //followerMenuIsOpen = false;
         }
         if(hud == 5)
         {
@@ -564,17 +578,24 @@ public class HUDController : MonoBehaviour
 
         if (currentFollowers.Length < 7)
         {
-            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
-            for (int i = 1; i < 21; i++)
+            try
+            {
+                GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
+                for (int i = 1; i < 21; i++)
                 {
                     Debug.Log(i);
                     GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / 200));
-                if (followerContainer[i] == null)
-                {
-                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
-                }
+                    if (followerContainer[i] == null)
+                    {
+                        followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
+                    }
 
-                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+                    GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.Log(e);
             }
         }
         else
