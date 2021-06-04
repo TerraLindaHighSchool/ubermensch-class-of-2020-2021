@@ -10,4 +10,5 @@ public class CreditsButtonScript : MonoBehaviour
 	Debug.Log("Credits Displayed");
 	SceneManager.LoadScene("Credits");
 	}
+
 }
