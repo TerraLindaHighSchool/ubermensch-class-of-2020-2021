@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            oxygen = 0;
             InvokeRepeating("Health", 2, 1);
         }
     }
@@ -81,8 +82,18 @@ public class PlayerController : MonoBehaviour
     { 
         if (health > 0)
         {
-            Debug.Log("health at:" + health);
-            health -= (2.5f);
+            if(oxygen == 0)
+            {
+                health -= 2.5f;
+            }
+            else
+            {
+                if(health >= 100)
+                {
+                    CancelInvoke("Health");
+                }
+                health += 2.5f;
+            }
         }
 
         if (health <= 0)
