@@ -11,6 +11,7 @@ using System;
  * HUD 3 IS PLAYER FOLLOWER MENU
  * HUD 4 IS HOMEBASE FOLLOWER MENU
  * HUD 5 IS ACTIVE HUD
+ * HUD 6 IS BIO HUD
  */
 public class HUDController : MonoBehaviour
 {
@@ -77,6 +78,12 @@ public class HUDController : MonoBehaviour
     public GameObject hudSoap;
     public GameObject hudHealth;
 
+    //BIO HUD FIELDS
+    public GameObject[] statTotals; //0 is Strength, 1 is Charisma, 2 is Constitution
+    public GameObject availablePoints;
+    public GameObject missionText;
+    public GameObject playerPicture;
+    public GameObject playerName;
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -120,20 +127,21 @@ public class HUDController : MonoBehaviour
             {
                 updateFollowers(true);
                 Debug.Log("Player Follower");
-                followerMenuIsOpen = true;
-                Debug.Log("set true 3");
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
-                followerMenuIsOpen = true;
-                Debug.Log("set true 4");
             }
             else if(activeHUD == 5)
             {
                 loadBasicPlayerInfo();
                 Debug.Log("Active");
+            }
+            else if(activeHUD == 6)
+            {
+                loadBioMenu();
+                Debug.Log("Bio");
             }
             Debug.Log("HUD Loaded");
         }
@@ -172,14 +180,10 @@ public class HUDController : MonoBehaviour
             if(activeHUD == 3)
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
-                followerMenuIsOpen = true;
-                Debug.Log("set true 5");
             }
             if (activeHUD == 4)
             {
                 Debug.Log("ERROR: Please use HUDLoader(int hud, GameObject caller)");
-                followerMenuIsOpen = true;
-                Debug.Log("set true 6");
             }
             if (activeHUD == 5)
             {
@@ -227,15 +231,11 @@ public class HUDController : MonoBehaviour
             {
                 updateFollowers(true);
                 Debug.Log("Player Follower");
-                followerMenuIsOpen = true;
-                Debug.Log("set true 1");
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
-                followerMenuIsOpen = true;
-                Debug.Log("set true 2");
             }
             if (activeHUD == 5)
             {
@@ -261,6 +261,7 @@ public class HUDController : MonoBehaviour
         if (hud == 0)
         {
             inConversation = false;
+            GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
             Debug.Log("Dialogue");
             if (activeNpc.GetComponent<DialogueController>().WillJoin())
             {
@@ -284,12 +285,10 @@ public class HUDController : MonoBehaviour
         if(hud == 3)
         {
             Debug.Log("Player Follower");
-            followerMenuIsOpen = false;
         }
         if(hud == 4)
         {
             Debug.Log("HomeBase Follower");
-            //followerMenuIsOpen = false;
         }
         if(hud == 5)
         {
@@ -578,24 +577,17 @@ public class HUDController : MonoBehaviour
 
         if (currentFollowers.Length < 7)
         {
-            try
-            {
-                GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
-                for (int i = 1; i < 21; i++)
+            GameObject.Find("FollowerContent").GetComponent<RectTransform>().sizeDelta = new Vector2(0, 200);
+            for (int i = 1; i < 21; i++)
                 {
                     Debug.Log(i);
                     GameObject.Find("NPC" + i).GetComponent<RectTransform>().sizeDelta = new Vector2(174.3f, 8 * (fullheight / 200));
-                    if (followerContainer[i] == null)
-                    {
-                        followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
-                    }
-
-                    GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
+                if (followerContainer[i] == null)
+                {
+                    followerContainer[i] = GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D;
                 }
-            }
-            catch (NullReferenceException e)
-            {
-                Debug.Log(e);
+
+                GameObject.Find("NPC" + i).GetComponent<RectTransform>().anchoredPosition3D = followerContainer[i] + new Vector3(0, -23.0f * (i - 0.9f), 0);
             }
         }
         else
@@ -712,5 +704,47 @@ public class HUDController : MonoBehaviour
         {
             HUDLoader();
         }
+    }
+
+    /*
+     * BIO HUD METHODS
+     */
+
+    private void loadBioMenu()
+    {
+        PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        availablePoints.GetComponentInChildren<Text>().text = bioHUDDetails.statPoints.ToString() + " points available";
+        statTotals[0].GetComponentInChildren<Text>().text = "Strength = " + bioHUDDetails.GetPlayerStrength().ToString();
+        statTotals[1].GetComponentInChildren<Text>().text = "Charisma = " +bioHUDDetails.GetPlayerCharisma().ToString();
+        statTotals[2].GetComponentInChildren<Text>().text = "Constitution = " + bioHUDDetails.GetPlayerConstitution().ToString();
+        missionText.GetComponentInChildren<Text>().text = bioHUDDetails.currentMission;
+        playerPicture.GetComponent<Image>().sprite = bioHUDDetails.profilePic;
+        playerName.GetComponentInChildren<Text>().text = bioHUDDetails.yourName;
+    }
+
+    public void statSpend(int buttonNumber)
+    {
+        PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        if(bioHUDDetails.statPoints > 0)
+        {
+            if (buttonNumber == 0)
+            {
+                bioHUDDetails.playerStrength += 1;
+            }
+            else if (buttonNumber == 1)
+            {
+                bioHUDDetails.playerCharisma += 1;
+            }
+            else if (buttonNumber == 2)
+            {
+                bioHUDDetails.playerConstitution += 1;
+            }
+            bioHUDDetails.statPoints -= 1;
+        }
+        else
+        {
+            Debug.Log("No points available smh");
+        }
+        loadBioMenu();
     }
 }

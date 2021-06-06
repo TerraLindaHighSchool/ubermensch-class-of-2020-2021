@@ -28,14 +28,18 @@ public class MovementController : MonoBehaviour
         bool animate = false;
 
         //moves the player if move keys are pressed and CanMove is true
-        if (moveDirection.magnitude >= 0.1f && CanMove)
+        if (moveDirection.magnitude >= 0.1f)
         {
             controller.Move(moveDirection * speed * Time.deltaTime);
             Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
             PreventFall(moveDirection);
-            controller.Move(Vector3.down);         
-            animate = true;            
+            controller.Move(Vector3.down);
+
+            if(CanMove)
+            { 
+                animate = true;
+            }
         }
         AnimController.SetBool("isWalking", animate);
     }
@@ -64,6 +68,7 @@ public class MovementController : MonoBehaviour
     PlayerController testHealthOxy;
    
     private bool invOpen;
+    private bool bioOpen;
     private void testKeys()
     {
         HUDController TestHUDController;
@@ -119,19 +124,20 @@ public class MovementController : MonoBehaviour
     public void inventoryOpen()
     {
         HUDController InventoryHUDController;
-        if (Input.GetKeyDown("i"))
+        if (Input.GetKeyDown("i") && !invOpen)
         {
             Debug.Log("PLAYER INSTANCE ID:" + this.gameObject.GetInstanceID());
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
             invOpen = true;
         }
-        if (Input.GetKeyDown("2"))
+        else if(Input.GetKeyDown("i") && invOpen)
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDDeLoader(1);
             invOpen = false;
         }
+        /*
         if (Input.GetKeyDown("y"))
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
@@ -143,6 +149,7 @@ public class MovementController : MonoBehaviour
                 InventoryHUDController.HUDLoader();
             }
         }
+        */
     }
 
     private void openFollowers()
@@ -152,14 +159,23 @@ public class MovementController : MonoBehaviour
         {
             playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             playerFollowerList.HUDLoader(3, this.gameObject);
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().followerMenuIsOpen = true;
-            Debug.Log("e");
-
         }
-        if (Input.GetKeyDown("5"))
+    }
+
+    private void openBioMenu()
+    {
+        HUDController bioHUD;
+        if (Input.GetKeyDown("o") && !bioOpen)
         {
-            playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            playerFollowerList.HUDDeLoader(3);
+            bioHUD = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            bioHUD.HUDLoader(6, this.gameObject);
+            bioOpen = true;
+        }
+        else if (Input.GetKeyDown("o") && bioOpen)
+        {
+            bioHUD = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            bioHUD.HUDDeLoader(6);
+            bioOpen = false;
         }
     }
 
@@ -178,9 +194,10 @@ public class MovementController : MonoBehaviour
             // I added this in the git editor lamo
             inventoryOpen();
             openFollowers();
+            openBioMenu();
         }
-        //Debug.Log(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().followerMenuIsOpen);
-        if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().followerMenuIsOpen)
+
+        if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)
         {
             CanMove = false;
         }
