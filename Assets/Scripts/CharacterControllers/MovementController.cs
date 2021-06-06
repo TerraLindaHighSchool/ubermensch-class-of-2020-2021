@@ -68,6 +68,7 @@ public class MovementController : MonoBehaviour
     PlayerController testHealthOxy;
    
     private bool invOpen;
+    private bool bioOpen;
     private void testKeys()
     {
         HUDController TestHUDController;
@@ -123,19 +124,20 @@ public class MovementController : MonoBehaviour
     public void inventoryOpen()
     {
         HUDController InventoryHUDController;
-        if (Input.GetKeyDown("i"))
+        if (Input.GetKeyDown("i") && !invOpen)
         {
             Debug.Log("PLAYER INSTANCE ID:" + this.gameObject.GetInstanceID());
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
             invOpen = true;
         }
-        if (Input.GetKeyDown("2"))
+        else if(Input.GetKeyDown("i") && invOpen)
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDDeLoader(1);
             invOpen = false;
         }
+        /*
         if (Input.GetKeyDown("y"))
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
@@ -147,6 +149,7 @@ public class MovementController : MonoBehaviour
                 InventoryHUDController.HUDLoader();
             }
         }
+        */
     }
 
     private void openFollowers()
@@ -157,10 +160,22 @@ public class MovementController : MonoBehaviour
             playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             playerFollowerList.HUDLoader(3, this.gameObject);
         }
-        if (Input.GetKeyDown("5"))
+    }
+
+    private void openBioMenu()
+    {
+        HUDController bioHUD;
+        if (Input.GetKeyDown("o") && !bioOpen)
         {
-            playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
-            playerFollowerList.HUDDeLoader(3);
+            bioHUD = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            bioHUD.HUDLoader(6, this.gameObject);
+            bioOpen = true;
+        }
+        else if (Input.GetKeyDown("o") && bioOpen)
+        {
+            bioHUD = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
+            bioHUD.HUDDeLoader(6);
+            bioOpen = false;
         }
     }
 
@@ -179,6 +194,7 @@ public class MovementController : MonoBehaviour
             // I added this in the git editor lamo
             inventoryOpen();
             openFollowers();
+            openBioMenu();
         }
 
         if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)

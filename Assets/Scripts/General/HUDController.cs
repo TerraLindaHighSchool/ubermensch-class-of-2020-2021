@@ -11,6 +11,7 @@ using System;
  * HUD 3 IS PLAYER FOLLOWER MENU
  * HUD 4 IS HOMEBASE FOLLOWER MENU
  * HUD 5 IS ACTIVE HUD
+ * HUD 6 IS BIO HUD
  */
 public class HUDController : MonoBehaviour
 {
@@ -77,6 +78,12 @@ public class HUDController : MonoBehaviour
     public GameObject hudSoap;
     public GameObject hudHealth;
 
+    //BIO HUD FIELDS
+    public GameObject[] statTotals; //0 is Strength, 1 is Charisma, 2 is Constitution
+    public GameObject availablePoints;
+    public GameObject missionText;
+    public GameObject playerPicture;
+    public GameObject playerName;
     // HUD LOADER AND DELOADER
 
     private void Awake()
@@ -130,6 +137,11 @@ public class HUDController : MonoBehaviour
             {
                 loadBasicPlayerInfo();
                 Debug.Log("Active");
+            }
+            else if(activeHUD == 6)
+            {
+                loadBioMenu();
+                Debug.Log("Bio");
             }
             Debug.Log("HUD Loaded");
         }
@@ -249,6 +261,7 @@ public class HUDController : MonoBehaviour
         if (hud == 0)
         {
             inConversation = false;
+            GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
             Debug.Log("Dialogue");
             if (activeNpc.GetComponent<DialogueController>().WillJoin())
             {
@@ -691,5 +704,47 @@ public class HUDController : MonoBehaviour
         {
             HUDLoader();
         }
+    }
+
+    /*
+     * BIO HUD METHODS
+     */
+
+    private void loadBioMenu()
+    {
+        PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        availablePoints.GetComponentInChildren<Text>().text = bioHUDDetails.statPoints.ToString() + " points available";
+        statTotals[0].GetComponentInChildren<Text>().text = "Strength = " + bioHUDDetails.GetPlayerStrength().ToString();
+        statTotals[1].GetComponentInChildren<Text>().text = "Charisma = " +bioHUDDetails.GetPlayerCharisma().ToString();
+        statTotals[2].GetComponentInChildren<Text>().text = "Constitution = " + bioHUDDetails.GetPlayerConstitution().ToString();
+        missionText.GetComponentInChildren<Text>().text = bioHUDDetails.currentMission;
+        playerPicture.GetComponent<Image>().sprite = bioHUDDetails.profilePic;
+        playerName.GetComponentInChildren<Text>().text = bioHUDDetails.yourName;
+    }
+
+    public void statSpend(int buttonNumber)
+    {
+        PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
+        if(bioHUDDetails.statPoints > 0)
+        {
+            if (buttonNumber == 0)
+            {
+                bioHUDDetails.playerStrength += 1;
+            }
+            else if (buttonNumber == 1)
+            {
+                bioHUDDetails.playerCharisma += 1;
+            }
+            else if (buttonNumber == 2)
+            {
+                bioHUDDetails.playerConstitution += 1;
+            }
+            bioHUDDetails.statPoints -= 1;
+        }
+        else
+        {
+            Debug.Log("No points available smh");
+        }
+        loadBioMenu();
     }
 }
