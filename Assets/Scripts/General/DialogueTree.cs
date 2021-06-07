@@ -7,12 +7,8 @@ using UnityEngine;
 //also it said it should be an abstract classn in the web?
 public abstract class DialogueTree : MonoBehaviour
 {
-    //make a string instead of the thingy 
-    //so you can use the code on all npcs 
-    //cause it's public its availbe in inspector
-    //public string CSVFileName;
-    //nvm pretty sure we don't need this
-    public float RelationshipType;
+    //its not capital r so it may mess stuff up now
+    public float relationshipType;
 
     //I think this is supposed to be built off the csv
     public Statement[] conversationPoints;

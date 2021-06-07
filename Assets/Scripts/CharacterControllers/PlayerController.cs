@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    // Set health, food, and oxygen to between 0 and 100% (0.0 - 1.0)
+    // Set health, food, and oxygen to between 0 and 100% (0.0 - 100.0)
     public float health { get; set; }
     public float food { get; set; }
     public float oxygen { get; set; }
@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     // Scene Attributed that affect player.  
     public float foodDepletionRate { get; set; }
     public float oxygenDepletionRate { get; set; }
+    private int checkResourceLevelsEachNumSeconds;
 
     // PlayerController Stat Additions
     // Needs a default 
@@ -28,20 +29,29 @@ public class PlayerController : MonoBehaviour
     public int playerCharisma;
     public int playerConstitution;
 
+    //Total stats of NPCs following the player
+    private int totalNPCStrength;
+    private int totalNPCCharisma;
+    private int totalNPCConstitution;
+
     public int statPoints; //What are stat points used for?  
     public int level;
+    public string yourName = "xXcoolXx";
+    public Sprite profilePic;
+    public string currentMission = "It's a secret shhhhh ;)";
 
+    //AUTHOR VIVIAN***************************************************************************************************************************
     private void Awake()
     {
         health = 100;
         food = 100;
-        oxygen = 100;
+        oxygen = 30;
     }
 
     private void Start()
     {
         // Applies scenes depletion rate once per minute of game play.
-        InvokeRepeating("ConsumeResources", 2, 60);
+        InvokeRepeating("ConsumeResources", 2, 10);
     }
 
     // Update is called once per frame
@@ -50,6 +60,10 @@ public class PlayerController : MonoBehaviour
         if (isInTriggerArea && Input.GetKeyDown(KeyCode.E))
         {
             Interact();
+        }
+        else if(health < 0)
+        {
+            SceneManager.LoadScene("StartMenu");
         }
     }
 
@@ -60,13 +74,32 @@ public class PlayerController : MonoBehaviour
             Debug.Log("oxygen at:" + oxygen);
             oxygen -= (oxygenDepletionRate);
         }
-        else if (health > 0)
+        else
         {
-            Debug.Log("health at:" + health);
-            health -= (33f);
+            oxygen = 0;
+            InvokeRepeating("Health", 2, 1);
+        }
+    }
+
+    void Health()
+    { 
+        if (health > 0)
+        {
+            if(oxygen == 0)
+            {
+                health -= 2.5f;
+            }
+            else
+            {
+                if(health >= 100)
+                {
+                    CancelInvoke("Health");
+                }
+                health += 2.5f;
+            }
         }
 
-        if (health < 0)
+        if (health <= 0)
         {
             health = 0;
             GameObject UI = GameObject.FindGameObjectWithTag("UI_Manager");
@@ -111,7 +144,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("taking action");
         if (objectHit.CompareTag("Friendly NPC") || objectHit.CompareTag("Non-Friendly NPC"))
         {
-            if (objectHit.GetComponent<Follower>().identity.merchant == false)
+            if (objectHit.GetComponent<Follower>().identity.npcType != FollowerIdentity.NpcType.Merchant)
             {
                 isInDialogue = true;
                 GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
@@ -125,18 +158,43 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
+        if (objectHit.CompareTag("Message") || objectHit.CompareTag("Map"))
+        {
+            isInDialogue = true;
+            GameObject.Find("GameManager").GetComponent<HUDController>().HUDLoader(0, this.gameObject, objectHit);
+            Debug.Log("Reading " + objectHit.name);
+        }
+
         if (objectHit.CompareTag("Inventory Object"))
         {
             Debug.Log("Picking up");
             GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
             objectHit.SetActive(false);
         }
+
+        if (objectHit.CompareTag("oxygen"))
+        {
+            if (oxygen + objectHit.GetComponent<OxygenSupply>().oxygenSupply > 100)
+            {
+                oxygen = 100;
+            }
+            else
+            {
+                oxygen += objectHit.GetComponent<OxygenSupply>().oxygenSupply;
+            }
+            objectHit.SetActive(false);
+        }
+
         if (objectHit.CompareTag("Portal"))
         {
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
+            AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
+            
+
             int exitCheck = 0;
             foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
             {
@@ -147,39 +205,37 @@ public class PlayerController : MonoBehaviour
             }
             if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
             {
+                //Sets MusicController's "tracks" field to the music put into the scriptable object portal
+                GameObject.Find("Main Camera").GetComponent<MusicController>().TrackSwitch(0, audioClips);
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
             }
         }
-    }
 
-    public void SetPlayerStats()
-    {
-        AddFollowerStatsToPlayer();
-        RemoveFollowerStatsFromPlayer();
-
-        if (isInTriggerArea == true && objectHit.CompareTag("Non-Friendly NPC"))
+        if(objectHit.CompareTag("HomeBase"))
         {
-            playerStrength--;
-            playerCharisma--;
-            playerConstitution--;
-            Debug.Log("Is in combat, strength, charisma, and constitution declined");
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(4, this.gameObject);
         }
     }
+
+    //AUTHOR NICHOLAS**********************************************************************************************************
 
     // Getter methods that return the player stats: 
     public int GetPlayerStrength()
     {
-        return playerStrength;
+        AddFollowerStatsToPlayer();
+        return playerStrength + totalNPCStrength;
     }
 
     public int GetPlayerCharisma()
     {
-        return playerCharisma;
+        AddFollowerStatsToPlayer();
+        return playerCharisma + totalNPCCharisma;
     }
 
     public int GetPlayerConstitution()
     {
-        return playerConstitution;
+        AddFollowerStatsToPlayer();
+        return playerConstitution + totalNPCConstitution;
     }
 
     //Sets the level number and increases the stat points
@@ -187,51 +243,36 @@ public class PlayerController : MonoBehaviour
     public void SetLevelNum()
     {
         level++;
-        playerStrength += 2;
-        playerCharisma += 2;
-        playerConstitution += 2;
+        statPoints += 2;
     }
 
     public void AddFollowerStatsToPlayer()
     {
         FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        ArrayList followers = fm.followers;
-        foreach (Follower f in followers)
+        FollowerIdentity[] followers = fm.PrintFollowers();
+        totalNPCStrength = 0;
+        totalNPCCharisma = 0;
+        totalNPCConstitution = 0;
+        foreach (FollowerIdentity f in followers)
         {
             // gets follow identity of the follower in the array 
-            FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
+            FollowerIdentity currentFollower = f;
             // gets the individual stat 
             int followerStrength = currentFollower.GetFollowerStrength();
             int followerCharisma = currentFollower.GetFollowerCharisma();
             int followerConstitution = currentFollower.GetFollowerConstitution();
             // adds the follower's stat to the player's stat
-            playerStrength += followerStrength;
-            playerCharisma += followerCharisma;
-            playerConstitution += followerConstitution;
-            Debug.Log("Follower Stats Added");
+
+            totalNPCStrength += followerStrength;
+            totalNPCCharisma += followerCharisma;
+            totalNPCConstitution += followerConstitution;
+            Debug.Log("Follower Stats Totaled");
         }
     }
-
-    public void RemoveFollowerStatsFromPlayer()
+    public void exitTrade() //to be used by the exit button in UI
     {
-        FollowerManager fm = GetComponent<FollowerManager>(); // gets the follower manager 
-        ArrayList followers = fm.followers;
-        foreach (Follower f in followers)
-        {
-            FollowerManager currentFollowerManager = GetComponent<FollowerManager>();
-            if (currentFollowerManager.followerRemoved == true)
-            {
-                FollowerIdentity currentFollower = GetComponent<FollowerIdentity>();
-                // gets the individual stat 
-                int followerStrength = currentFollower.GetFollowerStrength();
-                int followerCharisma = currentFollower.GetFollowerCharisma();
-                int followerConstitution = currentFollower.GetFollowerConstitution();
-                // removes the stat from the player's 
-                playerStrength -= followerStrength;
-                playerCharisma -= followerCharisma;
-                playerConstitution -= followerConstitution;
-                Debug.Log("Dead Follower Stats removed");
-            }
-        }
+        isInTrading = false;
+        GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
+        this.GetComponent<MovementController>().exitButtonMController();
     }
 }
