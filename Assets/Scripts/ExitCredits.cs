@@ -5,11 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class ExitCredits : MonoBehaviour
 {
-       public void ExitCreditsScene()
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.anyKey)
 	{
-	
-	if(Input.GetKeyDown(KeyCode.W))
-		Debug.Log("Exit Credits");
 		SceneManager.LoadScene("StartMenu");
 	}
+    }
 }
