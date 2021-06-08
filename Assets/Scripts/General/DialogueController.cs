@@ -1,88 +1,161 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DialogueController : MonoBehaviour
 {
-    //I think Dialogue_GruceBustin row 6 should probably not link to 6 or you get stuck in a loop lol
-    //why did it move downa  row?
-    //where does relationship start at
-    //the statement only has one option but how many options are there supposed to be
-
-    //dialogue tree would set how many options? as many as possible
-    //
-
+   
     private DialogueTree conversation;
-    private DialogueTree combat;
-    //not sure what this does
     private int currentposition;
-    private bool inCombat; // if not in combat in conversation
+    private bool inCombat;
     private bool askedToJoin;
 
-    public bool AskedToJoin()
-    {
-        return askedToJoin;
-    }
-
-    //this should probably go here or else it maybe could go into onenable
-    //dont know what to name these
-    //you just drag the csv file in the inspector as long as like it follows the rules and stuff
-
-
-    //find dialoguetree and combat tree and assign them to conversation and combat respectiveley respectively
-    //by find I think it will just get that from the textassets that you put in the inspector
-    //isn't there supposed to be like a public string thingy?
     private void OnEnable()
     {
-        //uses csvreader for combat and conversation
-        //it maybe looks like this
         conversation = this.gameObject.GetComponent<DialogueTree>();
         conversation.conversationPoints = csvReader(conversation.csv);
         Debug.Log("DialogueController Reader enabled for " + gameObject.name);
-        //conversation.conversationPoints = csvReader(conversation.csv);
-        //combat.conversationPoints = csvReader(conversation.csv);
     }
 
-    //for start conversation tree? (load the first item in the start conversation tree)
+    //returns item [2] in conversation
     public Statement StartConversation()
     {
-        //not sure what it means by "load"
-        //I guess it means return but then it should return not load
-        //this would use dialogue tree conversation
-
-        askedToJoin = false;
         inCombat = false;
         currentposition = 2;
         return conversation.conversationPoints[2];
     }
 
+    //this.gameObject
+    //gameobject all caps tag for player
+    //
+
+    //MVP ADDITION:
+      /*Checks if in combat and if so instead loads in combat options from the npcs in the players party
+      FollowerManager/ 
+      Attack/ 
+      playerDescription
+      If the player doesn't have 3 npcs in their party these options should default to being empty.
+      CREATES A NEW STATEMENT WITH THIS INFORMATION TO RETURN*/
     public Statement StartCombat()
     {
+
         inCombat = true;
-        return combat.conversationPoints[0];
+
+        FollowerManager playerManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+
+        string[] StatementLines = new string[4];
+
+        for(int i = 0; i < 4; i++)
+        {
+            try
+            {
+                GameObject npcObject = playerManager.PrintFollowers()[i].prefab;
+                StatementLines[i] = npcObject.GetComponent<Attack>().playerDescription;
+            }
+            catch(Exception e)
+            {
+                StatementLines[i] = " ";
+
+                if (i == 0)
+                {
+                    StatementLines[0] = playerManager.gameObject.GetComponent<Attack>().playerDescription;
+                }
+            }
+        }
+
+        return new Statement(
+            "You've entered combat. You get the feeling your going to have a bad time.",
+            new string[] {
+                    StatementLines[0],
+                    StatementLines[1],
+                    StatementLines[2],
+                    StatementLines[3]
+                },
+            new float[] { 0.0f, 0.0f, 0.0f, 0.0f },
+            new int[] { 0, 1, 2, 3 }
+            );
     }
 
+    //returns next statement based selected answer. If 0 is loaded askedToJoin will be set to true and 0/1 will be loaded based on relationshipType.
+    //MVP ADDITION:
+    /* Checks if in combat and if so just calls DamageNpc passing in the Damage from the selected option.
+    Then, calls DamagePlayer and gets the attack damage from the npc the player is fighting (they will have an attack script attached) (Doesn't change options so return the same statement created in StartCombat)*/
     public Statement LoadNext(int Option)
     {
         DialogueTree activeDialogueTree;
 
-        if (inCombat) { activeDialogueTree = combat; }
-        else { activeDialogueTree = conversation; }
-
-        setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
-
-        currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
-
-        if(currentposition == 0)
+        if (inCombat)
         {
-            askedToJoin = true;
-            if(conversation.RelationshipType <= 2.5)
-            {
-                currentposition = 1;
-            }
-        }
+            Debug.Log("oof (combat option just selected)");
 
-        return activeDialogueTree.conversationPoints[currentposition];
+            DamageNpc(Option);
+
+            DamagePlayer();
+
+            FollowerManager playerManager = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+
+            string[] StatementLines = new string[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    StatementLines[i] = playerManager.PrintFollowers()[i].prefab.GetComponent<Attack>().playerDescription;
+                }
+                catch (Exception e)
+                {
+                    StatementLines[i] = " ";
+
+                    if (i == 0)
+                    {
+                        StatementLines[0] = playerManager.gameObject.GetComponent<Attack>().playerDescription;
+                    }
+                }
+            }
+
+            return new Statement(
+                this.gameObject.GetComponent<Attack>().npcDescription,
+                new string[] {
+                    StatementLines[0],
+                    StatementLines[1],
+                    StatementLines[2],
+                    StatementLines[3]
+                    },
+                new float[] { 0.0f, 0.0f, 0.0f, 0.0f },
+                new int[] { 0, 1, 2, 3 }
+                );
+        }
+        else
+        {
+            activeDialogueTree = conversation;
+
+            if (activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1] == 0)
+            {
+                askedToJoin = true;
+
+                if (activeDialogueTree.relationshipType > 2.5)
+                {
+                    return activeDialogueTree.conversationPoints[0];
+                }
+                else
+                {
+                    setRelationshipType(-0.5f);
+                    return activeDialogueTree.conversationPoints[1];
+                }
+            }
+
+            setRelationshipType(activeDialogueTree.conversationPoints[currentposition].ResponseModifier[Option - 1]);
+
+            if(conversation.relationshipType <= 1 && (this.gameObject.GetComponent<Follower>().identity.npcType == FollowerIdentity.NpcType.Dangerous || this.gameObject.GetComponent<Follower>().identity.npcType == FollowerIdentity.NpcType.Aggressive))
+            {
+                return StartCombat();
+            }
+
+            currentposition = activeDialogueTree.conversationPoints[currentposition].ResponseOutcome[Option - 1];
+
+            return activeDialogueTree.conversationPoints[currentposition];
+        }
     }
 
     public string Closer()
@@ -93,13 +166,10 @@ public class DialogueController : MonoBehaviour
     //modifies relationship type
     private void setRelationshipType(float change)
     {
-        conversation.RelationshipType += change; //Relationship Type? 
+        conversation.relationshipType += change; //Relationship Type? 
     }
 
-    //csvinformation? statement is return type
-    //I think this is where the magic happens
-    //arrays start from zero
-
+  
     private Statement[] csvReader(TextAsset csvInfo)
     {
         string[][] Data = Parse(csvInfo);
@@ -161,8 +231,41 @@ public class DialogueController : MonoBehaviour
         return output;
     }
 
-    public string[] SeparateColumnsOfRow(string row)
+    public bool WillJoin()
+    {
+        if(askedToJoin && conversation.relationshipType >= 2.5f)
         {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void Recruit()
+    {
+        FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+        followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
+        List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
+        foreach(StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
+        {
+            if(i.questItem == true)
+            {
+                toMove.Add(i);
+            }
+        }
+        foreach(StandardInventoryItem i in toMove)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().main.AddItem(i); //This will cause a crash as soon as someone changes protections. Nice :thumbs_up:
+            this.gameObject.GetComponent<InventoryManager>().RemoveItem(i);
+        }
+        Destroy(this.gameObject);
+    }
+
+    public string[] SeparateColumnsOfRow(string row)
+    {
             // Edge case: row is empty string
             if (row.Length == 0)
             {
@@ -234,9 +337,8 @@ public class DialogueController : MonoBehaviour
 
             //Once done, move records from list to array
             return finishedRecords.ToArray();
-
-        }
-
+    }
+    
         /// <summary>
         /// Returns true if the double quote at the currentIndex position of the rowAsCharArray
         /// is escaped.
@@ -244,32 +346,54 @@ public class DialogueController : MonoBehaviour
         /// <param name="rowAsCharArray"></param>
         /// <param name="currentIndex"></param>
         /// <returns></returns>
-        private bool IsDoubleQuoteEscaped(char[] rowAsCharArray, int currentIndex)
-        {
+
+    private bool IsDoubleQuoteEscaped(char[] rowAsCharArray, int currentIndex)
+    {
             // Return true only if the current character is a double quote, another character exists in the array, and that character is also a double quote.
             return rowAsCharArray[currentIndex] == '"' && ((currentIndex + 1) < rowAsCharArray.Length)  && rowAsCharArray[currentIndex + 1] == '"';
-        }
+    }
     
-        public void RecruitmentCheck()
+    //MVP ADDITION:
+    //This modifies the Npc the player is fightings health by damage
+    private void DamageNpc(int Option)
+    {
+        FollowerManager player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
+
+        try
         {
-            if(conversation.RelationshipType > 2.5)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-                FollowerManager followerManager = player.GetComponentInChildren<FollowerManager>();
-                GameObject npc = this.gameObject.GetComponentInParent<Transform>().gameObject;
-                followerManager.AddFollower(npc); //Adds the follower this is attatched to to player
-                InventoryManager npcInv = this.GetComponent<InventoryManager>();
-                foreach (InventoryItemInterface item in npcInv.inventoryItem)
-                {
-                    if (item.QuestItem)
-                    {
-                        GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().main.AddItem(item); //adds quest item from npc to player
-                    }
-                }
-                GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().mainCamera.GetComponent<switchCamera>().isInDialogue = false;
-                Destroy(this.gameObject);
-            }
+            this.GetComponent<Follower>().currentHp -= player.PrintFollowers()[Option--].prefab.GetComponent<Attack>().damage;
+        }
+        catch(IndexOutOfRangeException e)
+        {
+            this.GetComponent<Follower>().currentHp -= player.gameObject.GetComponent<Attack>().damage;
         }
 
+        if(this.GetComponent<Follower>().currentHp < 0)
+        {
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
+            List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
+            foreach (StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
+            {
+                if (i.questItem == true)
+                {
+                    toMove.Add(i);
+                }
+            }
+            foreach (StandardInventoryItem i in toMove)
+            {
+                GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().main.AddItem(i); //This will cause a crash as soon as someone changes protections. Nice :thumbs_up:
+                this.gameObject.GetComponent<InventoryManager>().RemoveItem(i);
+            }
+            GameObject.FindGameObjectWithTag("GameManager").GetComponentInChildren<HUDController>().HUDDeLoader(0);
+            Destroy(this.gameObject);
+        }
+    }
+    
+    //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
+    private void DamagePlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
+        player.GetComponentInChildren<PlayerController>().health -= this.GetComponent<Attack>().damage;
+    }
 }

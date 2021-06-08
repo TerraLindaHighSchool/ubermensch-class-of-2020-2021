@@ -28,7 +28,7 @@ public class switchCamera : MonoBehaviour
             /* LookAt is set by the playerController to true when the player is inside of 
             *  a NPC trigger and the player presses the E key
             */  
-            dialogueCamera.GetComponent<CinemachineVirtualCamera>().LookAt = NPC.transform;
+            dialogueCamera.GetComponent<CinemachineVirtualCamera>().LookAt = NPC.GetComponent<ConversationPointStorage>().NpcFace();
             Debug.Log(NPC.name);
             
             isoCamera.SetActive(false);
