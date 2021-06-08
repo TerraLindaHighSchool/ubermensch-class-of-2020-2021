@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,22 @@ public class CameraTrackerController : MonoBehaviour
 	
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        SceneManager.activeSceneChanged += RotateCameraTargetOnSceneChange;
+        try
+        {
+            player.GetComponent<Transform>();
+        }
+        catch(UnassignedReferenceException e)
+        {
+            player = GameObject.Find("pTorus1");
+        }
+    }
+
+    private void Start()
     {
         transform.rotation = Quaternion.Euler(Vector3.up);
-        SceneManager.activeSceneChanged += RotateCameraTargetOnSceneChange;
     }
 
     // Update is called once per frame

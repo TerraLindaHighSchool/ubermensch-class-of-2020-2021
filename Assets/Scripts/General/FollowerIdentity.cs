@@ -10,17 +10,26 @@ public class FollowerIdentity : ScriptableObject
     public int Value;
     public Sprite Icon;
     public string ToolTip;
-    public bool merchant;
+    public NpcType npcType;
     public int npcStrength;
     public int npcCharisma;
     public int npcConstitution;
+    public int npcHealth;
+    public GameObject prefab;
 
     public string GetDisplayName() => Name; 
-   
+
+    public enum NpcType
+    {
+        Merchant,
+        Peaceful,
+        Dangerous,
+        Aggressive
+    }
 
     public string GetDisplayDescription()
     {
-        return Name + "'s Strength is: " + npcStrength + " Their Charisma is: " + npcCharisma + " And their Consitution is: " + npcConstitution; 
+        return "Strength:" + npcStrength + " Charisma:" + npcCharisma + " Consitution:" + npcConstitution; 
     }
 
     // get methods for the PlayerController class 
