@@ -132,6 +132,7 @@ Transform:
   - {fileID: 645334042669821438}
   - {fileID: 8210617913246815717}
   - {fileID: 5222730298846721543}
+  - {fileID: 226627815717327875}
   m_Father: {fileID: 1023027496297154279}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -224,6 +225,9 @@ MonoBehaviour:
   playerConstitution: 0
   statPoints: 0
   level: 0
+  yourName: xXcoolXx
+  profilePic: {fileID: 0}
+  currentMission: It's a secret shhhhh ;)
 --- !u!114 &1023027495412517370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +243,7 @@ MonoBehaviour:
   controller: {fileID: 1023027495412517369}
   AnimController: {fileID: 1023027495412517372}
   gravityRay: {fileID: 5222730298846721542}
+  gravityRay1: {fileID: 0}
   speed: 3.5
   turnSpeed: 3.5
   rock: {fileID: 11400000, guid: b9241e82cd4e396499e85f56faffcc7d, type: 2}
@@ -255,7 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89eafb9122b24a8488574eda6b822fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followerRemoved: 0
+  followers: []
 --- !u!1 &227516778783109681
 GameObject:
   m_ObjectHideFlags: 0
@@ -3913,6 +3918,36 @@ Transform:
   m_Father: {fileID: 5513810032294975201}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7648486136362731523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 226627815717327875}
+  m_Layer: 0
+  m_Name: GravityRay (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &226627815717327875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7648486136362731523}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.2400055, y: 0, z: 6.029999}
+  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_Children: []
+  m_Father: {fileID: 700379470979717235}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7656524077877813528
 GameObject:
   m_ObjectHideFlags: 0
@@ -4599,6 +4634,11 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 5222730298741477750}
+    - target: {fileID: 70649462563551885, guid: 3e6e04b3802b9b149a2f1982c2c09559,
+        type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.3333334
+      objectReference: {fileID: 0}
     - target: {fileID: 70649462563551886, guid: 3e6e04b3802b9b149a2f1982c2c09559,
         type: 3}
       propertyPath: m_LocalPosition.x
