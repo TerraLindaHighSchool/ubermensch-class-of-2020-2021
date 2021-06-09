@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isInTriggerArea && Input.GetKeyDown(KeyCode.E))
+        if (isInTriggerArea && Input.GetKeyDown(GameObject.Find("ui_settings_settingshandler").GetComponent<SettingsHandler>().interact_Char))
         {
             Interact();
         }
