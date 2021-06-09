@@ -65,6 +65,8 @@ public class MovementController : MonoBehaviour
    
     private bool invOpen;
     private bool bioOpen;
+    private bool settingsOpen;
+
     private void testKeys()
     {
         HUDController TestHUDController;
@@ -120,14 +122,14 @@ public class MovementController : MonoBehaviour
     public void inventoryOpen()
     {
         HUDController InventoryHUDController;
-        if (Input.GetKeyDown("i") && !invOpen)
+        if (Input.GetKeyDown(GameObject.Find("ui_settings_settingshandler").GetComponent<SettingsHandler>().inventory_Char) && !invOpen)
         {
             Debug.Log("PLAYER INSTANCE ID:" + this.gameObject.GetInstanceID());
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDLoader(1, this.gameObject);
             invOpen = true;
         }
-        else if(Input.GetKeyDown("i") && invOpen)
+        else if(Input.GetKeyDown(GameObject.Find("ui_settings_settingshandler").GetComponent<SettingsHandler>().inventory_Char) && invOpen)
         {
             InventoryHUDController = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             InventoryHUDController.HUDDeLoader(1);
@@ -151,7 +153,7 @@ public class MovementController : MonoBehaviour
     private void openFollowers()
     {
         HUDController playerFollowerList;
-        if (Input.GetKeyDown("u"))
+        if (Input.GetKeyDown(GameObject.Find("ui_settings_settingshandler").GetComponent<SettingsHandler>().follower_Char))
         {
             playerFollowerList = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             playerFollowerList.HUDLoader(3, this.gameObject);
@@ -161,17 +163,31 @@ public class MovementController : MonoBehaviour
     private void openBioMenu()
     {
         HUDController bioHUD;
-        if (Input.GetKeyDown("o") && !bioOpen)
+        if (Input.GetKeyDown(GameObject.Find("ui_settings_settingshandler").GetComponent<SettingsHandler>().bio_Char) && !bioOpen)
         {
             bioHUD = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             bioHUD.HUDLoader(6, this.gameObject);
             bioOpen = true;
         }
-        else if (Input.GetKeyDown("o") && bioOpen)
+        else if (Input.GetKeyDown(GameObject.Find("ui_settings_settingshandler").GetComponent<SettingsHandler>().bio_Char) && bioOpen)
         {
             bioHUD = GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>();
             bioHUD.HUDDeLoader(6);
             bioOpen = false;
+        }
+    }
+
+    private void settingsMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !settingsOpen)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().settingsHud.SetActive(true);
+            settingsOpen = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && settingsOpen)
+        {
+            GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().settingsHud.SetActive(false);
+            settingsOpen = false;
         }
     }
 
@@ -191,6 +207,7 @@ public class MovementController : MonoBehaviour
             inventoryOpen();
             openFollowers();
             openBioMenu();
+            settingsMenu();
         }
 
         if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)

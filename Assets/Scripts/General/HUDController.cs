@@ -15,7 +15,10 @@ using System;
  */
 public class HUDController : MonoBehaviour
 {
-                        // FIELDS
+    // FIELDS
+
+    //SETTINGS HUD
+    public GameObject settingsHud;
 
     //GENERAL HUD FIELDS
     private int activeHUD = 5;
