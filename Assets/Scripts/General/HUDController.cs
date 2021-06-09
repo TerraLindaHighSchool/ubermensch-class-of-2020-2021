@@ -127,11 +127,13 @@ public class HUDController : MonoBehaviour
             {
                 updateFollowers(true);
                 Debug.Log("Player Follower");
+                invOpen = true;
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
+                invOpen = true;
             }
             else if(activeHUD == 5)
             {
@@ -231,11 +233,13 @@ public class HUDController : MonoBehaviour
             {
                 updateFollowers(true);
                 Debug.Log("Player Follower");
+                invOpen = true;
             }
             else if(activeHUD == 4)
             {
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
+                invOpen = true;
             }
             if (activeHUD == 5)
             {
@@ -285,10 +289,12 @@ public class HUDController : MonoBehaviour
         if(hud == 3)
         {
             Debug.Log("Player Follower");
+            invOpen = false;
         }
         if(hud == 4)
         {
             Debug.Log("HomeBase Follower");
+            invOpen = false;
         }
         if(hud == 5)
         {

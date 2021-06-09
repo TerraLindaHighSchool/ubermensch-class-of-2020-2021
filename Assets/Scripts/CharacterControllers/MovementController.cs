@@ -28,18 +28,14 @@ public class MovementController : MonoBehaviour
         bool animate = false;
 
         //moves the player if move keys are pressed and CanMove is true
-        if (moveDirection.magnitude >= 0.1f)
+        if (moveDirection.magnitude >= 0.1f && CanMove)
         {
             controller.Move(moveDirection * speed * Time.deltaTime);
             Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
             PreventFall(moveDirection);
             controller.Move(Vector3.down);
-
-            if(CanMove)
-            { 
-                animate = true;
-            }
+            animate = true;
         }
         AnimController.SetBool("isWalking", animate);
     }
