@@ -233,7 +233,7 @@ public class DialogueController : MonoBehaviour
 
     public bool WillJoin()
     {
-        if(askedToJoin && conversation.relationshipType >= 2.5f)
+        if(askedToJoin && (conversation.relationshipType + (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().GetPlayerCharisma() * 0.05)) >= 0.5f)
         {
             return true;
         }
