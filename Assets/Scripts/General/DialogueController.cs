@@ -361,11 +361,11 @@ public class DialogueController : MonoBehaviour
 
         try
         {
-            this.GetComponent<Follower>().currentHp -= player.PrintFollowers()[Option--].prefab.GetComponent<Attack>().damage;
+            this.GetComponent<Follower>().currentHp -= player.PrintFollowers()[Option--].prefab.GetComponent<PlayerController>().GetPlayerStrength();
         }
         catch(IndexOutOfRangeException e)
         {
-            this.GetComponent<Follower>().currentHp -= player.gameObject.GetComponent<Attack>().damage;
+            this.GetComponent<Follower>().currentHp -= player.gameObject.GetComponent<PlayerController>().GetPlayerStrength();
         }
 
         if(this.GetComponent<Follower>().currentHp < 0)
@@ -392,8 +392,64 @@ public class DialogueController : MonoBehaviour
     //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
     private void DamagePlayer()
     {
+        float wearingArmor = 0;
+
+        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
+            {
+                if (i.Name == "Body Armor")
+                {
+                    wearingArmor += 10f;
+                }
+                if (i.Name == "Face Shield")
+                {
+                    wearingArmor += 5.0f;
+                }
+                if (i.Name == "Reinforced Gloves")
+                {
+                    wearingArmor += 5.0f;
+                }
+                if (i.Name == "Greaves")
+                {
+                    wearingArmor += 5.0f;
+                }
+                if (i.Name == "Reinforced Arm")
+                {
+                    wearingArmor += 5.0f;
+                }
+            }
+        }
+        else
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
+            {
+                if (i.Name == "Body Armor")
+                {
+                    wearingArmor += 10.0f;
+                }
+
+                if (i.Name == "Face Shield")
+                {
+                    wearingArmor += 5.0f;
+                }
+                if (i.Name == "Reinforced Gloves")
+                {
+                    wearingArmor += 2.5f;
+                }
+                if (i.Name == "Greaves")
+                {
+                    wearingArmor += 5.0f;
+                }
+                if (i.Name == "Reinforced Arm")
+                {
+                    wearingArmor += 7.5f;
+                }
+            }
+        }
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        player.GetComponentInChildren<PlayerController>().health -= this.GetComponent<Attack>().damage;
+        player.GetComponentInChildren<PlayerController>().health -= (this.GetComponent<Attack>().damage - wearingArmor);
     }
 }
