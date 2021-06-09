@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb54cd7d0f0bc094b9bc01ca15613a65, type: 3}
-  m_Name: LablandToLab 3
+  m_Name: EnemyCompoundToWasteland
   m_EditorClassIdentifier: 
-  scene: Lab 3 Interior
-  destination: {x: 0, y: 0, z: 0}
-  exitRequirements: []
+  scene: arcoflife
+  destination: {x: 694.9, y: 203.99, z: 75.11}
+  exitRequirements:
+  - {fileID: 11400000, guid: 60c57e70806a843a18ccd4df704d38bd, type: 2}
   sceneMusic:
-  - {fileID: 8300000, guid: fb11bc61d46d04c488b8b311bbd7a7c2, type: 3}
-  oxygenDepleteRate: 0
+  - {fileID: 8300000, guid: 952583718da879547b63cd8658ded13b, type: 3}
+  oxygenDepleteRate: 2
