@@ -1582,6 +1582,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4197209024424420781, guid: 4b2cc1a8a30e6c0488da7d93632691f0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Portal
+      objectReference: {fileID: 0}
     - target: {fileID: 6403254090465934581, guid: 4b2cc1a8a30e6c0488da7d93632691f0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1724,3 +1729,35 @@ PrefabInstance:
       objectReference: {fileID: 1800962295}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b2cc1a8a30e6c0488da7d93632691f0, type: 3}
+--- !u!1 &8474026743173807232 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4197209024424420781, guid: 4b2cc1a8a30e6c0488da7d93632691f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8474026743173807231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8474026743173807233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474026743173807232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fdb2415f41a47448a61a8d742d14b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalData: {fileID: 11400000, guid: 7a8f871a8564c0f448b843c8e13896be, type: 2}
+--- !u!135 &8474026743173807234
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8474026743173807232}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.18
+  m_Center: {x: 0, y: 0, z: 0}
