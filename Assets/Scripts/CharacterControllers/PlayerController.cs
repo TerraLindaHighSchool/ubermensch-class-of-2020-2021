@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             if(oxygen == 0)
             {
-                health -= 2.5f;
+                health -= 2.5f * ((10 - GetPlayerConstitution())/10);
             }
             else
             {
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 {
                     CancelInvoke("Health");
                 }
-                health += 2.5f;
+                health += 2.5f + GetPlayerConstitution();
             }
         }
 
