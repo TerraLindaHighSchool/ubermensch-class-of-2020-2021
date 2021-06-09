@@ -71,8 +71,37 @@ public class PlayerController : MonoBehaviour
     {
         if (oxygen > 0)
         {
+            bool wearingMask = false;
+
             Debug.Log("oxygen at:" + oxygen);
-            oxygen -= (oxygenDepletionRate);
+            if(gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+            {
+                foreach(InventoryItemInterface i in gameObject.GetComponents<InventoryManager>()[0].inventoryItem)
+                {
+                    if (i.Name == "Gas Mask")
+                    {
+                        wearingMask = true;
+                    }
+                }
+            }
+            else
+            {
+                foreach (InventoryItemInterface i in gameObject.GetComponents<InventoryManager>()[1].inventoryItem)
+                {
+                    if (i.Name == "Gas Mask")
+                    {
+                        wearingMask = true;
+                    }
+                }
+            }
+            if(wearingMask)
+            {
+                oxygen -= (oxygenDepletionRate * 0.5f);
+            }
+            else
+            {
+                oxygen -= (oxygenDepletionRate);
+            }
         }
         else
         {
@@ -87,7 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             if(oxygen == 0)
             {
-                health -= 2.5f;
+                health -= 2.5f * ((10 - GetPlayerConstitution())/10);
             }
             else
             {
@@ -95,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 {
                     CancelInvoke("Health");
                 }
-                health += 2.5f;
+                health += 2.5f + GetPlayerConstitution();
             }
         }
 
@@ -223,19 +252,73 @@ public class PlayerController : MonoBehaviour
     public int GetPlayerStrength()
     {
         AddFollowerStatsToPlayer();
-        return playerStrength + totalNPCStrength;
+
+        int bonus = 0;
+
+        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
+            {
+                bonus += i.StrengthBoost;
+            }
+        }
+        else
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
+            {
+                bonus += i.StrengthBoost;
+            }
+        }
+
+        return playerStrength + totalNPCStrength + bonus;
     }
 
     public int GetPlayerCharisma()
     {
         AddFollowerStatsToPlayer();
-        return playerCharisma + totalNPCCharisma;
+
+        int bonus = 0;
+
+        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
+            {
+                bonus += i.CharismaBoost;
+            }
+        }
+        else
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
+            {
+                bonus += i.CharismaBoost;
+            }
+        }
+
+        return playerCharisma + totalNPCCharisma + bonus;
     }
 
     public int GetPlayerConstitution()
     {
         AddFollowerStatsToPlayer();
-        return playerConstitution + totalNPCConstitution;
+
+        int bonus = 0;
+
+        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
+            {
+                bonus += i.ConstitutionBoost;
+            }
+        }
+        else
+        {
+            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
+            {
+                bonus += i.ConstitutionBoost;
+            }
+        }
+
+        return playerConstitution + totalNPCConstitution + bonus;
     }
 
     //Sets the level number and increases the stat points
