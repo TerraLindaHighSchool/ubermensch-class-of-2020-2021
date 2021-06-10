@@ -101,9 +101,14 @@ public class HUDController : MonoBehaviour
         HUDLoader(5, this.gameObject);
     }
 
-    private bool needsInvTutorial = true;
-    private bool needsFollowerTutorial = true;
-    private bool needsCharTutorial = true;
+    private bool needsTRANS3 = true;
+    private bool needsTRANS4 = true;
+    private bool needsTRANS6 = true;
+    private bool needsTRANS7 = true;
+    private bool needsTRANS8 = true;
+    private bool needsTRANS9 = true;
+    private bool needsTRANS10 = true;
+    private bool needsTRANS11 = true;
 
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
@@ -120,12 +125,11 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 1)
             {
-                if (needsInvTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 5)
+                if (needsTRANS4 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 4)
                 {
                     GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                    needsInvTutorial = false;
+                    needsTRANS4 = false;
                 }
-
                 Debug.Log("Inventory");
                 invOpen = true;
                 determineInv();
@@ -138,18 +142,23 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 3)
             {
-                if (needsFollowerTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 6)
+                if (needsTRANS10 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 10)
                 {
                     GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                    needsFollowerTutorial = false;
+                    needsTRANS10 = false;
                 }
-
                 updateFollowers(true);
                 Debug.Log("Player Follower");
                 invOpen = true;
             }
             else if(activeHUD == 4)
             {
+                Debug.Log("Hello?");
+                if (needsTRANS3 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 3)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsTRANS3 = false;
+                }
                 updateFollowers(false);
                 Debug.Log("HomeBase Follower");
                 invOpen = true;
@@ -161,11 +170,6 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 6)
             {
-                if (needsCharTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 7)
-                {
-                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                    needsCharTutorial = false;
-                }
                 loadBioMenu();
                 Debug.Log("Bio");
             }
@@ -281,8 +285,6 @@ public class HUDController : MonoBehaviour
         }
     }
 
-    private bool closeInvAdvance = true;
-
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
@@ -300,12 +302,11 @@ public class HUDController : MonoBehaviour
         }
         if (hud == 1)
         {
-            if (closeInvAdvance && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 5)
+            if (needsTRANS6 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 6)
             {
                 GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                closeInvAdvance = false;
+                needsTRANS6 = false;
             }
-
             invOpen = false;
             selectedItem.GetComponent<Image>().sprite = empty.Icon;
             selectedText[0].GetComponent<Text>().text = ("");
@@ -320,6 +321,11 @@ public class HUDController : MonoBehaviour
         }
         if(hud == 3)
         {
+            if (needsTRANS11 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 11)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsTRANS11 = false;
+            }
             Debug.Log("Player Follower");
             invOpen = false;
         }
@@ -332,7 +338,15 @@ public class HUDController : MonoBehaviour
         {
             Debug.Log("Active");
         }
-        Debug.Log("HUD Unloaded");
+        if (hud == 6)
+        {
+            if (needsTRANS9 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 9)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsTRANS9 = false;
+            }
+        }
+        Debug.Log("HUD Unloaded: " + hud);
     }
 
     /*
@@ -757,6 +771,11 @@ public class HUDController : MonoBehaviour
 
     private void loadBioMenu()
     {
+        if (needsTRANS7 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 7)
+        {
+            GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+            needsTRANS7 = false;
+        }
         Debug.Log("BIO LOADS");
         PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
         availablePoints.GetComponent<Text>().text = bioHUDDetails.statPoints.ToString() + " points available";
@@ -770,6 +789,12 @@ public class HUDController : MonoBehaviour
 
     public void statSpend(int buttonNumber)
     {
+        if (needsTRANS8 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 8)
+        {
+            GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+            needsTRANS8 = false;
+        }
+
         PlayerController bioHUDDetails = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
         if(bioHUDDetails.statPoints > 0)
         {

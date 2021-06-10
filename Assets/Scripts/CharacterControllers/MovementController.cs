@@ -16,7 +16,10 @@ public class MovementController : MonoBehaviour
 
     private bool CanMove = true;
 
-    private bool needsMoveTutorial = true;
+    private bool needsTRANS0 = true;
+    private bool needsTRANS1 = true;
+    private bool needsTRANSSEATTLE = true;
+    private bool needsTRANSBEYOND = true;
 
     private void move()
     {
@@ -32,10 +35,11 @@ public class MovementController : MonoBehaviour
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f && CanMove)
         {
-            if(needsMoveTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 3)
+            if(needsTRANS1 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 1)
             {
+                Debug.Log("TRANS1");
                 GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                needsMoveTutorial = false;
+                needsTRANS1 = false;
             }
 
             controller.Move(moveDirection * speed * Time.deltaTime);
@@ -185,29 +189,27 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    private bool needsSettingTutorial = true;
+    private bool needsTRANS13 = true;
 
     private void settingsMenu()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !settingsOpen)
         {
-            if (needsSettingTutorial || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 8)
-            {
-                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                needsSettingTutorial = false;
-            }
-
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().settingsHud.SetActive(true);
             settingsOpen = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && settingsOpen)
         {
+            if (needsTRANS13 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 13)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsTRANS13 = false;
+            }
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().settingsHud.SetActive(false);
             settingsOpen = false;
         }
     }
 
-    private bool clickSwitch;
     // Update is called once per frame
     void Update()
     {
@@ -225,15 +227,29 @@ public class MovementController : MonoBehaviour
             openFollowers();
             openBioMenu();
             settingsMenu();
-            if (clickSwitch && Input.anyKeyDown && (GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 1, 1 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 2, 1 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 3, 3 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 4, 3 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] {5, 3} || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 6, 2 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 7, 3 }))
+
+            if (Input.anyKeyDown)
             {
-                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-            } else if(Input.anyKeyDown)
-            {
-                clickSwitch = false;
-            } else
-            {
-                clickSwitch = true;
+                if(needsTRANS0 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 0)
+                {
+                    Debug.Log("TRANS0");
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsTRANS0 = false;
+                }
+
+                if (needsTRANSSEATTLE && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 1)
+                {
+                    Debug.Log("TRANS0");
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsTRANSSEATTLE = false;
+                }
+
+                if (needsTRANSBEYOND && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 2)
+                {
+                    Debug.Log("TRANS0");
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsTRANSBEYOND = false;
+                }
             }
         }
 

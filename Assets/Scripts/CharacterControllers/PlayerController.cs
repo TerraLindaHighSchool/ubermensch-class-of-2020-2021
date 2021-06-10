@@ -86,16 +86,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool needsMoveTutorial = true;
-
     void ConsumeResources()
     {
-        if(needsMoveTutorial)
-        {
-            GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(3);
-            needsMoveTutorial = false;
-        }
-
         if (oxygen > 0)
         {
             bool wearingMask = false;
@@ -184,7 +176,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool needsOxygin = true;
+    private bool needsTRANS2 = true;
 
     void Interact()
     {
@@ -222,10 +214,10 @@ public class PlayerController : MonoBehaviour
 
         if (objectHit.CompareTag("oxygen"))
         {
-            if(needsOxygin)
+            if(needsTRANS2 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 2)
             {
                 GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-                needsOxygin = false;
+                needsTRANS2 = false;
             }
 
             if (oxygen + objectHit.GetComponent<OxygenSupply>().oxygenSupply > 100)
@@ -241,6 +233,7 @@ public class PlayerController : MonoBehaviour
 
         if (objectHit.CompareTag("Portal"))
         {
+            GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
             Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;

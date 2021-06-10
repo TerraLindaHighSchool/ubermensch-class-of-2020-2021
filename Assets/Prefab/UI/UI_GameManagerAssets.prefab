@@ -485,15 +485,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MasterList:
-  - {fileID: 11400000, guid: cd7a9770d22854d39b238d56f2a08573, type: 2}
+  - {fileID: 11400000, guid: 563e051e636c94874ac1dc1c902fc636, type: 2}
   - {fileID: 11400000, guid: de38f61fbec0942a7a9bae63151b431d, type: 2}
   - {fileID: 11400000, guid: bfda2d3bfaaf44df6a4b20ceded2f69f, type: 2}
-  - {fileID: 11400000, guid: e3f49d7db31d44ac8bcd786a8c142bc5, type: 2}
-  - {fileID: 11400000, guid: f593b24370c044e6e838653165961bc2, type: 2}
-  - {fileID: 11400000, guid: 1248558ea338a419da32715559d1651a, type: 2}
-  - {fileID: 11400000, guid: 199a3705d134f4cb4ab0ce5ec05cdeb7, type: 2}
-  - {fileID: 11400000, guid: 569aa1cf51a6c407bb3eac9055ef3042, type: 2}
-  - {fileID: 11400000, guid: 54f504ab227114385a169ff6df1d3675, type: 2}
   slideCanvas: {fileID: 7569327630917321851}
   slideText: {fileID: 4983997245026086861}
 --- !u!114 &5226464863521208270
@@ -521,7 +515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89eafb9122b24a8488574eda6b822fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followers: []
+  followers:
+  - {fileID: 11400000, guid: e50c334a96af246688ac6d7d12545534, type: 2}
 --- !u!1 &640027225570331115
 GameObject:
   m_ObjectHideFlags: 0
@@ -8825,6 +8820,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Slide
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669639562797273389, guid: 729219e7ffccd4ac492887c3b6ce8427,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669639562797273389, guid: 729219e7ffccd4ac492887c3b6ce8427,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.9960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669639562797273389, guid: 729219e7ffccd4ac492887c3b6ce8427,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669639562797273389, guid: 729219e7ffccd4ac492887c3b6ce8427,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.9960785
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 729219e7ffccd4ac492887c3b6ce8427, type: 3}

@@ -36,8 +36,10 @@ public class TransitionController : MonoBehaviour
      * method of the PlayerController after triggering the portal and pressing 'E'.
      */
 
+    private bool needsTRANSn1 = true;
     private bool needsSeattleTutorial = true;
     private bool needsBeyondTutorial = true;
+
 
     public void SceneLoader(string scene, Vector3 destination)
     {
@@ -58,10 +60,16 @@ public class TransitionController : MonoBehaviour
         {
             case "HomeBase":
                 mission = "Find the arc of life, and bring as many people with you as you can";
+                if (needsTRANSn1 && GameObject.Find("GameManager").GetComponent<TutorialController>().slideCanvas.activeSelf == false)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(0);
+                    needsTRANSn1 = false;
+                }
                 break;
             case "Seattle":
                 mission = "Get the boat key from Lady Bisco and go to the wasteland, from there you may be able to find clues to the whereabouts of the arc of life.";
-                if (needsSeattleTutorial)
+                Debug.Log("Seattle Loaded... loading tutorial \nfalse: " + GameObject.Find("GameManager").GetComponent<TutorialController>().slideCanvas.activeSelf + "\ntrue: " + needsSeattleTutorial);
+                if (needsSeattleTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slideCanvas == false)
                 {
                     GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(1);
                     needsSeattleTutorial = false;
@@ -72,8 +80,8 @@ public class TransitionController : MonoBehaviour
                 break;
             case "WastelandTerrain":
                 mission = "Get oxygen and find your way to the Lab Lands.";
-                mission = "Get the boat key from Lady Bisco and go to the wasteland, from there you may be able to find clues to the whereabouts of the arc of life.";
-                if (needsBeyondTutorial)
+                Debug.Log("Wasteland Loaded... loading tutorial \nfalse: " + GameObject.Find("GameManager").GetComponent<TutorialController>().slideCanvas.activeSelf + "\ntrue: " + needsBeyondTutorial);
+                if (needsBeyondTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slideCanvas == false)
                 {
                     GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(2);
                     needsBeyondTutorial = false;

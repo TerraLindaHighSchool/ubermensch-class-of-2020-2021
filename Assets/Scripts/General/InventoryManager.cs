@@ -28,6 +28,8 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private bool needsTRANS5 = true;
+
     public bool AddItem(InventoryItemInterface item)
     {
         if(inventoryType == InvType.Player && inventoryItem.Count <= 23)
@@ -54,6 +56,11 @@ public class InventoryManager : MonoBehaviour
 
         if (inventoryType == InvType.EquipMenu && inventoryItem.Count < 4)
         {
+            if (item.Name == "Gas Mask" && needsTRANS5 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 5)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsTRANS5 = false;
+            }
             inventoryItem.Add(item);
             equipFull = false;
             return true;

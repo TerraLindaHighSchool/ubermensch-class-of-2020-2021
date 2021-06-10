@@ -12,8 +12,10 @@ public class TutorialSlideDecks : ScriptableObject
     
     public Sprite nextSlide()
     {
-        currentSlide++;
-        if(currentSlide < slides.Length)
+        Debug.Log(currentSlide);
+        currentSlide += 1;
+        Debug.Log(currentSlide);
+        if (currentSlide < slides.Length)
         {
             return slides[currentSlide];
         }
@@ -25,6 +27,7 @@ public class TutorialSlideDecks : ScriptableObject
 
     public Sprite startSlides()
     {
-        return slides[0];
+        currentSlide = 0;
+        return slides[currentSlide];
     }
 }
