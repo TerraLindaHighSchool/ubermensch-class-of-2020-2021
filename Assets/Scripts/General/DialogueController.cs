@@ -233,7 +233,7 @@ public class DialogueController : MonoBehaviour
 
     public bool WillJoin()
     {
-        if(askedToJoin && conversation.relationshipType >= 2.5f)
+        if(askedToJoin && (conversation.relationshipType + (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().GetPlayerCharisma() * 0.05)) >= 0.5f)
         {
             return true;
         }
@@ -245,6 +245,7 @@ public class DialogueController : MonoBehaviour
 
     public void Recruit()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().SetLevelNum();
         FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
         followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
@@ -361,15 +362,16 @@ public class DialogueController : MonoBehaviour
 
         try
         {
-            this.GetComponent<Follower>().currentHp -= player.PrintFollowers()[Option--].prefab.GetComponent<Attack>().damage;
+            this.GetComponent<Follower>().currentHp -= player.PrintFollowers()[Option--].prefab.GetComponent<PlayerController>().GetPlayerStrength();
         }
         catch(IndexOutOfRangeException e)
         {
-            this.GetComponent<Follower>().currentHp -= player.gameObject.GetComponent<Attack>().damage;
+            this.GetComponent<Follower>().currentHp -= player.gameObject.GetComponent<PlayerController>().GetPlayerStrength();
         }
 
         if(this.GetComponent<Follower>().currentHp < 0)
         {
+            player.gameObject.GetComponent<PlayerController>().SetLevelNum();
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
             List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
             foreach (StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
@@ -392,8 +394,34 @@ public class DialogueController : MonoBehaviour
     //This modifies the last "person" to attacks health. If the player (Option 0) attacked for example, the player would die. If the second Npc in the FollowerManager attacked then it would be (2)
     private void DamagePlayer()
     {
+        float wearingArmor = 0;
+
+        foreach (InventoryItemInterface i in GameObject.Find("GameManager").GetComponent<HUDController>().equipMenu.inventoryItem)
+        {
+            if (i.Name == "Body Armor")
+            {
+                wearingArmor += 10f;
+            }
+            if (i.Name == "Face Shield")
+            {
+                wearingArmor += 5.0f;
+            }
+            if (i.Name == "Reinforced Gloves")
+            {
+                wearingArmor += 5.0f;
+            }
+            if (i.Name == "Greaves")
+            {
+                wearingArmor += 5.0f;
+            }
+            if (i.Name == "Reinforced Arm")
+            {
+                wearingArmor += 5.0f;
+            }
+        }
+
         GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        player.GetComponentInChildren<PlayerController>().health -= this.GetComponent<Attack>().damage;
+        player.GetComponentInChildren<PlayerController>().health -= (this.GetComponent<Attack>().damage - wearingArmor);
     }
 }

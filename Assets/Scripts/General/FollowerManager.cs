@@ -16,6 +16,20 @@ public class FollowerManager : MonoBehaviour
     /// <param name="identityToAdd">The identity of the follower to add.</param>
     public virtual void AddFollower(FollowerIdentity identityToAdd)
     {
+        try
+        {
+            this.gameObject.GetComponentInChildren<PlayerController>();
+
+            if(followers.Count > 3)
+            {
+                GameObject.Find("GameManager").GetComponent<FollowerManager>().AddFollower(identityToAdd);
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+
         followers.Add(identityToAdd);
     }
 

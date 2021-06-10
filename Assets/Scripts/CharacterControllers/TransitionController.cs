@@ -48,6 +48,44 @@ public class TransitionController : MonoBehaviour
         SceneManager.LoadScene(scene);
         Debug.Log("Player Location after Change: " + playerModel.transform.position);
         Debug.Log(destination);
+
+        string mission;
+
+        switch(scene)
+        {
+            case "HomeBase":
+                mission = "Find the arc of life, and bring as many people with you as you can";
+                break;
+            case "Seattle":
+                mission = "Get the boat key from Lady Bisco and go to the wasteland, from there you may be able to find clues to the whereabouts of the arc of life.";
+                break;
+            case "Lab Land":
+                mission = "Find and search labs for clues about the Arc of Life.";
+                break;
+            case "WastelandTerrain":
+                mission = "Get oxygen and find your way to the Lab Lands.";
+                break;
+            case "Lab 1 Interior":
+                mission = "Find clues about the Arc of Life.";
+                break;
+            case "Lab 2 Interior":
+                mission = "Find clues about the Arc of Life.";
+                break;
+            case "Lab 3 Interior":
+                mission = "Find clues about the Arc of Life.";
+                break;
+            case "arcoflife":
+                mission = "Climb the mountain. What you seek lies there.";
+                break;
+            case "EnemyCompound":
+                mission = "Locate the Files with the location of the arc of life.";
+                break;
+            default:
+                mission = "Find the arc of life, and bring as many people with you as you can";
+                break;
+        }
+
+        playerModel.GetComponent<PlayerController>().currentMission = mission;
     }
 
     private void Update()

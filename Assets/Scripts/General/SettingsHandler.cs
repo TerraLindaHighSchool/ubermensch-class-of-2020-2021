@@ -24,7 +24,11 @@ public class SettingsHandler : MonoBehaviour
         AudioListener.volume = value;
     }
 
-    public void OnExitGameButtonPressed(){
+    public void OnExitGameButtonPressed()
+    {
+        GameObject.Find("GameManager").GetComponent<HUDController>().noActiveHud();
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        Destroy(GameObject.FindGameObjectWithTag("UI_Manager"));
         SceneManager.LoadScene("StartMenu");
     }
 
@@ -74,8 +78,8 @@ public class SettingsHandler : MonoBehaviour
             string[] qwerty =
             {
             "`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=",
-            "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
-            "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'",
+            "q", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\",
+            "f", "g", "h", "j", "k", "l", ";", "'",
             "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"
             };
 
