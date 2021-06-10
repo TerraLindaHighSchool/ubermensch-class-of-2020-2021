@@ -37,6 +37,23 @@ public class TutorialController : MonoBehaviour
         {
             slideCanvas.SetActive(false);
             Debug.Log("Slideshow has no remaining slides and has been terminated");
+
+            if (activeSlideshow == 3)
+            {
+                tutorialLoader(4);
+            }
+            else if (activeSlideshow == 4)
+            {
+                tutorialLoader(5);
+            }
+            else if (activeSlideshow == 5)
+            {
+                tutorialLoader(6);
+            }
+            else if (activeSlideshow == 6)
+            {
+                tutorialLoader(7);
+            }
         }
     }
     

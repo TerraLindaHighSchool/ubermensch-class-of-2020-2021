@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
             };
 
         yourName = names[Random.Range(0, 12)];
+
+        GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(0);
         // Applies scenes depletion rate once per minute of game play.
         InvokeRepeating("ConsumeResources", 2, 10);
     }
@@ -84,8 +86,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool needsMoveTutorial = true;
+
     void ConsumeResources()
     {
+        if(needsMoveTutorial)
+        {
+            GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(3);
+            needsMoveTutorial = false;
+        }
+
         if (oxygen > 0)
         {
             bool wearingMask = false;
@@ -174,6 +184,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool needsOxygin = true;
+
     void Interact()
     {
         Debug.Log("taking action");
@@ -210,6 +222,12 @@ public class PlayerController : MonoBehaviour
 
         if (objectHit.CompareTag("oxygen"))
         {
+            if(needsOxygin)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsOxygin = false;
+            }
+
             if (oxygen + objectHit.GetComponent<OxygenSupply>().oxygenSupply > 100)
             {
                 oxygen = 100;

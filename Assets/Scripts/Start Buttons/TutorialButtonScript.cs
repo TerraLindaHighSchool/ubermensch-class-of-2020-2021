@@ -7,8 +7,7 @@ public class TutorialButtonScript : MonoBehaviour
 {
     public void ShowTutorial()
 	{
-		Debug.Log("Tutorial Displayed");
-		SceneManager.LoadScene("Tutorial");
+		Application.Quit();
 	}
 
 }
