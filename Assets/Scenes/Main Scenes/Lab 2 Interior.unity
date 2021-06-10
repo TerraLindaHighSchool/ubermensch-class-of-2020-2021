@@ -689,12 +689,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2664490712779851453}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1365136777 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1365136777, guid: 3fdd2232328932c4ebdf19cf1ac75b6e,
-    type: 3}
-  m_PrefabInstance: {fileID: 2664490712779851453}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1385009519 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 803491850, guid: 3fdd2232328932c4ebdf19cf1ac75b6e,
@@ -1538,7 +1532,7 @@ PrefabInstance:
     - target: {fileID: 33153186, guid: 0b18186d848311f4dbe2e0832c881035, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
-      objectReference: {fileID: 1365136777}
+      objectReference: {fileID: 0}
     - target: {fileID: 314510923, guid: 0b18186d848311f4dbe2e0832c881035, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
@@ -1589,6 +1583,11 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[2]
       value: 
       objectReference: {fileID: 1474460641}
+    - target: {fileID: 6096046012860801625, guid: 0b18186d848311f4dbe2e0832c881035,
+        type: 3}
+      propertyPath: m_TagString
+      value: Friendly NPC
+      objectReference: {fileID: 0}
     - target: {fileID: 7059537378275935882, guid: 0b18186d848311f4dbe2e0832c881035,
         type: 3}
       propertyPath: m_LocalPosition.x

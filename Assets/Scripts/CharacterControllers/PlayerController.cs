@@ -119,12 +119,14 @@ public class PlayerController : MonoBehaviour
     }
 
     void Health()
-    { 
+    {
         if (health > 0)
         {
             if(oxygen == 0)
             {
-                health -= 2.5f * ((10 - GetPlayerConstitution())/10);
+
+                Debug.Log("Health: " + health);
+                health -= 2.5f;// * ((10 - GetPlayerConstitution())/10); This line is cause the health not to decline at all.
             }
             else
             {
@@ -132,7 +134,7 @@ public class PlayerController : MonoBehaviour
                 {
                     CancelInvoke("Health");
                 }
-                health += 2.5f + GetPlayerConstitution();
+                health += 2.5f;// + GetPlayerConstitution();
             }
         }
 
@@ -234,8 +236,8 @@ public class PlayerController : MonoBehaviour
         if (objectHit.CompareTag("Portal"))
         {
             GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
-            Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
+            Debug.Log("Teleport to: " + scene);
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
             AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
