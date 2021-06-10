@@ -135,7 +135,7 @@ public class PlayerController : MonoBehaviour
                 {
                     CancelInvoke("Health");
                 }
-                health += 2.5f;// + GetPlayerConstitution();
+                health += 2.5f + GetPlayerConstitution();
             }
         }
 
