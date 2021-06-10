@@ -234,8 +234,8 @@ public class PlayerController : MonoBehaviour
         if (objectHit.CompareTag("Portal"))
         {
             GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
-            Debug.Log("Teleport");
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
+            Debug.Log("Teleport to: " + scene);
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
             AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
