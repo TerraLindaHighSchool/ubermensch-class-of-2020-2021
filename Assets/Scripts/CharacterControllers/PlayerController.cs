@@ -119,12 +119,14 @@ public class PlayerController : MonoBehaviour
     }
 
     void Health()
-    { 
+    {
         if (health > 0)
         {
             if(oxygen == 0)
             {
-                health -= 2.5f * ((10 - GetPlayerConstitution())/10);
+
+                Debug.Log("Health: " + health);
+                health -= 2.5f;// * ((10 - GetPlayerConstitution())/10); This line is cause the health not to decline at all.
             }
             else
             {
@@ -132,7 +134,7 @@ public class PlayerController : MonoBehaviour
                 {
                     CancelInvoke("Health");
                 }
-                health += 2.5f + GetPlayerConstitution();
+                health += 2.5f;// + GetPlayerConstitution();
             }
         }
 
