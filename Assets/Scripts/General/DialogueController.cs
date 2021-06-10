@@ -245,6 +245,7 @@ public class DialogueController : MonoBehaviour
 
     public void Recruit()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().SetLevelNum();
         FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
         followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
@@ -370,6 +371,7 @@ public class DialogueController : MonoBehaviour
 
         if(this.GetComponent<Follower>().currentHp < 0)
         {
+            player.gameObject.GetComponent<PlayerController>().SetLevelNum();
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
             List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
             foreach (StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
@@ -394,57 +396,27 @@ public class DialogueController : MonoBehaviour
     {
         float wearingArmor = 0;
 
-        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        foreach (InventoryItemInterface i in GameObject.Find("GameManager").GetComponent<HUDController>().equipMenu.inventoryItem)
         {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
+            if (i.Name == "Body Armor")
             {
-                if (i.Name == "Body Armor")
-                {
-                    wearingArmor += 10f;
-                }
-                if (i.Name == "Face Shield")
-                {
-                    wearingArmor += 5.0f;
-                }
-                if (i.Name == "Reinforced Gloves")
-                {
-                    wearingArmor += 5.0f;
-                }
-                if (i.Name == "Greaves")
-                {
-                    wearingArmor += 5.0f;
-                }
-                if (i.Name == "Reinforced Arm")
-                {
-                    wearingArmor += 5.0f;
-                }
+                wearingArmor += 10f;
             }
-        }
-        else
-        {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
+            if (i.Name == "Face Shield")
             {
-                if (i.Name == "Body Armor")
-                {
-                    wearingArmor += 10.0f;
-                }
-
-                if (i.Name == "Face Shield")
-                {
-                    wearingArmor += 5.0f;
-                }
-                if (i.Name == "Reinforced Gloves")
-                {
-                    wearingArmor += 2.5f;
-                }
-                if (i.Name == "Greaves")
-                {
-                    wearingArmor += 5.0f;
-                }
-                if (i.Name == "Reinforced Arm")
-                {
-                    wearingArmor += 7.5f;
-                }
+                wearingArmor += 5.0f;
+            }
+            if (i.Name == "Reinforced Gloves")
+            {
+                wearingArmor += 5.0f;
+            }
+            if (i.Name == "Greaves")
+            {
+                wearingArmor += 5.0f;
+            }
+            if (i.Name == "Reinforced Arm")
+            {
+                wearingArmor += 5.0f;
             }
         }
 
