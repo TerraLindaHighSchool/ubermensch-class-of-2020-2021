@@ -14,13 +14,23 @@ public class FollowerManager : MonoBehaviour
     /// Adds a follower to this manager.
     /// </summary>
     /// <param name="identityToAdd">The identity of the follower to add.</param>
+    ///
+
+    private bool needsTRANS12 = true;
+
     public virtual void AddFollower(FollowerIdentity identityToAdd)
     {
         try
         {
             this.gameObject.GetComponentInChildren<PlayerController>();
 
-            if(followers.Count > 3)
+            if (identityToAdd.name == "Koin Chung Stevens" && needsTRANS12 && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[1] == 12)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsTRANS12 = false;
+            }
+
+            if (followers.Count > 3)
             {
                 GameObject.Find("GameManager").GetComponent<FollowerManager>().AddFollower(identityToAdd);
             }

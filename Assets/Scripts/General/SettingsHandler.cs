@@ -20,11 +20,6 @@ public class SettingsHandler : MonoBehaviour
     private string activeString;
     private bool isListening;
 
-    public void OnEnable()
-    {
-        GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
-    }
-
     public void OnVolumeSliderUpdate(float value){
         AudioListener.volume = value;
     }

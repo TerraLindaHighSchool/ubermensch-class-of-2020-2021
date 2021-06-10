@@ -28,9 +28,10 @@ public class TutorialController : MonoBehaviour
 
     public void advanceSlide()
     {
-        if (MasterList[activeSlideshow].nextSlide() !=null)
+        Sprite nextSlide = MasterList[activeSlideshow].nextSlide();
+        if (nextSlide != null)
         {
-            slideText.GetComponentInChildren<Image>().sprite = MasterList[activeSlideshow].nextSlide();
+            slideText.GetComponentInChildren<Image>().sprite = nextSlide;
             Debug.Log("Slideshow #" + activeSlideshow + " Slide #" + MasterList[activeSlideshow].currentSlide);
         }
         else
