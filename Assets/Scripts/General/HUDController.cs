@@ -281,6 +281,8 @@ public class HUDController : MonoBehaviour
         }
     }
 
+    private bool closeInvAdvance = true;
+
     //Disables the active hud
     public void HUDDeLoader(int hud)
     {
@@ -298,6 +300,12 @@ public class HUDController : MonoBehaviour
         }
         if (hud == 1)
         {
+            if (closeInvAdvance && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 5)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                closeInvAdvance = false;
+            }
+
             invOpen = false;
             selectedItem.GetComponent<Image>().sprite = empty.Icon;
             selectedText[0].GetComponent<Text>().text = ("");
