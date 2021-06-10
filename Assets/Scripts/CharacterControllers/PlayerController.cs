@@ -294,7 +294,7 @@ public class PlayerController : MonoBehaviour
             bonus += i.ConstitutionBoost;
         }
 
-        return playerConstitution + totalNPCConstitution + bonus;
+        return playerConstitution + bonus;
     }
 
     //Sets the level number and increases the stat points

@@ -245,6 +245,7 @@ public class DialogueController : MonoBehaviour
 
     public void Recruit()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>().SetLevelNum();
         FollowerManager followers = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<FollowerManager>();
         followers.AddFollower(this.gameObject.GetComponent<Follower>().identity);
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
@@ -370,6 +371,7 @@ public class DialogueController : MonoBehaviour
 
         if(this.GetComponent<Follower>().currentHp < 0)
         {
+            player.gameObject.GetComponent<PlayerController>().SetLevelNum();
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<switchCamera>().isInDialogue = false;
             List<StandardInventoryItem> toMove = new List<StandardInventoryItem>();
             foreach (StandardInventoryItem i in this.gameObject.GetComponent<InventoryManager>().PrintInventory())
