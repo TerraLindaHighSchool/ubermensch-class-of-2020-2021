@@ -36,6 +36,9 @@ public class TransitionController : MonoBehaviour
      * method of the PlayerController after triggering the portal and pressing 'E'.
      */
 
+    private bool needsSeattleTutorial = true;
+    private bool needsBeyondTutorial = true;
+
     public void SceneLoader(string scene, Vector3 destination)
     {
         //SceneMusic(scene);
@@ -58,12 +61,23 @@ public class TransitionController : MonoBehaviour
                 break;
             case "Seattle":
                 mission = "Get the boat key from Lady Bisco and go to the wasteland, from there you may be able to find clues to the whereabouts of the arc of life.";
+                if (needsSeattleTutorial)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(1);
+                    needsSeattleTutorial = false;
+                }
                 break;
             case "Lab Land":
                 mission = "Find and search labs for clues about the Arc of Life.";
                 break;
             case "WastelandTerrain":
                 mission = "Get oxygen and find your way to the Lab Lands.";
+                mission = "Get the boat key from Lady Bisco and go to the wasteland, from there you may be able to find clues to the whereabouts of the arc of life.";
+                if (needsBeyondTutorial)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().tutorialLoader(2);
+                    needsBeyondTutorial = false;
+                }
                 break;
             case "Lab 1 Interior":
                 mission = "Find clues about the Arc of Life.";

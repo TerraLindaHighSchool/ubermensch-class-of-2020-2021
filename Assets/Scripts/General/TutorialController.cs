@@ -7,13 +7,14 @@ public class TutorialController : MonoBehaviour
 {
     public TutorialSlideDecks[] MasterList;
     public GameObject slideCanvas;
+    public GameObject slideText;
     private int activeSlideshow;
 
     public void tutorialLoader(int slideshowNumber)
     {
         if(slideshowNumber < MasterList.Length)
         {
-            slideCanvas.GetComponentInChildren<Image>().sprite = MasterList[slideshowNumber].startSlides();
+            slideText.GetComponentInChildren<Image>().sprite = MasterList[slideshowNumber].startSlides();
             activeSlideshow = slideshowNumber;
             slideCanvas.SetActive(true);
             Debug.Log("Slideshow #" + activeSlideshow + " has begun");
@@ -29,13 +30,30 @@ public class TutorialController : MonoBehaviour
     {
         if (MasterList[activeSlideshow].nextSlide() !=null)
         {
-            slideCanvas.GetComponentInChildren<Image>().sprite = MasterList[activeSlideshow].nextSlide();
+            slideText.GetComponentInChildren<Image>().sprite = MasterList[activeSlideshow].nextSlide();
             Debug.Log("Slideshow #" + activeSlideshow + " Slide #" + MasterList[activeSlideshow].currentSlide);
         }
         else
         {
             slideCanvas.SetActive(false);
             Debug.Log("Slideshow has no remaining slides and has been terminated");
+
+            if (activeSlideshow == 3)
+            {
+                tutorialLoader(4);
+            }
+            else if (activeSlideshow == 4)
+            {
+                tutorialLoader(5);
+            }
+            else if (activeSlideshow == 5)
+            {
+                tutorialLoader(6);
+            }
+            else if (activeSlideshow == 6)
+            {
+                tutorialLoader(7);
+            }
         }
     }
     

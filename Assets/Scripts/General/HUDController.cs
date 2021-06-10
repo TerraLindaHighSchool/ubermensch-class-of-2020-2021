@@ -101,6 +101,10 @@ public class HUDController : MonoBehaviour
         HUDLoader(5, this.gameObject);
     }
 
+    private bool needsInvTutorial = true;
+    private bool needsFollowerTutorial = true;
+    private bool needsCharTutorial = true;
+
     //Disables the previously actived hud, activates the new hud, 
     //and sets the new hud to be the active hud
     public void HUDLoader(int hud, GameObject caller)
@@ -116,6 +120,12 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 1)
             {
+                if (needsInvTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 5)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsInvTutorial = false;
+                }
+
                 Debug.Log("Inventory");
                 invOpen = true;
                 determineInv();
@@ -128,6 +138,12 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 3)
             {
+                if (needsFollowerTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 6)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsFollowerTutorial = false;
+                }
+
                 updateFollowers(true);
                 Debug.Log("Player Follower");
                 invOpen = true;
@@ -145,6 +161,11 @@ public class HUDController : MonoBehaviour
             }
             else if(activeHUD == 6)
             {
+                if (needsCharTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 7)
+                {
+                    GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                    needsCharTutorial = false;
+                }
                 loadBioMenu();
                 Debug.Log("Bio");
             }
