@@ -36,9 +36,9 @@ public class PlayerController : MonoBehaviour
 
     public int statPoints; //What are stat points used for?  
     public int level;
-    public string yourName = "xXcoolXx";
+    public string yourName = "J. Doe";
     public Sprite profilePic;
-    public string currentMission = "It's a secret shhhhh ;)";
+    public string currentMission = "Get to the Arc of Life and Save Humanity";
 
     //AUTHOR VIVIAN***************************************************************************************************************************
     private void Awake()
@@ -50,6 +50,23 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        string[] names =
+            {
+            "Taylor, D.",
+            "Drew R.", 
+            "Jordan .C",
+            "Ryan, E.", 
+            "Charlie F.", 
+            "Haven, Z.", 
+            "Morgan, G", 
+            "Aiden, E.", 
+            "Mason. L", 
+            "Patrick O.",
+            "Matt V.", 
+            "Luna S."
+            };
+
+        yourName = names[Random.Range(0, 12)];
         // Applies scenes depletion rate once per minute of game play.
         InvokeRepeating("ConsumeResources", 2, 10);
     }
@@ -74,26 +91,15 @@ public class PlayerController : MonoBehaviour
             bool wearingMask = false;
 
             Debug.Log("oxygen at:" + oxygen);
-            if(gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+
+            foreach (InventoryItemInterface i in GameObject.Find("GameManager").GetComponent<HUDController>().equipMenu.inventoryItem)
             {
-                foreach(InventoryItemInterface i in gameObject.GetComponents<InventoryManager>()[0].inventoryItem)
+                if (i.Name == "Gas Mask")
                 {
-                    if (i.Name == "Gas Mask")
-                    {
-                        wearingMask = true;
-                    }
+                    wearingMask = true;
                 }
             }
-            else
-            {
-                foreach (InventoryItemInterface i in gameObject.GetComponents<InventoryManager>()[1].inventoryItem)
-                {
-                    if (i.Name == "Gas Mask")
-                    {
-                        wearingMask = true;
-                    }
-                }
-            }
+
             if(wearingMask)
             {
                 oxygen -= (oxygenDepletionRate * 0.5f);
@@ -255,19 +261,9 @@ public class PlayerController : MonoBehaviour
 
         int bonus = 0;
 
-        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        foreach (InventoryItemInterface i in GameObject.Find("GameManager").GetComponent<HUDController>().equipMenu.inventoryItem)
         {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
-            {
-                bonus += i.StrengthBoost;
-            }
-        }
-        else
-        {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
-            {
-                bonus += i.StrengthBoost;
-            }
+            bonus += i.StrengthBoost;
         }
 
         return playerStrength + totalNPCStrength + bonus;
@@ -279,19 +275,9 @@ public class PlayerController : MonoBehaviour
 
         int bonus = 0;
 
-        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        foreach (InventoryItemInterface i in GameObject.Find("GameManager").GetComponent<HUDController>().equipMenu.inventoryItem)
         {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
-            {
-                bonus += i.CharismaBoost;
-            }
-        }
-        else
-        {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
-            {
-                bonus += i.CharismaBoost;
-            }
+            bonus += i.CharismaBoost;
         }
 
         return playerCharisma + totalNPCCharisma + bonus;
@@ -303,19 +289,9 @@ public class PlayerController : MonoBehaviour
 
         int bonus = 0;
 
-        if (gameObject.GetComponents<InventoryManager>()[0].inventoryType == InventoryManager.InvType.EquipMenu)
+        foreach (InventoryItemInterface i in GameObject.Find("GameManager").GetComponent<HUDController>().equipMenu.inventoryItem)
         {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[0].inventoryItem)
-            {
-                bonus += i.ConstitutionBoost;
-            }
-        }
-        else
-        {
-            foreach (InventoryItemInterface i in GameObject.Find("Player").GetComponentsInChildren<InventoryManager>()[1].inventoryItem)
-            {
-                bonus += i.ConstitutionBoost;
-            }
+            bonus += i.ConstitutionBoost;
         }
 
         return playerConstitution + totalNPCConstitution + bonus;
