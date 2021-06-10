@@ -16,6 +16,8 @@ public class MovementController : MonoBehaviour
 
     private bool CanMove = true;
 
+    private bool needsMoveTutorial = true;
+
     private void move()
     {
         //Gets inputs from the players wasd or arrow keys
@@ -30,6 +32,12 @@ public class MovementController : MonoBehaviour
         //moves the player if move keys are pressed and CanMove is true
         if (moveDirection.magnitude >= 0.1f && CanMove)
         {
+            if(needsMoveTutorial && GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 3)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsMoveTutorial = false;
+            }
+
             controller.Move(moveDirection * speed * Time.deltaTime);
             Quaternion turnTo = Quaternion.Euler(0, 180 / Mathf.PI * Mathf.Atan2(horizontal, vertical), 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, turnTo, turnSpeed * Time.deltaTime);
@@ -177,10 +185,18 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    private bool needsSettingTutorial = true;
+
     private void settingsMenu()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !settingsOpen)
         {
+            if (needsSettingTutorial || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos()[0] == 8)
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+                needsSettingTutorial = false;
+            }
+
             GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().settingsHud.SetActive(true);
             settingsOpen = true;
         }
@@ -191,6 +207,7 @@ public class MovementController : MonoBehaviour
         }
     }
 
+    private bool clickSwitch;
     // Update is called once per frame
     void Update()
     {
@@ -208,6 +225,16 @@ public class MovementController : MonoBehaviour
             openFollowers();
             openBioMenu();
             settingsMenu();
+            if (clickSwitch && Input.anyKeyDown && (GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 1, 1 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 2, 1 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 3, 3 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 4, 3 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] {5, 3} || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 6, 2 } || GameObject.Find("GameManager").GetComponent<TutorialController>().slidePos() == new int[] { 7, 3 }))
+            {
+                GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
+            } else if(Input.anyKeyDown)
+            {
+                clickSwitch = false;
+            } else
+            {
+                clickSwitch = true;
+            }
         }
 
         if(GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().invOpen || GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().inConversation)
