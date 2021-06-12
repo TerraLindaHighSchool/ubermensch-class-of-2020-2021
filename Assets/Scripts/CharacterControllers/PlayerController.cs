@@ -211,7 +211,11 @@ public class PlayerController : MonoBehaviour
         if (objectHit.CompareTag("Inventory Object"))
         {
             Debug.Log("Picking up");
-            GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
+            StandardInventoryItem[] objectsInventory = objectHit.GetComponent<InventoryManager>().startingInventory;
+            foreach (StandardInventoryItem item in objectsInventory)
+            {
+                GetComponent<InventoryManager>().AddItem(item);
+            }
             objectHit.SetActive(false);
         }
 
