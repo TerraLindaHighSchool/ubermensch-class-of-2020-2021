@@ -242,22 +242,32 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
+            StandardInventoryItem[] exitReqs = objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements;
             Debug.Log("Teleport to: " + scene);
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             float playerSpeed = objectHit.GetComponent<PortalContainer>().portalData.PlayerSpeed;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
             AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
-            
 
-            int exitCheck = 0;
-            foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
+            List<string> missingToExit = new List<string>();
+
+            foreach(StandardInventoryItem exitReq in exitReqs)
             {
-                foreach(InventoryItemInterface item in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
+                bool RequirementMet = false;
+                foreach(InventoryItemInterface itemInInventory in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
                 {
-                    if(item == exitReq) { exitCheck++; }
+                    if (itemInInventory.Name.Equals(exitReq.Name))
+                    {
+                        RequirementMet = true;
+                        break;
+                    }
+                }
+                if(!RequirementMet)
+                {
+                    missingToExit.Add(exitReq.Name);
                 }
             }
-            if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
+            if(missingToExit.Count == 0)
             {
                 //Sets MusicController's "tracks" field to the music put into the scriptable object portal
                 GameObject.Find("Main Camera").GetComponent<MusicController>().TrackSwitch(0, audioClips);
@@ -266,7 +276,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Can't exit");
+                Debug.Log("Can't exit because you are missing " + missingToExit.Count + " item(s), the first of which is a " + missingToExit[0]);
             }
         }
 
