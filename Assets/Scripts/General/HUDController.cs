@@ -58,7 +58,7 @@ public class HUDController : MonoBehaviour
     public int selectedNumber; // This is the Number of the currently selected Item
     public GameObject playerSoap;
 
-    //DIALOUGE HUD FIELDS
+    //DIALOGUGE HUD FIELDS
     public GameObject[] dialogueButtons;
     public GameObject npcName;
     public GameObject npcSpeak;
@@ -80,6 +80,9 @@ public class HUDController : MonoBehaviour
     public GameObject hudOxygen;
     public GameObject hudSoap;
     public GameObject hudHealth;
+
+    //EXIT REQUIREMENTS FIELD
+
 
     //BIO HUD FIELDS
     public GameObject[] statTotals; //0 is Strength, 1 is Charisma, 2 is Constitution
@@ -179,6 +182,12 @@ public class HUDController : MonoBehaviour
         {
             Debug.Log("HUD could not load");
         }
+    }
+
+    public void HUDLoader(List<string> missingToExit)
+    {
+        MissingToExit(missingToExit);
+        invOpen = true;
     }
 
     //Same as HUDLoader, but also sets the active Npc and starts a conversation if necessary
@@ -575,6 +584,11 @@ public class HUDController : MonoBehaviour
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
         dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
+    }
+
+    public void MissingToExit(List<string> missingToExit)
+    {
+        Debug.Log("Can't exit because you are missing " + missingToExit.Count + " item(s), the first of which is a " + missingToExit[0]);
     }
 
     /*

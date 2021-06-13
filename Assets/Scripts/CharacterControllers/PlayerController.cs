@@ -276,7 +276,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Can't exit because you are missing " + missingToExit.Count + " item(s), the first of which is a " + missingToExit[0]);
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(missingToExit);
             }
         }
 
