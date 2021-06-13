@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MovementController : MonoBehaviour
+public class PlayerUI : MonoBehaviour
 {
     public CharacterController controller;
     public Animator AnimController;
     public GameObject gravityRay;
     public GameObject gravityRay1;
-    [SerializeField] public float speed = 3.5f;
-    [SerializeField] public float turnSpeed = 3.5f;
+    public float speed { get; set; } = 4.25f;
+    public float turnSpeed = 3.5f;
     int stickCount = 0; //This is for testing purposes
 
     private bool CanMove = true;

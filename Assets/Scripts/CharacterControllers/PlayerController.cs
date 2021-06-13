@@ -242,6 +242,14 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
+            if(scene.Equals("Lab Land"))
+            {
+                GetComponent<PlayerUI>().speed = 7.0f;
+            }
+            else
+            {
+                GetComponent<PlayerUI>().speed = 4.25f;
+            }
             Debug.Log("Teleport to: " + scene);
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
@@ -350,6 +358,6 @@ public class PlayerController : MonoBehaviour
     {
         isInTrading = false;
         GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
-        this.GetComponent<MovementController>().exitButtonMController();
+        this.GetComponent<PlayerUI>().exitButtonMController();
     }
 }
