@@ -242,16 +242,9 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
-            if(scene.Equals("Lab Land"))
-            {
-                GetComponent<PlayerUI>().speed = 7.0f;
-            }
-            else
-            {
-                GetComponent<PlayerUI>().speed = 4.25f;
-            }
             Debug.Log("Teleport to: " + scene);
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            float playerSpeed = objectHit.GetComponent<PortalContainer>().portalData.PlayerSpeed;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
             AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
             
@@ -268,7 +261,12 @@ public class PlayerController : MonoBehaviour
             {
                 //Sets MusicController's "tracks" field to the music put into the scriptable object portal
                 GameObject.Find("Main Camera").GetComponent<MusicController>().TrackSwitch(0, audioClips);
+                GetComponent<PlayerUI>().speed = playerSpeed;
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+            }
+            else
+            {
+                Debug.Log("Can't exit");
             }
         }
 
