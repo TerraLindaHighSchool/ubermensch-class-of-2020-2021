@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         health = 100;
         food = 100;
-        oxygen = 300;
+        oxygen = 30;
     }
 
     private void Start()
