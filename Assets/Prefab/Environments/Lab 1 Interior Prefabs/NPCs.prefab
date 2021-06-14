@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   relationshipType: 0
-  csv: {fileID: 4900000, guid: e5776bf17a2d64e80a72723ed6024eed, type: 3}
+  csv: {fileID: 4900000, guid: f3ebb1a07b8e04b42b241eae9611f529, type: 3}
   GoAway: Go Away
 --- !u!114 &461764738
 MonoBehaviour:
@@ -518,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a08c20fa6aef476eb63d3ea7c307bbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identity: {fileID: 11400000, guid: e9b43f03c32cc9148b2929f0c0565abf, type: 2}
+  identity: {fileID: 0}
   currentHp: 0
 --- !u!114 &420977233
 MonoBehaviour:
@@ -599,8 +599,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   navMeshAgent: {fileID: 793091797}
-  waypoints: []
-  waitTime: 0
+  waypoints:
+  - {fileID: 0}
+  waitTime: 999
 --- !u!1 &7865223234216016183
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +787,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: RoachModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8508079826c4b5847bbce652c4ad7f7d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Friendly NPC
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8508079826c4b5847bbce652c4ad7f7d, type: 3}
