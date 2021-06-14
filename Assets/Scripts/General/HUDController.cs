@@ -184,10 +184,22 @@ public class HUDController : MonoBehaviour
         }
     }
 
-    public void HUDLoader(List<string> missingToExit)
+    public void HUDLoader(string portal, List<string> missingToExit)
     {
-        MissingToExit(missingToExit);
-        invOpen = true;
+        Debug.Log("Missing" + missingToExit.Count);
+        Huds[activeHUD].SetActive(false);
+        activeHUD = 0; // Something is locking out using 7 so I am stealing the 0 spot. ********************************************
+        Huds[activeHUD].SetActive(true);
+        npcSpeak.GetComponent<Text>().text = "To enter " + portal + " you must equip yourself with the following items. Add to your inventory, select, then choose equip.";
+        npcName.GetComponent<Text>().text = portal;
+        for(int i = 0; i < missingToExit.Count; i++)
+        {
+            dialogueButtons[i].GetComponentInChildren<Text>().text = missingToExit[i];
+        }
+        for(int i = missingToExit.Count; i < 4; i++)
+        {
+            dialogueButtons[i].GetComponentInChildren<Text>().text = "";
+        }
     }
 
     //Same as HUDLoader, but also sets the active Npc and starts a conversation if necessary
@@ -304,9 +316,12 @@ public class HUDController : MonoBehaviour
             inConversation = false;
             GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
             Debug.Log("Dialogue");
-            if (activeNpc.GetComponent<DialogueController>().WillJoin())
+            if(activeNpc != null)
             {
-                activeNpc.GetComponent<DialogueController>().Recruit();
+                if (activeNpc.GetComponent<DialogueController>().WillJoin())
+                {
+                    activeNpc.GetComponent<DialogueController>().Recruit();
+                }
             }
         }
         if (hud == 1)
@@ -353,6 +368,16 @@ public class HUDController : MonoBehaviour
             {
                 GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
                 needsTRANS9 = false;
+            }
+        }
+        if (hud == 7)
+        {
+            inConversation = false;
+            GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
+            Debug.Log("Dialogue");
+            if (activeNpc.GetComponent<DialogueController>().WillJoin())
+            {
+                activeNpc.GetComponent<DialogueController>().Recruit();
             }
         }
         Debug.Log("HUD Unloaded: " + hud);
@@ -584,11 +609,6 @@ public class HUDController : MonoBehaviour
         dialogueButtons[1].GetComponentInChildren<Text>().text = info.Response[1];
         dialogueButtons[2].GetComponentInChildren<Text>().text = info.Response[2];
         dialogueButtons[3].GetComponentInChildren<Text>().text = info.Response[3];
-    }
-
-    public void MissingToExit(List<string> missingToExit)
-    {
-        Debug.Log("Can't exit because you are missing " + missingToExit.Count + " item(s), the first of which is a " + missingToExit[0]);
     }
 
     /*

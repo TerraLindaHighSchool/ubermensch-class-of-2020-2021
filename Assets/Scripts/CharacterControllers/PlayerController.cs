@@ -259,7 +259,6 @@ public class PlayerController : MonoBehaviour
                     if (itemInInventory.Name.Equals(exitReq.Name))
                     {
                         RequirementMet = true;
-                        break;
                     }
                 }
                 if(!RequirementMet)
@@ -276,7 +275,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(missingToExit);
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(scene, missingToExit);
             }
         }
 

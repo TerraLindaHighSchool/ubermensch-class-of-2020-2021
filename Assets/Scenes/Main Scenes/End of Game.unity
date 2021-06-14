@@ -480,7 +480,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -531}
+  m_AnchoredPosition: {x: 0, y: -373}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1508467313
@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 1853177704}
   - component: {fileID: 1853177703}
   - component: {fileID: 1853177707}
+  - component: {fileID: 1853177708}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -615,6 +616,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc622ae508bd4d60aef608592d2f773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1853177708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853177702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de3d1371abcb42a40bde08e52efac701, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1974465418
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,12 +698,12 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
   m_Text: "Ubermensch\n\nYou found the Arc of Life! With this you will be able to
-    push beyond your mortal limits and seize evolutionary dominance! Once again you
-    will breathe Earth's air and roam the face of the earth! Or at least that's what
-    they\u2019ve told you. You ran point on a team of everyday labourers from a post
-    apocalyptic compound fighting to survive in the harsh post climate crisis earth,
-    making family, losing it, and finding what it means to be human as you searched
-    for the Arc of Life.  Now that you found it, you can rewrite human evolutionary
+    push beyond your mortal limits and seize evolutionary dominance!\n\nOnce again
+    you will breathe Earth's air and roam the face of the earth! Or at least that's
+    what they\u2019ve told you. You ran point on a team of everyday labourers from
+    a post apocalyptic compound fighting to survive in the harsh post climate crisis
+    earth, making family, losing it, and finding what it means to be human as you
+    searched for the Arc of Life.  Now that you found it, you can rewrite human evolutionary
     history as the Ubermensch."
 --- !u!222 &1974465421
 CanvasRenderer:
