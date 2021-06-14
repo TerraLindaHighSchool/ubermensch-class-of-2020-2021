@@ -25,11 +25,10 @@ public class NPCMoveAI : MonoBehaviour
         {
             animController = GetComponent<Animator>();
             SetMotion(SPEED, ANGULAR_SPEED);
+            navMeshAgent.stoppingDistance = .1f;
             animBlendValue = 1;
             animController.SetFloat(Animator.StringToHash("Blend"), animBlendValue);
-            navMeshAgent.stoppingDistance = 1.0f;
             navMeshAgent.SetDestination(waypoints[0].position);
-            navMeshAgent.stoppingDistance = .1f;
             player = GameObject.Find("PlayerModel");
         }
         catch(UnassignedReferenceException e)

@@ -58,7 +58,7 @@ public class HUDController : MonoBehaviour
     public int selectedNumber; // This is the Number of the currently selected Item
     public GameObject playerSoap;
 
-    //DIALOUGE HUD FIELDS
+    //DIALOGUGE HUD FIELDS
     public GameObject[] dialogueButtons;
     public GameObject npcName;
     public GameObject npcSpeak;
@@ -80,6 +80,9 @@ public class HUDController : MonoBehaviour
     public GameObject hudOxygen;
     public GameObject hudSoap;
     public GameObject hudHealth;
+
+    //EXIT REQUIREMENTS FIELD
+
 
     //BIO HUD FIELDS
     public GameObject[] statTotals; //0 is Strength, 1 is Charisma, 2 is Constitution
@@ -178,6 +181,24 @@ public class HUDController : MonoBehaviour
         else
         {
             Debug.Log("HUD could not load");
+        }
+    }
+
+    public void HUDLoader(string portal, List<string> missingToExit)
+    {
+        Debug.Log("Missing" + missingToExit.Count);
+        Huds[activeHUD].SetActive(false);
+        activeHUD = 0; // Something is locking out using 7 so I am stealing the 0 spot. ********************************************
+        Huds[activeHUD].SetActive(true);
+        npcSpeak.GetComponent<Text>().text = "To enter " + portal + " you must equip yourself with the following items. Add to your inventory, select, then choose equip.";
+        npcName.GetComponent<Text>().text = portal;
+        for(int i = 0; i < missingToExit.Count; i++)
+        {
+            dialogueButtons[i].GetComponentInChildren<Text>().text = missingToExit[i];
+        }
+        for(int i = missingToExit.Count; i < 4; i++)
+        {
+            dialogueButtons[i].GetComponentInChildren<Text>().text = "";
         }
     }
 
@@ -295,9 +316,12 @@ public class HUDController : MonoBehaviour
             inConversation = false;
             GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
             Debug.Log("Dialogue");
-            if (activeNpc.GetComponent<DialogueController>().WillJoin())
+            if(activeNpc != null)
             {
-                activeNpc.GetComponent<DialogueController>().Recruit();
+                if (activeNpc.GetComponent<DialogueController>().WillJoin())
+                {
+                    activeNpc.GetComponent<DialogueController>().Recruit();
+                }
             }
         }
         if (hud == 1)
@@ -344,6 +368,16 @@ public class HUDController : MonoBehaviour
             {
                 GameObject.Find("GameManager").GetComponent<TutorialController>().advanceSlide();
                 needsTRANS9 = false;
+            }
+        }
+        if (hud == 7)
+        {
+            inConversation = false;
+            GameObject.Find("Main Camera").GetComponent<switchCamera>().isInDialogue = false;
+            Debug.Log("Dialogue");
+            if (activeNpc.GetComponent<DialogueController>().WillJoin())
+            {
+                activeNpc.GetComponent<DialogueController>().Recruit();
             }
         }
         Debug.Log("HUD Unloaded: " + hud);

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         health = 100;
         food = 100;
-        oxygen = 10;
+        oxygen = 30;
     }
 
     private void Start()
@@ -211,7 +211,11 @@ public class PlayerController : MonoBehaviour
         if (objectHit.CompareTag("Inventory Object"))
         {
             Debug.Log("Picking up");
-            GetComponent<InventoryManager>().AddItem(objectHit.GetComponent<InventoryItemInterface>());
+            StandardInventoryItem[] objectsInventory = objectHit.GetComponent<InventoryManager>().startingInventory;
+            foreach (StandardInventoryItem item in objectsInventory)
+            {
+                GetComponent<InventoryManager>().AddItem(item);
+            }
             objectHit.SetActive(false);
         }
 
@@ -238,25 +242,40 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<TutorialController>().endShow();
             string scene = objectHit.GetComponent<PortalContainer>().portalData.Scene;
+            StandardInventoryItem[] exitReqs = objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements;
             Debug.Log("Teleport to: " + scene);
             Vector3 destination = objectHit.GetComponent<PortalContainer>().portalData.Destination;
+            float playerSpeed = objectHit.GetComponent<PortalContainer>().portalData.PlayerSpeed;
             oxygenDepletionRate = objectHit.GetComponent<PortalContainer>().portalData.OxygenDepleteRate;
             AudioClip[] audioClips = objectHit.GetComponent<PortalContainer>().portalData.SceneMusic;
-            
 
-            int exitCheck = 0;
-            foreach(InventoryItemInterface exitReq in objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements)
+            List<string> missingToExit = new List<string>();
+
+            foreach(StandardInventoryItem exitReq in exitReqs)
             {
-                foreach(InventoryItemInterface item in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
+                bool RequirementMet = false;
+                foreach(InventoryItemInterface itemInInventory in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
                 {
-                    if(item == exitReq) { exitCheck++; }
+                    if (itemInInventory.Name.Equals(exitReq.Name))
+                    {
+                        RequirementMet = true;
+                    }
+                }
+                if(!RequirementMet)
+                {
+                    missingToExit.Add(exitReq.Name);
                 }
             }
-            if(exitCheck >= objectHit.GetComponent<PortalContainer>().portalData.ExitRequirements.Length)
+            if(missingToExit.Count == 0)
             {
                 //Sets MusicController's "tracks" field to the music put into the scriptable object portal
                 GameObject.Find("Main Camera").GetComponent<MusicController>().TrackSwitch(0, audioClips);
+                GetComponent<PlayerUI>().speed = playerSpeed;
                 GetComponentInParent<TransitionController>().SceneLoader(scene, destination);
+            }
+            else
+            {
+                GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().HUDLoader(scene, missingToExit);
             }
         }
 
@@ -346,6 +365,6 @@ public class PlayerController : MonoBehaviour
     {
         isInTrading = false;
         GameObject.Find("GameManager").GetComponent<HUDController>().HUDDeLoader(2);
-        this.GetComponent<MovementController>().exitButtonMController();
+        this.GetComponent<PlayerUI>().exitButtonMController();
     }
 }

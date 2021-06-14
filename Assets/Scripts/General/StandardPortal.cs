@@ -11,12 +11,15 @@ public class StandardPortal : ScriptableObject
     public StandardInventoryItem[] exitRequirements;
     public AudioClip[] sceneMusic;
     public float oxygenDepleteRate;
+    public float playerSpeed;
 
     public string Scene => scene;
     public Vector3 Destination => destination;
     public StandardInventoryItem[] ExitRequirements => exitRequirements;
 
     public AudioClip[] SceneMusic => sceneMusic;
+
+    public float PlayerSpeed => playerSpeed;
 
     // minutes to consume assumes oxygen level if starting at 100% (1.0);
     public float OxygenDepleteRate => oxygenDepleteRate;

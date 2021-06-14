@@ -45,7 +45,7 @@ public class TransitionController : MonoBehaviour
     {
         //SceneMusic(scene);
         playerModel = transform.Find("PlayerModel").gameObject;
-        playerModel.GetComponent<MovementController>().enabled = false;
+        playerModel.GetComponent<PlayerUI>().enabled = false;
         Debug.Log("Player Location before Change: " + playerModel.transform.position);
         transform.position = Vector3.zero; //This is the Player (Clone)
         Debug.Log(playerModel.GetInstanceID());
@@ -112,11 +112,11 @@ public class TransitionController : MonoBehaviour
 
     private void Update()
     {
-        if(playerModel.GetComponent<MovementController>().enabled == false && jankMoveFix > 10)
+        if(playerModel.GetComponent<PlayerUI>().enabled == false && jankMoveFix > 10)
         {
-            playerModel.GetComponent<MovementController>().enabled = true;
+            playerModel.GetComponent<PlayerUI>().enabled = true;
             jankMoveFix = 0;
-        } else if(playerModel.GetComponent<MovementController>().enabled == false)
+        } else if(playerModel.GetComponent<PlayerUI>().enabled == false)
         {
             jankMoveFix++;
         }
