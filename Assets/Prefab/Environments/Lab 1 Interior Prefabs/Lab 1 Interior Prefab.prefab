@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4606311561563672387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197209024424420781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20fdb2415f41a47448a61a8d742d14b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalData: {fileID: 11400000, guid: 804b0929fd01649f7b492281fc1d4de1, type: 2}
+--- !u!65 &1445722069551117753
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197209024424420781}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.866557, y: 2.512339, z: 1.4606861}
+  m_Center: {x: -0.010293325, y: 1.2081616, z: 0.4723991}
 --- !u!1 &6798574706259827943
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6403254090465934581}
   m_Layer: 0
-  m_Name: Lab 2 Interior Prefab
+  m_Name: Lab 1 Interior Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -884,7 +910,7 @@ GameObject:
   - component: {fileID: 8474026741530153863}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: WallTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1487,7 +1513,7 @@ GameObject:
   - component: {fileID: 8474026741815674194}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: WallTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2010,7 +2036,7 @@ GameObject:
   - component: {fileID: 8474026742103149679}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: WallTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2314,7 +2340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8474026742155984577}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Tables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2659,7 +2685,7 @@ GameObject:
   - component: {fileID: 8474026742451814724}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: WallTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4617,6 +4643,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5846,6 +5877,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Table (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
@@ -8102,6 +8138,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8191,6 +8232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Table (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
@@ -10167,6 +10213,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table
       objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11292,8 +11343,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door
       objectReference: {fileID: 0}
+    - target: {fileID: 5739469603657130236, guid: 5c66e200ea654c54882561c22c952cba,
+        type: 3}
+      propertyPath: m_TagString
+      value: Portal
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c66e200ea654c54882561c22c952cba, type: 3}
+--- !u!1 &4197209024424420781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5739469603657130236, guid: 5c66e200ea654c54882561c22c952cba,
+    type: 3}
+  m_PrefabInstance: {fileID: 8474026742196143441}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3563662261804465943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4966733297835244102, guid: 5c66e200ea654c54882561c22c952cba,
@@ -11866,6 +11928,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Table (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
@@ -15377,6 +15444,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17032,6 +17104,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -17906,6 +17983,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Table (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8336570878304576643, guid: a795a1e0d4da94b4383b169928a22027,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8717459970352070201, guid: a795a1e0d4da94b4383b169928a22027,
         type: 3}
