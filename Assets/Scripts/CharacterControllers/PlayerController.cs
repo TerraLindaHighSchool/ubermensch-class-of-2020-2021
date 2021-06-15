@@ -251,9 +251,9 @@ public class PlayerController : MonoBehaviour
 
             List<string> missingToExit = new List<string>();
 
-            bool RequirementMet = false;
-            foreach (StandardInventoryItem exitReq in exitReqs)
+            foreach(StandardInventoryItem exitReq in exitReqs)
             {
+                bool RequirementMet = false;
                 foreach(InventoryItemInterface itemInInventory in GameObject.FindGameObjectWithTag("GameManager").GetComponent<HUDController>().equipMenu.PrintInventory())
                 {
                     if (itemInInventory.Name.Equals(exitReq.Name))
